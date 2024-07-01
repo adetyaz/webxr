@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { ConnectWallet } from './connect-wallet'
+import { CreateWallet } from './create-wallet'
 
 export const ConnectWalletModal = () => {
 	return (
@@ -72,7 +73,9 @@ export const ConnectWalletModal = () => {
 								paddingBottom: '20px',
 							}}
 						>
-							<ConnectWallet />
+							{/* <ConnectWallet /> */}
+
+							<CreateWallet />
 						</div>
 					</div>
 				</div>

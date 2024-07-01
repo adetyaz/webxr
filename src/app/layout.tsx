@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Bai_Jamjuree as FontSans } from 'next/font/google'
 import { headers } from 'next/headers'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { cookieToInitialState } from 'wagmi'
 

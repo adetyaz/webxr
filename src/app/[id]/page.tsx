@@ -47,11 +47,11 @@ export default function Home({ params }: { params: { id: string } }) {
 			const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/phygitals/${id}`)
 
 			const webxr = await fetch(
-				`${process.env.NEXT_PUBLIC_URI}/webxr/1a8afbe5-c49a-42e6-9247-a67cf7c3bf3b`
+				`${process.env.NEXT_PUBLIC_URI}/webxr/phygital/${id}`
 			)
 
 			const avatarRes = await fetch(
-				`${process.env.NEXT_PUBLIC_URI}/avatars/884417d7-076d-464b-9827-cc32c12bd911`
+				`${process.env.NEXT_PUBLIC_URI}/avatars/phygital/${id}`
 			)
 
 			const data = await res.json()

@@ -1,6 +1,5 @@
-"use client"
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
-
+import { coinbaseWallet } from 'wagmi/connectors'
 import { cookieStorage, createStorage } from 'wagmi'
 import { baseSepolia } from 'wagmi/chains'
 
@@ -22,6 +21,11 @@ export const config = defaultWagmiConfig({
 	chains,
 	projectId,
 	metadata,
+	connectors: [
+		coinbaseWallet({
+			preference: 'smartWalletOnly',
+		}),
+	],
 	ssr: true,
 	storage: createStorage({
 		storage: cookieStorage,

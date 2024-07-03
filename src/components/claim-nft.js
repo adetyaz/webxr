@@ -9,6 +9,7 @@ import { useMemo, useState } from 'react'
 
 import { myNFTABI, myNFTAddress } from '../utils/myNFT'
 import { CreateWallet } from './create-wallet'
+import { ConnectWallet } from './connect-wallet'
 
 export const ClaimNft = ({ onClose, freeNft, brandName }) => {
 	const [claimNft, setClaimNft] = useState(false)
@@ -162,7 +163,7 @@ export const ClaimNft = ({ onClose, freeNft, brandName }) => {
 										outline: 'none',
 										borderRadius: '30rem',
 										fontSize: '1.2rem',
-										padding: '10px 0px',
+										padding: '5px 0px',
 										textAlign: 'center',
 										backgroundColor: '#30D8FF',
 									}}
@@ -194,11 +195,11 @@ export const ClaimNft = ({ onClose, freeNft, brandName }) => {
 								style={{
 									display: 'flex',
 									justifyContent: 'center',
-									paddingBottom: '2rem',
+									paddingBottom: '1rem',
 									marginInline: 'auto',
 								}}
 							>
-								{!account.address && <CreateWallet />}
+								{!account.address && <ConnectWallet />}
 							</div>
 						</div>
 					</div>

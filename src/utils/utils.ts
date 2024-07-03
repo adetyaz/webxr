@@ -7,7 +7,7 @@ import {
 	decodeFunctionData,
 } from 'viem'
 import { baseSepolia } from 'viem/chains'
-import { client } from './config'
+import { client } from './paymasterConfig'
 import {
 	coinbaseSmartWalletABI,
 	coinbaseSmartWalletFactoryAddress,

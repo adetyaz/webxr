@@ -110,6 +110,8 @@ export const VoiceAssistant = ({ productInfo }: any) => {
 		setIsListening((prevState) => !prevState)
 	}
 
+	console.log(productInfo)
+
 	return (
 		<div>
 			{/* <div className='absolute left-[25%] text-white bottom-[30%]'>

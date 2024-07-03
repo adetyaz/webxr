@@ -1,4 +1,4 @@
-import { paymasterClient } from '../../../utils/config'
+import { paymasterClient } from '../../../utils/paymasterConfig'
 import { willSponsor } from '../../../utils/utils'
 
 export async function POST(r: Request) {

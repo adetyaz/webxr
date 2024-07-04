@@ -74,7 +74,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
 		// if (account.address) {
 		// setTimeout(() => {
-		// 	setUnlockClaimed(true)
+		setUnlockClaimed(true)
 		// 	// 	setUnlocked(false)
 		// }, 30000)
 	}, [])

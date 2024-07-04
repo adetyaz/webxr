@@ -1,7 +1,18 @@
+'use client'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
-import { coinbaseWallet } from 'wagmi/connectors'
-import { cookieStorage, createStorage } from 'wagmi'
+import { getDefaultConfig, connectorsForWallets } from '@rainbow-me/rainbowkit'
+// import { coinbaseWallet } from 'wagmi/connectors'
+import { cookieStorage, createStorage, createConfig, http } from 'wagmi'
+import { createClient } from 'viem'
 import { baseSepolia } from 'wagmi/chains'
+import {
+	rainbowWallet,
+	walletConnectWallet,
+} from '@rainbow-me/rainbowkit/wallets'
+import { coinbaseWallet } from '@rainbow-me/rainbowkit/wallets'
+
+// Enable Coinbase Smart Wallet for testing
+coinbaseWallet.preference = 'smartWalletOnly'
 
 // Get projectId from https://cloud.walletconnect.com
 export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
@@ -17,17 +28,43 @@ const metadata = {
 
 // Create wagmiConfig
 const chains = [baseSepolia] as const
-export const config = defaultWagmiConfig({
-	chains,
-	projectId,
-	metadata,
-	connectors: [
-		coinbaseWallet({
-			preference: 'smartWalletOnly',
-		}),
+// export const config = defaultWagmiConfig({
+// 	chains,
+// 	projectId,
+// 	metadata,
+// 	connectors: [
+// 		coinbaseWallet({
+// 			preference: 'smartWalletOnly',
+// 		}),
+// 	],
+// 	ssr: false,
+// 	storage: createStorage({
+// 		storage: cookieStorage,
+// 	}),
+// })
+
+const connectors = connectorsForWallets(
+	[
+		{
+			groupName: 'Recommended',
+			wallets: [rainbowWallet, coinbaseWallet, walletConnectWallet],
+		},
 	],
-	ssr: false,
-	storage: createStorage({
-		storage: cookieStorage,
-	}),
+	{
+		appName: 'Myriadflow WebXR',
+		projectId: projectId,
+	}
+)
+
+export const rainbowconfig = createConfig({
+	connectors,
+
+	chains: [baseSepolia],
+	ssr: true, // If your dApp uses server side rendering (SSR)
+	client({ chain }) {
+		return createClient({ chain, transport: http() })
+	},
+	// storage: createStorage({
+	// 	storage: cookieStorage,
+	// }),
 })

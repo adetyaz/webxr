@@ -1,9 +1,11 @@
 'use client'
 
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+
 export const ConnectWallet = () => {
 	return (
 		<>
-			<w3m-button />
+			<ConnectButton />
 		</>
 	)
 }

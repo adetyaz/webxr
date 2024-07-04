@@ -2,10 +2,11 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Bai_Jamjuree as FontSans } from 'next/font/google'
 import 'react-toastify/dist/ReactToastify.css'
-import { headers } from 'next/headers'
-import { config } from '@/lib/wagmi'
+// import { headers } from 'next/headers'
+import { rainbowconfig } from '@/lib/wagmi'
 import { cn } from '@/lib/utils'
 import Script from 'next/script'
+import '@rainbow-me/rainbowkit/styles.css'
 
 import Web3ModalProvider from '@/lib/providers'
 import { cookieToInitialState } from 'wagmi'
@@ -26,8 +27,6 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const initialState = cookieToInitialState(config, headers().get('cookie'))
-
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<head>
@@ -40,9 +39,7 @@ export default function RootLayout({
 					fontSans.variable
 				)}
 			>
-				<Web3ModalProvider initialState={initialState}>
-					{children}
-				</Web3ModalProvider>
+				<Web3ModalProvider>{children}</Web3ModalProvider>
 			</body>
 			{/* </Providers> */}
 		</html>

@@ -75,7 +75,7 @@ export const ConnectWalletModal = () => {
 						>
 							{/* <ConnectWallet /> */}
 
-							<CreateWallet />
+							<ConnectWallet />
 						</div>
 					</div>
 				</div>

@@ -1,6 +1,5 @@
 'use client'
 import { InfoCard } from '@/components/info-card'
-
 import Image from 'next/image'
 import { Avatar } from '@readyplayerme/visage'
 import { useAccount } from 'wagmi'
@@ -16,12 +15,10 @@ import { VoiceAssistant } from '@/components/voice-assistant'
 export default function Home({ params }: { params: { id: string } }) {
 	const { id } = params
 
-	console.log(id)
-
 	const [unlockModal, setUnlockModal] = useState(false)
 	const [unlocked, setUnlocked] = useState(true)
 	const [unlockClaimed, setUnlockClaimed] = useState(false)
-
+	const [loading, setLoading] = useState(false)
 	const [phygitalData, setPhygitalData] = useState<any>([])
 	const [webXrData, setWebXrData] = useState<any>([])
 	const [avatar, setAvatar] = useState<any>([])
@@ -44,6 +41,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	const fetchPhygitalData = async () => {
 		try {
+			setLoading(true)
 			const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/phygitals/${id}`)
 
 			const webxr = await fetch(
@@ -58,13 +56,14 @@ export default function Home({ params }: { params: { id: string } }) {
 			const webdata = await webxr.json()
 			const avatardata = await avatarRes.json()
 
-			console.log(data)
-			console.log(webdata)
+			// console.log(data)
+			// console.log(webdata)
 
 			setProductInfo(data.product_info)
 			setPhygitalData(data)
 			setWebXrData(webdata)
 			setAvatar(avatardata)
+			setLoading(false)
 		} catch (error) {
 			console.log(error)
 		}
@@ -74,30 +73,34 @@ export default function Home({ params }: { params: { id: string } }) {
 		fetchPhygitalData()
 
 		// if (account.address) {
-		setTimeout(() => {
-			setUnlockClaimed(true)
-			// 	setUnlocked(false)
-		}, 30000)
+		// setTimeout(() => {
+		// 	setUnlockClaimed(true)
+		// 	// 	setUnlocked(false)
+		// }, 30000)
 	}, [])
 
 	const removePrefix = (uri: any) => {
 		return uri?.substring(7, uri.length)
 	}
 
-	console.log(webXrData.image360)
+	if (loading)
+		return (
+			<div className='h-screen flex flex-col justify-center items-center'>
+				<Image src={'/spinner.svg'} alt='loading' height={300} width={300} />
+			</div>
+		)
 
 	return (
 		<main className='flex h-screen flex-col items-center justify-between p-24 relative'>
 			<header className='absolute top-0 p-4 w-full flex justify-between z-10'>
 				<Image src='/logo.png' alt='logo' height={150} width={250} />
 				<ConnectWallet />
-				{/* <CreateWallet /> */}
 			</header>
 
 			<a-scene className='h-48'>
 				<a-sky
 					src={
-						webXrData.image360 &&
+						webXrData.image360 !== 'undefined' &&
 						`${'https://nftstorage.link/ipfs'}/${removePrefix(
 							webXrData.image360
 						)}`
@@ -110,8 +113,11 @@ export default function Home({ params }: { params: { id: string } }) {
 					<InfoCard phygital={phygitalData} />
 				</div>
 
-				<div className='absolute left-[35%] text-white bottom-2'>
-					<VoiceAssistant productInfo={productInfo} />
+				<div className='absolute transform -translate-x-1/2 text-white bottom-2'>
+					<VoiceAssistant
+						productInfo={productInfo}
+						brandName={phygitalData.brand_name}
+					/>
 				</div>
 				<div className='absolute h-3/4 left-4 bottom-16'>
 					<Avatar modelSrc={avatar && avatar.url} cameraInitialDistance={3.5} />

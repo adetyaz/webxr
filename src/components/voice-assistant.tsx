@@ -8,19 +8,19 @@ const openai = new OpenAI({
 	dangerouslyAllowBrowser: true,
 })
 
-export const VoiceAssistant = ({ productInfo }: any) => {
+export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 	const [isListening, setIsListening] = useState(false)
 	const [transcript, setTranscript] = useState('')
 	const [response, setResponse] = useState('')
 	const [messages, setMessages] = useState([
 		{
 			role: 'system',
-			content: `use this as information: "${productInfo}". Respond to inquiries with clear, concise answers under 20 words, use information shared only. }`,
+			content: `
+      you are a brand and products spokesperson for ${brandName}, use this to answer questions "${productInfo}". Respond to inquiries with clear, concise answers under 20 words, use information shared only.`,
 		},
 	])
 
 	useEffect(() => {
-		// Initialize speech recognition
 		const recognition = new (window as any).webkitSpeechRecognition()
 		recognition.continuous = false
 		recognition.interimResults = false
@@ -28,11 +28,15 @@ export const VoiceAssistant = ({ productInfo }: any) => {
 
 		recognition.onresult = (event: any) => {
 			const speechToText = event.results[0][0].transcript
-
-			console.log(speechToText)
+			// console.log(speechToText)
 			setTranscript(speechToText)
 			addMessage({ role: 'user', content: speechToText })
 			getOpenAIResponse(speechToText)
+		}
+
+		recognition.onerror = (event: any) => {
+			// console.error('Speech recognition error', event)
+			setIsListening(false)
 		}
 
 		recognition.onend = () => {
@@ -61,6 +65,7 @@ export const VoiceAssistant = ({ productInfo }: any) => {
 					content: msg.content,
 				})),
 				max_tokens: 50,
+				temperature: 0.2,
 			}
 
 			//@ts-ignore
@@ -87,6 +92,7 @@ export const VoiceAssistant = ({ productInfo }: any) => {
 	}) => {
 		setMessages((prevMessages) => [...prevMessages, message])
 	}
+
 	const speak = (text: string) => {
 		const synth = window.speechSynthesis
 		const utterance = new SpeechSynthesisUtterance(text)
@@ -110,24 +116,30 @@ export const VoiceAssistant = ({ productInfo }: any) => {
 		setIsListening((prevState) => !prevState)
 	}
 
-	console.log(productInfo)
+	// console.log(productInfo)
 
 	return (
-		<div>
-			{/* <div className='absolute left-[25%] text-white bottom-[30%]'>
-					{transcript && (
-						<p className='bg-black text-white'>User: {transcript}</p>
-					)}
+		<div className='flex flex-col justify-center items-center text-center'>
+			{transcript && (
+				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
+					<p>
+						User:
+						{transcript}
+					</p>
 				</div>
-				<div className='absolute left-[25%] text-white bottom-[20%] bg-fuchsia-500 w-2/4'>
-					{response && (
-						<p className='bg-black text-white'>Assistant: {response}</p>
-					)}
-				</div> */}
+			)}
+			{response && (
+				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
+					<p>
+						Assistant:
+						{response}
+					</p>
+				</div>
+			)}
 			<div>
 				<button
 					onClick={handleListen}
-					className='border-2 border-white bg-black mx-auto flex item-center gap-4 justify-center bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-full px-8 py-2'
+					className='cursor-pointer border-2 border-white bg-black mx-auto flex item-center gap-4 justify-center bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-full px-8 py-2'
 				>
 					{isListening ? <Mic /> : <MicOff />}
 				</button>

@@ -3,8 +3,6 @@
 import React, { ReactNode } from 'react'
 import { projectId, rainbowconfig } from './wagmi'
 
-import { createWeb3Modal } from '@web3modal/wagmi/react'
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { State, WagmiProvider } from 'wagmi'

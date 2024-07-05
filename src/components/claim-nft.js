@@ -4,71 +4,77 @@ import { ClaimNftPopUp } from './claim-nft-popup'
 import Image from 'next/image'
 import { useAccount, useChainId } from 'wagmi'
 import { ToastContainer, toast } from 'react-toastify'
-import { useCapabilities, useWriteContracts } from 'wagmi/experimental'
+// import { useCapabilities, useWriteContracts } from 'wagmi/experimental'
 import { useMemo, useState, useEffect } from 'react'
-import Moralis from 'moralis'
-import abi from '@/lib/abi'
+// import Moralis from 'moralis'
+// import abi from '@/lib/abi'
+import { X } from 'lucide-react'
 
 import { ConnectWallet } from './connect-wallet'
 
 export const ClaimNft = ({ onClose, freeNft, brandName, contractAddress }) => {
 	const [claimNft, setClaimNft] = useState(false)
-	const [loading, setLoading] = useState(false)
-	const [token, setToken] = useState(0)
+	// const [loading, setLoading] = useState(false)
+	// const [token, setToken] = useState(0)
 	const account = useAccount()
-	const chainId = useChainId()
+	// const chainId = useChainId()
 
-	useEffect(() => {
-		const fetch = async () => {
-			try {
-				await Moralis.start({
-					apiKey: process.env.NEXT_PUBLIC_MORALIS_API_KEY,
-				})
+	const handleClick = () => {
+		console.log('yes')
+		onClose(false)
+	}
 
-				const response = await Moralis.EvmApi.events.getContractEvents({
-					chain: chainId,
-					order: 'DESC',
-					topic: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
-					address: contractAddress,
-					abi: {
-						anonymous: false,
-						inputs: [
-							{
-								internalType: 'address',
-								name: 'phygitalcontractAddr',
-								type: 'address',
-							},
-							{
-								internalType: 'uint256',
-								name: 'amount',
-								type: 'uint256',
-							},
-							{
-								internalType: 'uint256',
-								name: 'tokenId',
-								type: 'uint256',
-							},
-							{ internalType: 'bytes', name: 'data', type: 'bytes' },
-							{ internalType: 'string', name: '_uri', type: 'string' },
-						],
-						name: 'createFanToken',
-						outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-						stateMutability: 'nonpayable',
-						type: 'function',
-					},
-				})
+	// useEffect(() => {
+	// 	const fetch = async () => {
+	// 		try {
+	// 			await Moralis.start({
+	// 				apiKey: process.env.NEXT_PUBLIC_MORALIS_API_KEY,
+	// 			})
 
-				// console.log("response", response.raw, response.raw.result[0].data.currentIndex);
-				if (response.raw.result[0]) {
-					setToken(response.raw.result[0].data.currentIndex)
-				}
-			} catch (e) {
-				console.error(e)
-			}
-		}
+	// 			const response = await Moralis.EvmApi.events.getContractEvents({
+	// 				chain: chainId,
+	// 				order: 'DESC',
+	// 				topic: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
+	// 				address: contractAddress,
+	// 				abi: {
+	// 					anonymous: false,
+	// 					inputs: [
+	// 						{
+	// 							internalType: 'address',
+	// 							name: 'phygitalcontractAddr',
+	// 							type: 'address',
+	// 						},
+	// 						{
+	// 							internalType: 'uint256',
+	// 							name: 'amount',
+	// 							type: 'uint256',
+	// 						},
+	// 						{
+	// 							internalType: 'uint256',
+	// 							name: 'tokenId',
+	// 							type: 'uint256',
+	// 						},
+	// 						{ internalType: 'bytes', name: 'data', type: 'bytes' },
+	// 						{ internalType: 'string', name: '_uri', type: 'string' },
+	// 					],
+	// 					name: 'createFanToken',
+	// 					outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+	// 					stateMutability: 'nonpayable',
+	// 					type: 'function',
+	// 				},
+	// 			})
 
-		fetch()
-	}, [])
+	// 			// console.log("response", response.raw, response.raw.result[0].data.currentIndex);
+	// 			if (response.raw.result[0]) {
+	// 				setToken(response.raw.result[0].data.currentIndex)
+	// 			}
+	// 		} catch (e) {
+	// 			console.error(e)
+	// 		}
+	// 	}
+
+	// 	fetch()
+	// }, [])
 
 	// const delegateToken = async () => {
 	// 	setLoading(true)
@@ -150,7 +156,11 @@ export const ClaimNft = ({ onClose, freeNft, brandName, contractAddress }) => {
 									borderColor: '#4B5563',
 								}}
 							>
-								{/* Add any additional content or buttons here */}
+								<X
+									color='#000'
+									style={{ cursor: 'pointer' }}
+									onClick={handleClick}
+								/>
 							</div>
 
 							<div style={{ padding: '16px', spaceY: '16px' }}>

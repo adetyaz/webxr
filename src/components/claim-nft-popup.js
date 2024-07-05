@@ -4,7 +4,6 @@ import Image from 'next/image'
 
 export const ClaimNftPopUp = ({ onClose, brandName, freeNft }) => {
 	const handleClick = () => {
-		console.log('yes')
 		onClose(false)
 	}
 

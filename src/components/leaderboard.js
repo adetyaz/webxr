@@ -50,9 +50,9 @@ const Leaderboard = () => {
 				</div>
 			</div>
 
-			<div style={{ textAlign: 'center', fontSize: '40px', marginTop: '50px' }}>
+			{/* <div style={{ textAlign: 'center', fontSize: '40px', marginTop: '50px' }}>
 				WebXR Xperiences live soon!
-			</div>
+			</div> */}
 
 			<div
 				className='mt-10 flex'

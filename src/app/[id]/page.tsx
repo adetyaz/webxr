@@ -68,10 +68,10 @@ export default function Home({ params }: { params: { id: string } }) {
 		fetchPhygitalData()
 
 		// if (account.address) {
-		// setTimeout(() => {
-		setUnlockClaimed(true)
-		// 	// 	setUnlocked(false)
-		// }, 30000)
+		setTimeout(() => {
+			setUnlockClaimed(true)
+			// 	// 	setUnlocked(false)
+		}, 30000)
 	}, [])
 
 	const removePrefix = (uri: any) => {

@@ -74,7 +74,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
 		// if (account.address) {
 		// setTimeout(() => {
-		setUnlockClaimed(true)
+		// setUnlockClaimed(true)
 		// 	// 	setUnlocked(false)
 		// }, 30000)
 	}, [])
@@ -144,6 +144,7 @@ export default function Home({ params }: { params: { id: string } }) {
 							onClose={closeClaimed}
 							freeNft={webXrData.free_nft_image}
 							brandName={phygitalData.brand_name}
+							contractAddress={phygitalData.contract_address}
 						/>
 					</div>
 				)}

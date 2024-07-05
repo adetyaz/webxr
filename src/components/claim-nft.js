@@ -2,42 +2,101 @@
 import Link from 'next/link'
 import { ClaimNftPopUp } from './claim-nft-popup'
 import Image from 'next/image'
-import { useAccount } from 'wagmi'
+import { useAccount, useChainId } from 'wagmi'
 import { ToastContainer, toast } from 'react-toastify'
 import { useCapabilities, useWriteContracts } from 'wagmi/experimental'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
+import Moralis from 'moralis'
+import abi from '@/lib/abi'
 
-import { myNFTABI, myNFTAddress } from '../utils/myNFT'
-import { CreateWallet } from './create-wallet'
 import { ConnectWallet } from './connect-wallet'
 
-export const ClaimNft = ({ onClose, freeNft, brandName }) => {
+export const ClaimNft = ({ onClose, freeNft, brandName, contractAddress }) => {
 	const [claimNft, setClaimNft] = useState(false)
+	const [loading, setLoading] = useState(false)
+	const [token, setToken] = useState(0)
 	const account = useAccount()
+	const chainId = useChainId()
 
-	const [id, setId] = useState(undefined)
+	// useEffect(() => {
+	// 	const fetch = async () => {
+	// 		try {
+	// 			await Moralis.start({
+	// 				apiKey: process.env.NEXT_PUBLIC_MORALIS_API_KEY,
+	// 			})
 
-	const { writeContracts } = useWriteContracts({
-		mutation: { onSuccess: (id) => setId(id) },
-	})
-	const { data: availableCapabilities } = useCapabilities({
-		account: account.address,
-	})
-	const capabilities = useMemo(() => {
-		if (!availableCapabilities || !account.chainId) return {}
-		const capabilitiesForChain = availableCapabilities[account.chainId]
-		if (
-			capabilitiesForChain['paymasterService'] &&
-			capabilitiesForChain['paymasterService'].supported
-		) {
-			return {
-				paymasterService: {
-					url: `http://localhost:3002/api/paymaster`,
-				},
-			}
-		}
-		return {}
-	}, [availableCapabilities, account.chainId])
+	// 			const response = await Moralis.EvmApi.events.getContractEvents({
+	// 				chain: chainId,
+	// 				order: 'DESC',
+	// 				topic: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
+	// 				address: contractAddress,
+	// 				abi: {
+	// 					anonymous: false,
+	// 					inputs: [
+	// 						{
+	// 							internalType: 'address',
+	// 							name: 'phygitalcontractAddr',
+	// 							type: 'address',
+	// 						},
+	// 						{
+	// 							internalType: 'uint256',
+	// 							name: 'amount',
+	// 							type: 'uint256',
+	// 						},
+	// 						{
+	// 							internalType: 'uint256',
+	// 							name: 'tokenId',
+	// 							type: 'uint256',
+	// 						},
+	// 						{ internalType: 'bytes', name: 'data', type: 'bytes' },
+	// 						{ internalType: 'string', name: '_uri', type: 'string' },
+	// 					],
+	// 					name: 'createFanToken',
+	// 					outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+	// 					stateMutability: 'nonpayable',
+	// 					type: 'function',
+	// 				},
+	// 			})
+
+	// 			// console.log("response", response.raw, response.raw.result[0].data.currentIndex);
+	// 			if (response.raw.result[0]) {
+	// 				setToken(response.raw.result[0].data.currentIndex)
+	// 			}
+	// 		} catch (e) {
+	// 			console.error(e)
+	// 		}
+	// 	}
+
+	// 	fetch()
+	// }, [])
+
+	// const delegateToken = async () => {
+	// 	setLoading(true)
+
+	// 	try {
+	// 		console.log('ethers', ethers)
+
+	// 		if (typeof window !== 'undefined' && window.ethereum) {
+	// 			const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+	// 			const contract = new ethers.Contract(
+	// 				contractAddress,
+	// 				abi,
+	// 				provider.getSigner()
+	// 			)
+
+	// 			const tx = await contract.mint(contractAddress, 1, token, [])
+
+	// 			const result = await tx.wait()
+
+	// 			// console.log("Result:", result);
+	// 			setLoading(false)
+	// 		}
+	// 	} catch (error) {
+	// 		console.error('Error handling buy asset:', error)
+	// 		setLoading(false) // Set loading state to false in case of error
+	// 	}
+	// }
 
 	const removePrefix = (uri) => {
 		return uri?.substring(7, uri.length)
@@ -171,20 +230,6 @@ export const ClaimNft = ({ onClose, freeNft, brandName }) => {
 										if (!account.address) {
 											toast.warning('Connect or Create a wallet')
 										} else {
-											setTimeout(() => {
-												setClaimNft(true)
-											}, 10000)
-											writeContracts({
-												contracts: [
-													{
-														address: myNFTAddress,
-														abi: myNFTABI,
-														functionName: 'safeMint',
-														args: [account.address],
-													},
-												],
-												capabilities,
-											})
 										}
 									}}
 								>

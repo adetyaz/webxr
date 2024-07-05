@@ -1,14 +1,9 @@
-export const abi = [
+;[
 	{
 		inputs: [
 			{ internalType: 'string', name: 'baseURI', type: 'string' },
 			{ internalType: 'string', name: '_name', type: 'string' },
 			{ internalType: 'string', name: '_symbol', type: 'string' },
-			{
-				internalType: 'address',
-				name: 'tradeHubAddress',
-				type: 'address',
-			},
 			{ internalType: 'address', name: 'flowContract', type: 'address' },
 		],
 		stateMutability: 'nonpayable',
@@ -75,12 +70,7 @@ export const abi = [
 				name: 'operator',
 				type: 'address',
 			},
-			{
-				indexed: false,
-				internalType: 'bool',
-				name: 'approved',
-				type: 'bool',
-			},
+			{ indexed: false, internalType: 'bool', name: 'approved', type: 'bool' },
 		],
 		name: 'ApprovalForAll',
 		type: 'event',
@@ -144,18 +134,8 @@ export const abi = [
 				name: 'operator',
 				type: 'address',
 			},
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'from',
-				type: 'address',
-			},
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'to',
-				type: 'address',
-			},
+			{ indexed: true, internalType: 'address', name: 'from', type: 'address' },
+			{ indexed: true, internalType: 'address', name: 'to', type: 'address' },
 			{
 				indexed: false,
 				internalType: 'uint256[]',
@@ -181,24 +161,9 @@ export const abi = [
 				name: 'operator',
 				type: 'address',
 			},
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'from',
-				type: 'address',
-			},
-			{
-				indexed: true,
-				internalType: 'address',
-				name: 'to',
-				type: 'address',
-			},
-			{
-				indexed: false,
-				internalType: 'uint256',
-				name: 'id',
-				type: 'uint256',
-			},
+			{ indexed: true, internalType: 'address', name: 'from', type: 'address' },
+			{ indexed: true, internalType: 'address', name: 'to', type: 'address' },
+			{ indexed: false, internalType: 'uint256', name: 'id', type: 'uint256' },
 			{
 				indexed: false,
 				internalType: 'uint256',
@@ -212,18 +177,8 @@ export const abi = [
 	{
 		anonymous: false,
 		inputs: [
-			{
-				indexed: false,
-				internalType: 'string',
-				name: 'value',
-				type: 'string',
-			},
-			{
-				indexed: true,
-				internalType: 'uint256',
-				name: 'id',
-				type: 'uint256',
-			},
+			{ indexed: false, internalType: 'string', name: 'value', type: 'string' },
+			{ indexed: true, internalType: 'uint256', name: 'id', type: 'uint256' },
 		],
 		name: 'URI',
 		type: 'event',
@@ -254,11 +209,7 @@ export const abi = [
 	},
 	{
 		inputs: [
-			{
-				internalType: 'address[]',
-				name: 'accounts',
-				type: 'address[]',
-			},
+			{ internalType: 'address[]', name: 'accounts', type: 'address[]' },
 			{ internalType: 'uint256[]', name: 'ids', type: 'uint256[]' },
 		],
 		name: 'balanceOfBatch',

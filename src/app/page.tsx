@@ -38,7 +38,7 @@ export default function Home() {
 					<Link href='https://studio-one-sigma.vercel.app' target='_blank'>
 						Studio
 					</Link>
-					<Link href='https://webxr-3d.vercel.app' target='_blank'>
+					<Link href='https://webxr-ebon.vercel.app/' target='_blank'>
 						WebXR
 					</Link>
 				</div>

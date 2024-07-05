@@ -32,6 +32,7 @@ export default function RootLayout({
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<head>
+				<link rel='icon' href='/MFlogo.png' sizes='any' />
 				<Script src='https://aframe.io/releases/1.5.0/aframe.min.js'></Script>
 			</head>
 			{/* <Providers> */}

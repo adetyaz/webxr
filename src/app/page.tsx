@@ -56,26 +56,7 @@ export default function Home() {
 						Interact with unique AI-powered brand ambassadors.
 					</div>
 					<div className='flex gap-10 mt-10'>
-						<button
-							className='border'
-							style={{
-								background: 'transparent',
-								border: '6px solid transparent',
-								borderRadius: '8px',
-								backgroundImage: `
-    linear-gradient(white, white),
-    linear-gradient(to right, #AF40FF, #5B42F3, #00DDEB)
-  `,
-								backgroundOrigin: 'border-box',
-								backgroundClip: 'content-box, border-box',
-								WebkitBackgroundClip: 'content-box, border-box', // For Safari
-								display: 'block',
-								width: '180px',
-								height: '50px',
-							}}
-						>
-							<ConnectWallet />
-						</button>
+						<ConnectWallet />
 					</div>
 				</div>
 

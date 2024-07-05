@@ -18,57 +18,57 @@ export const ClaimNft = ({ onClose, freeNft, brandName, contractAddress }) => {
 	const account = useAccount()
 	const chainId = useChainId()
 
-	// useEffect(() => {
-	// 	const fetch = async () => {
-	// 		try {
-	// 			await Moralis.start({
-	// 				apiKey: process.env.NEXT_PUBLIC_MORALIS_API_KEY,
-	// 			})
+	useEffect(() => {
+		const fetch = async () => {
+			try {
+				await Moralis.start({
+					apiKey: process.env.NEXT_PUBLIC_MORALIS_API_KEY,
+				})
 
-	// 			const response = await Moralis.EvmApi.events.getContractEvents({
-	// 				chain: chainId,
-	// 				order: 'DESC',
-	// 				topic: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
-	// 				address: contractAddress,
-	// 				abi: {
-	// 					anonymous: false,
-	// 					inputs: [
-	// 						{
-	// 							internalType: 'address',
-	// 							name: 'phygitalcontractAddr',
-	// 							type: 'address',
-	// 						},
-	// 						{
-	// 							internalType: 'uint256',
-	// 							name: 'amount',
-	// 							type: 'uint256',
-	// 						},
-	// 						{
-	// 							internalType: 'uint256',
-	// 							name: 'tokenId',
-	// 							type: 'uint256',
-	// 						},
-	// 						{ internalType: 'bytes', name: 'data', type: 'bytes' },
-	// 						{ internalType: 'string', name: '_uri', type: 'string' },
-	// 					],
-	// 					name: 'createFanToken',
-	// 					outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-	// 					stateMutability: 'nonpayable',
-	// 					type: 'function',
-	// 				},
-	// 			})
+				const response = await Moralis.EvmApi.events.getContractEvents({
+					chain: chainId,
+					order: 'DESC',
+					topic: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
+					address: contractAddress,
+					abi: {
+						anonymous: false,
+						inputs: [
+							{
+								internalType: 'address',
+								name: 'phygitalcontractAddr',
+								type: 'address',
+							},
+							{
+								internalType: 'uint256',
+								name: 'amount',
+								type: 'uint256',
+							},
+							{
+								internalType: 'uint256',
+								name: 'tokenId',
+								type: 'uint256',
+							},
+							{ internalType: 'bytes', name: 'data', type: 'bytes' },
+							{ internalType: 'string', name: '_uri', type: 'string' },
+						],
+						name: 'createFanToken',
+						outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+						stateMutability: 'nonpayable',
+						type: 'function',
+					},
+				})
 
-	// 			// console.log("response", response.raw, response.raw.result[0].data.currentIndex);
-	// 			if (response.raw.result[0]) {
-	// 				setToken(response.raw.result[0].data.currentIndex)
-	// 			}
-	// 		} catch (e) {
-	// 			console.error(e)
-	// 		}
-	// 	}
+				// console.log("response", response.raw, response.raw.result[0].data.currentIndex);
+				if (response.raw.result[0]) {
+					setToken(response.raw.result[0].data.currentIndex)
+				}
+			} catch (e) {
+				console.error(e)
+			}
+		}
 
-	// 	fetch()
-	// }, [])
+		fetch()
+	}, [])
 
 	// const delegateToken = async () => {
 	// 	setLoading(true)

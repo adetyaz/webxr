@@ -28,11 +28,6 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	const closeCongratulations = () => {
 		setUnlockModal(false)
-
-		// setTimeout(() => {
-		// 	setUnlockClaimed(true)
-		// 	setUnlocked(true)
-		// }, 2000)
 	}
 
 	const closeClaimed = () => {
@@ -40,8 +35,8 @@ export default function Home({ params }: { params: { id: string } }) {
 	}
 
 	const fetchPhygitalData = async () => {
+		setLoading(true)
 		try {
-			setLoading(true)
 			const res = await fetch(`${process.env.NEXT_PUBLIC_URI}/phygitals/${id}`)
 
 			const webxr = await fetch(
@@ -74,7 +69,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
 		// if (account.address) {
 		// setTimeout(() => {
-		// setUnlockClaimed(true)
+		setUnlockClaimed(true)
 		// 	// 	setUnlocked(false)
 		// }, 30000)
 	}, [])

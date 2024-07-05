@@ -3,13 +3,12 @@ import type { Metadata } from 'next'
 import { Bai_Jamjuree as FontSans } from 'next/font/google'
 import 'react-toastify/dist/ReactToastify.css'
 // import { headers } from 'next/headers'
-import { rainbowconfig } from '@/lib/wagmi'
+
 import { cn } from '@/lib/utils'
 import Script from 'next/script'
 import '@rainbow-me/rainbowkit/styles.css'
 
 import Web3ModalProvider from '@/lib/providers'
-import { cookieToInitialState } from 'wagmi'
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -20,6 +19,9 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
 	title: 'Phygital WebXR',
 	description: 'Myriadflow WebXR Experience',
+	icons: {
+		icon: '/MFlogo.png',
+	},
 }
 
 export default function RootLayout({

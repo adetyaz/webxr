@@ -19,6 +19,7 @@ export const VoiceAssistant = ({ productInfo, brandName }: any) => {
       you are a brand and products spokesperson for ${brandName}, use this to answer questions "${productInfo}". Respond to inquiries with clear, concise answers under 20 words, use information shared only.`,
 		},
 	])
+	const [gender, setGender] = useState('female')
 
 	useEffect(() => {
 		const recognition = new (window as any).webkitSpeechRecognition()
@@ -98,14 +99,16 @@ export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 		const utterance = new SpeechSynthesisUtterance(text)
 
 		const voices = synth.getVoices()
-		const femaleVoice = voices.find(
-			(voice) => /female/i.test(voice.name) || /woman/i.test(voice.name)
+		const selectedVoice = voices.find(
+			(voice) =>
+				(gender === 'female' && /female/i.test(voice.name)) ||
+				(gender === 'male' && /male/i.test(voice.name))
 		)
 
-		if (femaleVoice) {
-			utterance.voice = femaleVoice
+		if (selectedVoice) {
+			utterance.voice = selectedVoice
 		} else if (voices.length > 0) {
-			// Fallback to the first voice if no female voice is found
+			// Fallback to the first voice if no matching gender voice is found
 			utterance.voice = voices[0]
 		}
 
@@ -122,18 +125,12 @@ export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 		<div className='flex flex-col justify-center items-center text-center'>
 			{transcript && (
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
-					<p>
-						User:
-						{transcript}
-					</p>
+					<p>User: &nbsp;{transcript}</p>
 				</div>
 			)}
 			{response && (
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
-					<p>
-						Assistant:
-						{response}
-					</p>
+					<p>Assistant: &nbsp;{response}</p>
 				</div>
 			)}
 			<div>

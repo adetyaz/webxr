@@ -6,7 +6,7 @@ import { useAccount, useChainId } from 'wagmi'
 import { ToastContainer, toast } from 'react-toastify'
 // import { useCapabilities, useWriteContracts } from 'wagmi/experimental'
 import { useMemo, useState, useEffect } from 'react'
-// import Moralis from 'moralis'
+import Moralis from 'moralis'
 // import abi from '@/lib/abi'
 import { X } from 'lucide-react'
 
@@ -16,93 +16,96 @@ export const ClaimNft = ({ onClose, freeNft, brandName, contractAddress }) => {
 	const [claimNft, setClaimNft] = useState(false)
 	// const [loading, setLoading] = useState(false)
 	// const [token, setToken] = useState(0)
+	const [sold, setsold] = useState(0)
 	const account = useAccount()
-	// const chainId = useChainId()
+	const chainId = useChainId()
 
 	const handleClick = () => {
 		console.log('yes')
 		onClose(false)
 	}
 
-	// useEffect(() => {
-	// 	const fetch = async () => {
-	// 		try {
-	// 			await Moralis.start({
-	// 				apiKey: process.env.NEXT_PUBLIC_MORALIS_API_KEY,
-	// 			})
+	const fetch = async () => {
+		try {
+			await Moralis.start({
+				apiKey: process.env.NEXT_PUBLIC_MORALIS_API_KEY,
+			})
 
-	// 			const response = await Moralis.EvmApi.events.getContractEvents({
-	// 				chain: chainId,
-	// 				order: 'DESC',
-	// 				topic: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
-	// 				address: contractAddress,
-	// 				abi: {
-	// 					anonymous: false,
-	// 					inputs: [
-	// 						{
-	// 							internalType: 'address',
-	// 							name: 'phygitalcontractAddr',
-	// 							type: 'address',
-	// 						},
-	// 						{
-	// 							internalType: 'uint256',
-	// 							name: 'amount',
-	// 							type: 'uint256',
-	// 						},
-	// 						{
-	// 							internalType: 'uint256',
-	// 							name: 'tokenId',
-	// 							type: 'uint256',
-	// 						},
-	// 						{ internalType: 'bytes', name: 'data', type: 'bytes' },
-	// 						{ internalType: 'string', name: '_uri', type: 'string' },
-	// 					],
-	// 					name: 'createFanToken',
-	// 					outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-	// 					stateMutability: 'nonpayable',
-	// 					type: 'function',
-	// 				},
-	// 			})
+			const response = await Moralis.EvmApi.events.getContractEvents({
+				chain: chainId,
+				order: 'DESC',
+				topic:
+					'0x328ff68d0e66694e405c9f8fc906a346b345aa1f87ec216eaa82f2c654d0d34a',
+				address: contractAddress,
+				abi: {
+					anonymous: false,
+					inputs: [
+						{
+							indexed: false,
+							name: 'currentIndex',
+							type: 'uint256',
+							internal_type: 'uint256',
+						},
+						{
+							indexed: false,
+							name: 'quantity',
+							type: 'uint256',
+							internal_type: 'uint256',
+						},
+						{
+							indexed: true,
+							name: 'creator',
+							type: 'address',
+							internal_type: 'address',
+						},
+					],
+					name: 'PhygitalAAssetCreated',
+					type: 'event',
+				},
+			})
 
-	// 			// console.log("response", response.raw, response.raw.result[0].data.currentIndex);
-	// 			if (response.raw.result[0]) {
-	// 				setToken(response.raw.result[0].data.currentIndex)
-	// 			}
-	// 		} catch (e) {
-	// 			console.error(e)
-	// 		}
-	// 	}
+			// console.log("response", response.raw, response.raw.result[0].data.currentIndex);
+			if (response.raw.result[0]) {
+				setsold(response.raw.result[0].data.currentIndex)
+			}
+		} catch (e) {
+			console.error(e)
+		}
+	}
 
-	// 	fetch()
-	// }, [])
+	useEffect(() => {
+		fetch()
 
-	// const delegateToken = async () => {
-	// 	setLoading(true)
+		console.log(sold)
+	}, [])
 
-	// 	try {
-	// 		console.log('ethers', ethers)
+	const delegateToken = async () => {
+		setLoading(true)
 
-	// 		if (typeof window !== 'undefined' && window.ethereum) {
-	// 			const provider = new ethers.providers.Web3Provider(window.ethereum)
+		try {
+			console.log('ethers', ethers)
 
-	// 			const contract = new ethers.Contract(
-	// 				contractAddress,
-	// 				abi,
-	// 				provider.getSigner()
-	// 			)
+			if (typeof window !== 'undefined' && window.ethereum) {
+				const provider = new ethers.providers.Web3Provider(window.ethereum)
 
-	// 			const tx = await contract.mint(contractAddress, 1, token, [])
+				const contract = new ethers.Contract(
+					contractAddress,
+					abi,
+					provider.getSigner()
+				)
 
-	// 			const result = await tx.wait()
+				const tx = await contract.mint(contractAddress, 1, token, [])
 
-	// 			// console.log("Result:", result);
-	// 			setLoading(false)
-	// 		}
-	// 	} catch (error) {
-	// 		console.error('Error handling buy asset:', error)
-	// 		setLoading(false) // Set loading state to false in case of error
-	// 	}
-	// }
+				const result = await tx.wait()
+
+				// console.log("Result:", result);
+				setLoading(false)
+			}
+		} catch (error) {
+			console.error('Error handling buy asset:', error)
+			setLoading(false) // Set loading state to false in case of error
+		}
+	}
 
 	const removePrefix = (uri) => {
 		return uri?.substring(7, uri.length)

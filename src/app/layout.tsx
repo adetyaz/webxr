@@ -17,10 +17,38 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-	title: 'Phygital WebXR',
-	description: 'Myriadflow WebXR Experience',
+	title: 'WebXR | MyriadFlow',
+	description: 'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
 	icons: {
 		icon: '/favicon.ico',
+	},
+	openGraph: {
+		type: 'website',
+		url: 'https://webxr-ebon.vercel.app',
+		title: 'WebXR | MyriadFlow',
+		description: 'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
+		images: [
+			{
+				url: '/metaimg.png', // Path to the image in the public folder
+				width: 1200,
+				height: 630,
+				alt: 'MyriadFlow WebXR',
+			},
+		],
+	},
+	twitter: {
+		card: 'summary_large_image',
+		site: '@MyriadFlow',
+		title: 'WebXR | MyriadFlow',
+		description: 'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
+		images: [
+			{
+				url: '/metaimg.png', // Path to the image in the public folder
+				width: 1200,
+				height: 630,
+				alt: 'MyriadFlow WebXR',
+			},
+		],
 	},
 }
 

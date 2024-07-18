@@ -2,7 +2,7 @@
 import { getDefaultConfig, connectorsForWallets } from '@rainbow-me/rainbowkit'
 import { cookieStorage, createStorage, createConfig, http } from 'wagmi'
 import { createClient } from 'viem'
-import { baseSepolia } from 'wagmi/chains'
+import { baseSepolia, polygonZkEvmCardona } from 'wagmi/chains'
 import {
 	rainbowWallet,
 	walletConnectWallet,
@@ -32,8 +32,7 @@ const connectors = connectorsForWallets(
 
 export const rainbowconfig = createConfig({
 	connectors,
-
-	chains: [baseSepolia],
+	chains: [baseSepolia, polygonZkEvmCardona],
 	ssr: false, // If your dApp uses server side rendering (SSR)
 	client({ chain }) {
 		return createClient({ chain, transport: http() })

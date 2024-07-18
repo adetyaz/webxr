@@ -1,4 +1,4 @@
-;[
+export const abi = [
 	{
 		inputs: [
 			{ internalType: 'string', name: 'baseURI', type: 'string' },
@@ -388,4 +388,4 @@
 		stateMutability: 'view',
 		type: 'function',
 	},
-]
+] as const

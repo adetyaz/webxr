@@ -28,7 +28,8 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		"src/app/[id]/page.tsx",
-		"src/components/create-wallet.jsx"
+		"src/components/create-wallet.jsx",
+		"src/components/claim-nft.js"
 	],
 	"exclude": ["node_modules", "page.tsx"]
 }

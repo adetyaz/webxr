@@ -8,12 +8,22 @@ const Leaderboard = () => {
 	const getBrands = async () => {
 		const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
 
-		const avatar = await fetch(`${baseUri}/avatars/all`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
+		localStorage.setItem(
+			'BaseSepoliaChain',
+			'554b4903-9a06-4031-98f4-48276c427f78'
+		)
+		const chaintype = localStorage.getItem('BaseSepoliaChain')
+
+		const avatar = await fetch(
+			`${baseUri}/avatars/all/${chaintype}
+`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}
+		)
 		const avatardata = await avatar.json()
 		// setAvatar(avatardata);
 		setAvatar([...avatardata].reverse())

@@ -4,107 +4,34 @@ import { ClaimNftPopUp } from './claim-nft-popup'
 import Image from 'next/image'
 import { useAccount, useChainId } from 'wagmi'
 import { ToastContainer, toast } from 'react-toastify'
-// import { useCapabilities, useWriteContracts } from 'wagmi/experimental'
-import { useMemo, useState, useEffect } from 'react'
-import Moralis from 'moralis'
-// import abi from '@/lib/abi'
+import { simulateContract, writeContract } from '@wagmi/core'
+import { useState } from 'react'
 import { X } from 'lucide-react'
-
 import { ConnectWallet } from './connect-wallet'
+import { rainbowconfig } from '@/lib/wagmi'
+import reward from '@/lib/reward.json'
 
 export const ClaimNft = ({ onClose, freeNft, brandName, contractAddress }) => {
 	const [claimNft, setClaimNft] = useState(false)
-	// const [loading, setLoading] = useState(false)
-	// const [token, setToken] = useState(0)
-	const [sold, setsold] = useState(0)
 	const account = useAccount()
-	const chainId = useChainId()
 
 	const handleClick = () => {
-		console.log('yes')
 		onClose(false)
 	}
 
-	const fetch = async () => {
-		try {
-			await Moralis.start({
-				apiKey: process.env.NEXT_PUBLIC_MORALIS_API_KEY,
-			})
+	const createFanToken = async () => {
+		console.log('running...')
+		const abi = reward.abi
+		const { request } = await simulateContract(rainbowconfig, {
+			abi,
+			address: '0x09b6206ff5f662ACbc68286DBbe43b9fB873a955',
+			// address: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
+			functionName: 'createFanToken',
+			args: [String(contractAddress), 1, 1, '0x0', 'www.xyz.com'],
+		})
+		const hash = await writeContract(rainbowconfig, request)
 
-			const response = await Moralis.EvmApi.events.getContractEvents({
-				chain: chainId,
-				order: 'DESC',
-				topic:
-					'0x328ff68d0e66694e405c9f8fc906a346b345aa1f87ec216eaa82f2c654d0d34a',
-				address: contractAddress,
-				abi: {
-					anonymous: false,
-					inputs: [
-						{
-							indexed: false,
-							name: 'currentIndex',
-							type: 'uint256',
-							internal_type: 'uint256',
-						},
-						{
-							indexed: false,
-							name: 'quantity',
-							type: 'uint256',
-							internal_type: 'uint256',
-						},
-						{
-							indexed: true,
-							name: 'creator',
-							type: 'address',
-							internal_type: 'address',
-						},
-					],
-					name: 'PhygitalAAssetCreated',
-					type: 'event',
-				},
-			})
-
-			// console.log("response", response.raw, response.raw.result[0].data.currentIndex);
-			if (response.raw.result[0]) {
-				setsold(response.raw.result[0].data.currentIndex)
-			}
-		} catch (e) {
-			console.error(e)
-		}
-	}
-
-	useEffect(() => {
-		fetch()
-
-		console.log(sold)
-	}, [])
-
-	const delegateToken = async () => {
-		setLoading(true)
-
-		try {
-			console.log('ethers', ethers)
-
-			if (typeof window !== 'undefined' && window.ethereum) {
-				const provider = new ethers.providers.Web3Provider(window.ethereum)
-
-				const contract = new ethers.Contract(
-					contractAddress,
-					abi,
-					provider.getSigner()
-				)
-
-				const tx = await contract.mint(contractAddress, 1, token, [])
-
-				const result = await tx.wait()
-
-				// console.log("Result:", result);
-				setLoading(false)
-			}
-		} catch (error) {
-			console.error('Error handling buy asset:', error)
-			setLoading(false) // Set loading state to false in case of error
-		}
+		console.log(hash)
 	}
 
 	const removePrefix = (uri) => {
@@ -243,6 +170,7 @@ export const ClaimNft = ({ onClose, freeNft, brandName, contractAddress }) => {
 										if (!account.address) {
 											toast.warning('Connect or Create a wallet')
 										} else {
+											createFanToken()
 										}
 									}}
 								>

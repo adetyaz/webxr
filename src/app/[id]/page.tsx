@@ -51,7 +51,7 @@ export default function Home({ params }: { params: { id: string } }) {
 			const webdata = await webxr.json()
 			const avatardata = await avatarRes.json()
 
-			// console.log(data)
+			console.log(data)
 			// console.log(webdata)
 
 			setProductInfo(data.product_info)
@@ -66,12 +66,9 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	useEffect(() => {
 		fetchPhygitalData()
-
-		// if (account.address) {
 		setTimeout(() => {
 			setUnlockClaimed(true)
-			// 	// 	// 	setUnlocked(false)
-		}, 30000)
+		}, 3000)
 	}, [])
 
 	const removePrefix = (uri: any) => {

@@ -11,8 +11,20 @@ import { ConnectWallet } from './connect-wallet'
 import { rainbowconfig } from '@/lib/wagmi'
 import reward from '@/lib/reward.json'
 
-export const ClaimNft = ({ onClose, freeNft, brandName, contractAddress }) => {
+const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
+
+export const ClaimNft = ({
+	onClose,
+	freeNft,
+	brandName,
+	contractAddress,
+	chainTypeId,
+	collectionId,
+	phygitalName,
+	phygitalId,
+}) => {
 	const [claimNft, setClaimNft] = useState(false)
+	const [brandId, setBrandId] = useState('')
 	const account = useAccount()
 
 	const handleClick = () => {
@@ -24,14 +36,32 @@ export const ClaimNft = ({ onClose, freeNft, brandName, contractAddress }) => {
 		const abi = reward.abi
 		const { request } = await simulateContract(rainbowconfig, {
 			abi,
-			address: '0x09b6206ff5f662ACbc68286DBbe43b9fB873a955',
-			// address: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
+
+			address: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
 			functionName: 'createFanToken',
 			args: [String(contractAddress), 1, 1, '0x0', 'www.xyz.com'],
 		})
 		const hash = await writeContract(rainbowconfig, request)
 
-		console.log(hash)
+		if (hash) {
+			const res = await fetch(`${baseUri}/fantoken`, {
+				method: 'POST',
+				body: JSON.stringify({
+					brand_id: brandId,
+					collection_id: collectionId,
+					phygital_id: phygitalId,
+					phygital_name: phygitalName,
+					chaintype_id: chainTypeId,
+					fan_token_id: hash,
+				}),
+			})
+
+			const result = await res.json()
+
+			if (result) {
+				setClaimNft(true)
+			}
+		}
 	}
 
 	const removePrefix = (uri) => {

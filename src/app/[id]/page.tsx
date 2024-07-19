@@ -51,7 +51,7 @@ export default function Home({ params }: { params: { id: string } }) {
 			const webdata = await webxr.json()
 			const avatardata = await avatarRes.json()
 
-			console.log(data)
+			// console.log(data)
 			// console.log(webdata)
 
 			setProductInfo(data.product_info)
@@ -68,7 +68,7 @@ export default function Home({ params }: { params: { id: string } }) {
 		fetchPhygitalData()
 		setTimeout(() => {
 			setUnlockClaimed(true)
-		}, 3000)
+		}, 30000)
 	}, [])
 
 	const removePrefix = (uri: any) => {
@@ -136,7 +136,11 @@ export default function Home({ params }: { params: { id: string } }) {
 							onClose={closeClaimed}
 							freeNft={webXrData.free_nft_image}
 							brandName={phygitalData.brand_name}
+							phygitalName={phygitalData.name}
 							contractAddress={phygitalData.contract_address}
+							chainTypeId={phygitalData.chaintype_id}
+							collectionId={phygitalData.collection_id}
+							phygitalId={phygitalData.id}
 						/>
 					</div>
 				)}

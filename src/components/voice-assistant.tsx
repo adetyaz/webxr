@@ -8,10 +8,14 @@ const openai = new OpenAI({
 	dangerouslyAllowBrowser: true,
 })
 
+const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
+
 export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 	const [isListening, setIsListening] = useState(false)
 	const [transcript, setTranscript] = useState('')
 	const [response, setResponse] = useState('')
+	const [brandInfo, setBrandInfo] = useState('')
+	const [collectionInfo, setCollectionInfo] = useState('')
 	const [messages, setMessages] = useState([
 		{
 			role: 'system',
@@ -20,6 +24,45 @@ export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 		},
 	])
 	const [gender, setGender] = useState('female')
+
+	const getBrands = async () => {
+		// const chaintype = localStorage.getItem('PolygonCardonaChain')
+		const res = await fetch(`${baseUri}/brands/all`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+
+		const result = await res.json()
+
+		const brand = result.filter((brand: any) => brand.name === brandName)
+
+		brand ?? setBrandInfo(brand[0].additional_info)
+
+		brand ?? getCollections(brand[0].id)
+	}
+
+	const getCollections = async (brandId: string) => {
+		// const chaintype = localStorage.getItem('PolygonCardonaChain')
+		const res = await fetch(`${baseUri}/collections/all`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+
+		const result = await res.json()
+		const collection = result.filter(
+			(collection: any) => collection.brand_id === brandId
+		)
+
+		setCollectionInfo(collection[0].description)
+	}
+
+	useEffect(() => {
+		getBrands()
+	}, [])
 
 	useEffect(() => {
 		const recognition = new (window as any).webkitSpeechRecognition()
@@ -98,19 +141,19 @@ export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 		const synth = window.speechSynthesis
 		const utterance = new SpeechSynthesisUtterance(text)
 
-		const voices = synth.getVoices()
-		const selectedVoice = voices.find(
-			(voice) =>
-				(gender === 'female' && /female/i.test(voice.name)) ||
-				(gender === 'male' && /male/i.test(voice.name))
-		)
+		// const voices = synth.getVoices()
+		// const selectedVoice = voices.find(
+		// 	(voice) =>
+		// 		(gender === 'female' && /female/i.test(voice.name)) ||
+		// 		(gender === 'male' && /male/i.test(voice.name))
+		// )
 
-		if (selectedVoice) {
-			utterance.voice = selectedVoice
-		} else if (voices.length > 0) {
-			// Fallback to the first voice if no matching gender voice is found
-			utterance.voice = voices[0]
-		}
+		// if (selectedVoice) {
+		// 	utterance.voice = selectedVoice
+		// } else if (voices.length > 0) {
+		// 	// Fallback to the first voice if no matching gender voice is found
+		// 	utterance.voice = voices[0]
+		// }
 
 		synth.speak(utterance)
 	}

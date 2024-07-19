@@ -117,11 +117,11 @@ export default function Home({ params }: { params: { id: string } }) {
 						Unlock
 					</button>
 				</div>
-				{!account.address && (
+				{/* {!account.address && (
 					<div className='absolute inset-0'>
 						<ConnectWalletModal />
 					</div>
-				)}
+				)} */}
 				{account.address && unlockModal && (
 					<div className='absolute inset-0'>
 						<NfcMintPopUp

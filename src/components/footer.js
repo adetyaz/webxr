@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="brand">
               <Link href="#" passHref>
                 <img
-                  src="/MFlogo.png"
+                  src="/logo.png"
                   width={300}
                   height={300}
                   alt="logo"
@@ -90,7 +90,7 @@ const Footer = () => {
                   <div style={{ padding: '28px' }}>
                     <Link href="https://x.com/0xMyriadFlow" target="_blank">
                       <img
-                        src="./Vector2.png"
+                        src="./Vector2.jpeg"
                         width={18}
                         height={18}
                         alt="X logo"

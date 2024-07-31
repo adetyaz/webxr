@@ -14,6 +14,7 @@ const HotNftCard = ({ nft }) => {
 						boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
 						overflow: 'hidden',
 						cursor: 'pointer',
+						backgroundColor: 'white',
 					}}
 				>
 					<Avatar modelSrc={nft?.url} cameraInitialDistance={0.5} />

@@ -37,7 +37,7 @@ const Leaderboard = () => {
 		<div>
 			<div
 				style={{
-					backgroundColor: '#00000021',
+					backgroundColor: 'black',
 					position: 'relative',
 					marginTop: '0px',
 				}}
@@ -63,9 +63,14 @@ const Leaderboard = () => {
 			{/* <div style={{ textAlign: 'center', fontSize: '40px', marginTop: '50px' }}>
 				WebXR Xperiences live soon!
 			</div> */}
+			<div className="px-16 pt-20">
+				<div className="text-lg font-semibold mt-6 text-[#DF1FDD]">Most Recently Launched</div>
+				<div className="text-6xl font-semibold mt-6 text-white">New on WebXR</div>
+				<div className="text-xl font-semibold mt-6 text-white">New Frontier: Be Among the First to Discover the Newest Xperiences Making Their Debut!</div>
+			</div>
 
 			<div
-				className='mt-10 flex'
+				className='pt-20 flex'
 				style={{ gap: '40px', flexWrap: 'wrap', justifyContent: 'center' }}
 			>
 				{avatar?.reverse().map((nft, index) => (

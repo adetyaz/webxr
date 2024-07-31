@@ -52,7 +52,7 @@ export default function Home({ params }: { params: { id: string } }) {
 			const avatardata = await avatarRes.json()
 
 			// console.log(data)
-			// console.log(webdata)
+			// console.log(avatardata)
 
 			setProductInfo(data.product_info)
 			setPhygitalData(data)
@@ -109,6 +109,7 @@ export default function Home({ params }: { params: { id: string } }) {
 					<VoiceAssistant
 						productInfo={productInfo}
 						brandName={phygitalData.brand_name}
+						voice={avatar.avatar_voice}
 					/>
 				</div>
 				<div className='absolute h-3/4 left-4 bottom-16'>
@@ -142,6 +143,7 @@ export default function Home({ params }: { params: { id: string } }) {
 							collectionId={phygitalData.collection_id}
 							phygitalId={phygitalData.id}
 						/>
+						-
 					</div>
 				)}
 			</section>

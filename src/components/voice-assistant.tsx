@@ -10,7 +10,11 @@ const openai = new OpenAI({
 
 const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
 
-export const VoiceAssistant = ({ productInfo, brandName }: any) => {
+export const VoiceAssistant = ({
+	productInfo,
+	brandName,
+	voice: avatarVoice,
+}: any) => {
 	const [isListening, setIsListening] = useState(false)
 	const [transcript, setTranscript] = useState('')
 	const [response, setResponse] = useState('')
@@ -62,6 +66,32 @@ export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 
 	useEffect(() => {
 		getBrands()
+	}, [])
+
+	useEffect(() => {
+		const synth = window.speechSynthesis
+
+		// Create a speech synthesis utterance
+		const utterance = new SpeechSynthesisUtterance(
+			"Welcome to our world! Feel free to explore and discover hidden treasures together with your AI companion. Let's embark on this adventure!"
+		)
+
+		// Speak the message after a delay of 5 seconds
+		const timeoutId = setTimeout(() => {
+			if (!synth.speaking) {
+				console.log('Speech synthesis started')
+				synth.speak(utterance)
+			}
+		}, 5000)
+
+		// Cleanup function to cancel speech synthesis and timeout if necessary
+		return () => {
+			clearTimeout(timeoutId)
+			if (synth.speaking) {
+				synth.cancel()
+				console.log('Speech synthesis canceled')
+			}
+		}
 	}, [])
 
 	useEffect(() => {
@@ -141,19 +171,19 @@ export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 		const synth = window.speechSynthesis
 		const utterance = new SpeechSynthesisUtterance(text)
 
-		// const voices = synth.getVoices()
-		// const selectedVoice = voices.find(
-		// 	(voice) =>
-		// 		(gender === 'female' && /female/i.test(voice.name)) ||
-		// 		(gender === 'male' && /male/i.test(voice.name))
-		// )
+		const voices = synth.getVoices()
+		const selectedVoice = voices.find(
+			(voice) =>
+				(avatarVoice === 'Denise' && /female/i.test(voice.name)) ||
+				(avatarVoice === 'Richard' && /male/i.test(voice.name))
+		)
 
-		// if (selectedVoice) {
-		// 	utterance.voice = selectedVoice
-		// } else if (voices.length > 0) {
-		// 	// Fallback to the first voice if no matching gender voice is found
-		// 	utterance.voice = voices[0]
-		// }
+		if (selectedVoice) {
+			utterance.voice = selectedVoice
+		} else if (voices.length > 0) {
+			// Fallback to the first voice if no matching gender voice is found
+			utterance.voice = voices[0]
+		}
 
 		synth.speak(utterance)
 	}
@@ -166,7 +196,7 @@ export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 
 	return (
 		<div className='flex flex-col justify-center items-center text-center'>
-			{transcript && (
+			{/* {transcript && (
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
 					<p>User: &nbsp;{transcript}</p>
 				</div>
@@ -175,7 +205,7 @@ export const VoiceAssistant = ({ productInfo, brandName }: any) => {
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
 					<p>Assistant: &nbsp;{response}</p>
 				</div>
-			)}
+			)} */}
 			<div>
 				<button
 					onClick={handleListen}

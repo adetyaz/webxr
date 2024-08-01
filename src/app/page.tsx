@@ -36,13 +36,13 @@ export default function Home() {
 					<Link href='https://myriadflow.com' target='_blank'>
 						Home
 					</Link>
-					<Link href='https://discover-two.vercel.app' target='_blank'>
+					<Link href='https://discover.myriadflow.com' target='_blank'>
 						Discover
 					</Link>
-					<Link href='https://studio-one-sigma.vercel.app' target='_blank'>
+					<Link href='https://studio.myriadflow.com' target='_blank'>
 						Studio
 					</Link>
-					<Link href='https://webxr-ebon.vercel.app/' target='_blank'>
+					<Link href='https://webxr.myriadflow.com/' target='_blank'>
 						WebXR
 					</Link>
 				</div>

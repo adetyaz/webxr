@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 	},
 	openGraph: {
 		type: 'website',
-		url: 'https://webxr-ebon.vercel.app',
+		url: 'https://webxr.myriadflow.com',
 		title: 'WebXR | MyriadFlow',
 		description: 'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
 		images: [

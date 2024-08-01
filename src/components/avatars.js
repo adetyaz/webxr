@@ -6,7 +6,7 @@ import { Avatar } from '@readyplayerme/visage'
 const HotNftCard = ({ nft }) => {
 	return (
 		<div style={{ position: 'relative', display: 'inline-block' }}>
-			<Link href={`https://webxr-ebon.vercel.app/${nft.phygital_id}`}>
+			<Link href={`https://webxr.myriadflow.com/${nft.phygital_id}`}>
 				<div
 					style={{
 						width: '330px',

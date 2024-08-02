@@ -331,16 +331,54 @@ const AvatarLeaderboard = () => {
 			</div>
 
 			<div className="flex items-center justify-center min-h-screen">
-				<div className="p-1 rounded-lg border-8 border-purple-500 w-80 h-80 flex items-center justify-center">
-					<div className="rounded-lg text-center">
-						<h1 className="text-2xl text-white font-bold mb-4">Create Profile</h1>
+				<div className="p-1 rounded-lg w-96 h-96 flex items-center justify-center"
+				style={{
+					background: "transparent",
+					border: "8px solid transparent",
+					borderRadius: "8px",
+					backgroundImage: `
+             linear-gradient(to right, #000000, #1a1a1a, #3b0d71),
+  linear-gradient(to right, #AF40FF, #5B42F3, #00DDEB)
+`,
+					backgroundOrigin: "border-box",
+					backgroundClip: "content-box, border-box",
+					WebkitBackgroundClip: "content-box, border-box", // For Safari
+					color: "black", // Adjust text color to match your design
+					cursor: "pointer",
+					
+				}}>
+					<div className="text-center h-80 w-80 flex flex-col items-center justify-center">
+						<h1 style={{ fontSize: '2.5rem' }} className="text-white font-bold mb-4">Create Profile</h1>
 						<p className="mb-4 text-white">Earn Rewards</p>
-						<button className="bg-white text-black py-2 px-8 rounded-lg">
-							Get started
+						<button
+							className="rounded"
+							style={{
+								background: "transparent",
+								border: "6px solid transparent",
+								borderRadius: "8px",
+								backgroundImage: `
+              linear-gradient(white, white),
+              linear-gradient(to right, #AF40FF, #5B42F3, #00DDEB)
+            `,
+								backgroundOrigin: "border-box",
+								backgroundClip: "content-box, border-box",
+								WebkitBackgroundClip: "content-box, border-box", // For Safari
+								color: "black", // Adjust text color to match your design
+								cursor: "pointer",
+								fontSize: "1.1rem",
+								width: "150px",
+								height: '50px', // Set fixed width for the button
+								display: "block",
+								margin: "20px auto", // Center the button
+							}}
+						>
+							Get Started
 						</button>
 					</div>
 				</div>
 			</div>
+
+
 
 		</div>
 	)

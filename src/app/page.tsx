@@ -50,7 +50,11 @@ export default function Home() {
 					<ConnectWallet />
 				</div>
 			</div>
-			<div className="flex h-screen bg-gradient-to-r from-black via-gray-900 to-purple-900 text-white">
+			<div className="flex h-screen bg-[#121212] text-white relative">
+			
+			<div className='absolute right-0 bottom-[0px] md:right-[35%] w-[140px] lg:w-[337px] h-[125px] lg:h-[316px] bg-[#11D9C5] rounded-full blur-3xl opacity-20' />
+			<div className='absolute right-0 top-0 md:right-[10%] w-[140px] lg:w-[337px] h-[125px] lg:h-[316px] bg-[#DF1FDD] rounded-full blur-3xl opacity-20' />
+			
 				<div className="w-1/2 h-full px-16 flex flex-col justify-center">
 					<div className="text-7xl font-bold text-[#DF1FDD]">WebXR</div>
 					<div className="text-6xl font-semibold mt-6 text-[#DF1FDD]">Experience & Interact</div>
@@ -62,9 +66,9 @@ export default function Home() {
 					</div>
 				</div>
 				<div className="w-1/2 h-full flex items-center justify-center">
-					<div className="relative w-80 h-80 rounded-full border-8 border-purple-500 overflow-hidden">
-						<img src="MFsquarebackgroun1.png" alt="Background" className="absolute inset-0 w-full h-full object-cover opacity-50" />
-						<img src="ReadyPlayerMe-Avatar21.png" alt="AI Avatar" className="absolute inset-0 w-96 h-96 object-cover" />
+					<div className="relative w-80 h-80 rounded-full overflow-hidden">
+						{/* <img src="MFsquarebackgroun1.png" alt="Background" className="absolute inset-0 w-full h-full object-cover opacity-50" /> */}
+						<img src="heroframe.png" alt="AI Avatar" className="absolute inset-0" />
 					</div>
 				</div>
 			</div>

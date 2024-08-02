@@ -73,7 +73,7 @@ const Leaderboard = () => {
 				className='pt-20 flex'
 				style={{ gap: '40px', flexWrap: 'wrap', justifyContent: 'center' }}
 			>
-				{avatar?.reverse().map((nft, index) => (
+				{avatar?.slice(0, 12).reverse().map((nft, index) => (
 					<Avatars key={index} nft={nft} />
 				))}
 			</div>

@@ -48,11 +48,11 @@ const AvatarLeaderboard = () => {
 
 	return (
 		<div>
-			<div className='font-bold text-white text-6xl px-10'>
+			<div className='font-bold text-white text-6xl px-16' style={{marginTop:'80px'}}>
 				Avatar Leaderboard
 			</div>
 			<div
-				className='flex justify-between text-2xl px-10'
+				className='flex justify-between text-2xl px-16'
 				style={{ justifyContent: 'space-between' }}
 			>
 				<div className='mt-4 text-white'>
@@ -64,8 +64,10 @@ const AvatarLeaderboard = () => {
 				className='flex px-10'
 				style={{
 					justifyContent: 'center',
-					marginTop: '200px',
-					marginBottom: '200px',
+					marginTop: '50px',
+					paddingTop: '200px',
+					paddingBottom: '200px',
+					backgroundImage: "url('/leaderboard.png')"
 				}}
 			>
 				{topAvatars.length >= 3 && (
@@ -130,7 +132,8 @@ const AvatarLeaderboard = () => {
 									cursor: 'pointer',
 									marginLeft: 'auto',
 									marginRight: 'auto',
-									color: 'white'
+									color: 'black',
+									backgroundColor:'white'
 								}}
 							>
 								<Link
@@ -206,7 +209,8 @@ const AvatarLeaderboard = () => {
 									cursor: 'pointer',
 									marginLeft: 'auto',
 									marginRight: 'auto',
-									color: 'white'
+									color: 'black',
+									backgroundColor:'white'
 
 								}}
 							>
@@ -263,7 +267,8 @@ const AvatarLeaderboard = () => {
 									cursor: 'pointer',
 									marginLeft: 'auto',
 									marginRight: 'auto',
-									color: 'white'
+									color: 'black',
+									backgroundColor:'white'
 
 								}}
 							>
@@ -282,7 +287,7 @@ const AvatarLeaderboard = () => {
 				style={{
 					backgroundColor: '#00000021',
 					position: 'relative',
-					marginTop: '100px',
+					// marginTop: '100px',
 				}}
 			>
 				{/* Left Image */}
@@ -320,7 +325,7 @@ const AvatarLeaderboard = () => {
 							'linear-gradient(to right, #F45EC1 , #F45EC1 , #4EB9F3, #4EB9F3)',
 						WebkitBackgroundClip: 'text',
 						WebkitTextFillColor: 'transparent',
-						backgroundColor: '#00000021',
+						backgroundColor: '#121212',
 						paddingTop: '20px',
 						paddingBottom: '20px',
 						textAlign: 'center',
@@ -349,7 +354,7 @@ const AvatarLeaderboard = () => {
 				}}>
 					<div className="text-center h-80 w-80 flex flex-col items-center justify-center">
 						<h1 style={{ fontSize: '2.5rem' }} className="text-white font-bold mb-4">Create Profile</h1>
-						<p className="mb-4 text-white">Earn Rewards</p>
+						<p className="mb-4 text-white">& Earn Rewards</p>
 						<button
 							className="rounded"
 							style={{
@@ -358,7 +363,7 @@ const AvatarLeaderboard = () => {
 								borderRadius: "8px",
 								backgroundImage: `
               linear-gradient(white, white),
-              linear-gradient(to right, #AF40FF, #5B42F3, #00DDEB)
+              linear-gradient(to bottom, #30D8FF, #EE64ED)
             `,
 								backgroundOrigin: "border-box",
 								backgroundClip: "content-box, border-box",

@@ -79,7 +79,6 @@ export const VoiceAssistant = ({
 		// Speak the message after a delay of 5 seconds
 		const timeoutId = setTimeout(() => {
 			if (!synth.speaking) {
-				console.log('Speech synthesis started')
 				synth.speak(utterance)
 			}
 		}, 5000)

@@ -66,10 +66,19 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	useEffect(() => {
 		fetchPhygitalData()
+
 		setTimeout(() => {
-			setUnlockClaimed(true)
-		}, 30000)
+			setUnlockModal(true)
+		}, 3000)
 	}, [])
+
+	// useEffect(() => {
+	// 	if (account.address) {
+	// 		setTimeout(() => {
+	// 			setUnlockClaimed(true)
+	// 		}, 3000)
+	// 	}
+	// }, [])
 
 	const removePrefix = (uri: any) => {
 		return uri?.substring(7, uri.length)
@@ -115,14 +124,14 @@ export default function Home({ params }: { params: { id: string } }) {
 				<div className='absolute h-3/4 left-4 bottom-16'>
 					<Avatar modelSrc={avatar && avatar.url} cameraInitialDistance={3.5} />
 					<button className='border-2 border-white text-white bg-black mx-auto flex item-center gap-4 justify-center bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-full px-8 py-2'>
-						Unlock
+						{account.address ? 'Customize' : 'Unlock'}
 					</button>
 				</div>
-				{/* {!account.address && (
+				{!account.address && (
 					<div className='absolute inset-0'>
 						<ConnectWalletModal />
 					</div>
-				)} */}
+				)}
 				{account.address && unlockModal && (
 					<div className='absolute inset-0'>
 						<NfcMintPopUp

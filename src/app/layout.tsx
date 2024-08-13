@@ -1,14 +1,17 @@
-import './globals.css'
 import type { Metadata } from 'next'
 import { Bai_Jamjuree as FontSans } from 'next/font/google'
+import './globals.css'
 import 'react-toastify/dist/ReactToastify.css'
-// import { headers } from 'next/headers'
 
 import { cn } from '@/lib/utils'
-import Script from 'next/script'
-import '@rainbow-me/rainbowkit/styles.css'
 
+import { headers } from 'next/headers'
+
+import { cookieToInitialState } from 'wagmi'
+import Providers from '@/lib/providers'
 import Web3ModalProvider from '@/lib/providers'
+import { config } from '@/lib/wagmi'
+import Script from 'next/script'
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -57,13 +60,14 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
+	// const initialState = cookieToInitialState(config, headers().get('cookie'))
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<head>
 				<link rel='icon' href='/favicon.ico' sizes='any' />
 				<Script src='https://aframe.io/releases/1.5.0/aframe.min.js'></Script>
 			</head>
-			{/* <Providers> */}
+			<Providers>
 			<body
 				className={cn(
 					'min-h-screen bg-background font-sans antialiased',
@@ -72,7 +76,7 @@ export default function RootLayout({
 			>
 				<Web3ModalProvider>{children}</Web3ModalProvider>
 			</body>
-			{/* </Providers> */}
+			</Providers>
 		</html>
 	)
 }

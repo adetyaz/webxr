@@ -1,43 +1,35 @@
-'use client'
-import { getDefaultConfig, connectorsForWallets } from '@rainbow-me/rainbowkit'
-import { cookieStorage, createStorage, createConfig, http } from 'wagmi'
-import { createClient } from 'viem'
-import { baseSepolia, polygonZkEvmCardona } from 'wagmi/chains'
-import {
-	rainbowWallet,
-	walletConnectWallet,
-} from '@rainbow-me/rainbowkit/wallets'
-import { coinbaseWallet } from '@rainbow-me/rainbowkit/wallets'
+"use client";
+import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 
-// Enable Coinbase Smart Wallet for testing
-coinbaseWallet.preference = 'smartWalletOnly'
+import { cookieStorage, createStorage } from 'wagmi'
+import { baseSepolia } from 'wagmi/chains'
 
 // Get projectId from https://cloud.walletconnect.com
-export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
+export const projectId = 'c26b357532f63f7ba31efebac88d0eed'
 
 if (!projectId) throw new Error('Project ID is not defined')
 
-const connectors = connectorsForWallets(
-	[
-		{
-			groupName: 'Recommended',
-			wallets: [rainbowWallet, coinbaseWallet, walletConnectWallet],
-		},
-	],
-	{
-		appName: 'Myriadflow WebXR',
-		projectId: projectId,
-	}
-)
+const metadata = {
+	name: 'Web3Modal',
+	description: 'Web3Modal Example',
+	url: 'https://web3modal.com',
+	icons: ['https://avatars.githubusercontent.com/u/37784886'],
+}
 
-export const rainbowconfig = createConfig({
-	connectors,
-	chains: [baseSepolia, polygonZkEvmCardona],
-	ssr: false, // If your dApp uses server side rendering (SSR)
-	client({ chain }) {
-		return createClient({ chain, transport: http() })
-	},
-	// storage: createStorage({
-	// 	storage: cookieStorage,
-	// }),
-})
+// Create wagmiConfig
+const chains = [baseSepolia] as const
+export const config = defaultWagmiConfig({
+  chains,
+  projectId,
+  metadata,
+  auth: {
+    email: true,
+    socials: ["github", "google", "x", "discord", "apple"],
+    showWallets: true, // default to true
+    walletFeatures: true
+  },
+  ssr: true,
+  storage: createStorage({
+    storage: cookieStorage
+  })
+});

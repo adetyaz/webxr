@@ -8,7 +8,7 @@ import { simulateContract, writeContract } from '@wagmi/core'
 import { useState } from 'react'
 import { X } from 'lucide-react'
 import { ConnectWallet } from './connect-wallet'
-import { rainbowconfig } from '@/lib/wagmi'
+import { config } from '@/lib/wagmi'
 import reward from '@/lib/reward.json'
 
 const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
@@ -34,14 +34,14 @@ export const ClaimNft = ({
 	const createFanToken = async () => {
 		console.log('running...')
 		const abi = reward.abi
-		const { request } = await simulateContract(rainbowconfig, {
+		const { request } = await simulateContract(config, {
 			abi,
 
 			address: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
 			functionName: 'createFanToken',
 			args: [String(contractAddress), 1, 1, '0x0', 'www.xyz.com'],
 		})
-		const hash = await writeContract(rainbowconfig, request)
+		const hash = await writeContract(config, request)
 
 		if (hash) {
 			const res = await fetch(`${baseUri}/fantoken`, {

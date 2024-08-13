@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Mic, MicOff } from 'lucide-react'
+import { Gem, Mic, MicOff } from 'lucide-react'
 import ChatCompletionCreateParams, { OpenAI } from 'openai'
 
 const openai = new OpenAI({
@@ -27,10 +27,9 @@ export const VoiceAssistant = ({
       you are a brand and products spokesperson for ${brandName}, use this to answer questions "${productInfo}". Respond to inquiries with clear, concise answers under 20 words, use information shared only.`,
 		},
 	])
-	const [gender, setGender] = useState('female')
+	const [gender, setGender] = useState('')
 
 	const getBrands = async () => {
-		// const chaintype = localStorage.getItem('PolygonCardonaChain')
 		const res = await fetch(`${baseUri}/brands/all`, {
 			method: 'GET',
 			headers: {
@@ -48,7 +47,6 @@ export const VoiceAssistant = ({
 	}
 
 	const getCollections = async (brandId: string) => {
-		// const chaintype = localStorage.getItem('PolygonCardonaChain')
 		const res = await fetch(`${baseUri}/collections/all`, {
 			method: 'GET',
 			headers: {
@@ -94,6 +92,14 @@ export const VoiceAssistant = ({
 	}, [])
 
 	useEffect(() => {
+		if (avatarVoice === 'Denise') {
+			console.log(gender)
+			setGender('female')
+		} else if (avatarVoice === 'Richard') {
+			console.log(gender)
+			setGender('male')
+		}
+
 		const recognition = new (window as any).webkitSpeechRecognition()
 		recognition.continuous = false
 		recognition.interimResults = false
@@ -150,7 +156,7 @@ export const VoiceAssistant = ({
 					...prevMessages,
 					{ role: 'assistant', content: aiResponse },
 				])
-				speak(aiResponse)
+				speak(aiResponse, gender)
 			} else {
 				console.error('Received an invalid response from OpenAI')
 			}
@@ -166,19 +172,24 @@ export const VoiceAssistant = ({
 		setMessages((prevMessages) => [...prevMessages, message])
 	}
 
-	const speak = (text: string) => {
+	const speak = (text: string, gender: string) => {
 		const synth = window.speechSynthesis
 		const utterance = new SpeechSynthesisUtterance(text)
-
 		const voices = synth.getVoices()
-		const selectedVoice = voices.find(
-			(voice) =>
-				(avatarVoice === 'Denise' && /female/i.test(voice.name)) ||
-				(avatarVoice === 'Richard' && /male/i.test(voice.name))
-		)
+
+		// Try to match the gender in the voice name
+		const selectedVoice = voices.find((voice) => {
+			if (gender === 'male') {
+				return /male/i.test(voice.name) || /male/i.test(voice.lang)
+			} else if (gender === 'female') {
+				return /female/i.test(voice.name) || /female/i.test(voice.lang)
+			}
+			return false
+		})
 
 		if (selectedVoice) {
 			utterance.voice = selectedVoice
+			console.log(selectedVoice)
 		} else if (voices.length > 0) {
 			// Fallback to the first voice if no matching gender voice is found
 			utterance.voice = voices[0]
@@ -195,7 +206,7 @@ export const VoiceAssistant = ({
 
 	return (
 		<div className='flex flex-col justify-center items-center text-center'>
-			{/* {transcript && (
+			{transcript && (
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
 					<p>User: &nbsp;{transcript}</p>
 				</div>
@@ -204,7 +215,7 @@ export const VoiceAssistant = ({
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
 					<p>Assistant: &nbsp;{response}</p>
 				</div>
-			)} */}
+			)}
 			<div>
 				<button
 					onClick={handleListen}

@@ -2,15 +2,9 @@ import type { Metadata } from 'next'
 import { Bai_Jamjuree as FontSans } from 'next/font/google'
 import './globals.css'
 import 'react-toastify/dist/ReactToastify.css'
-
 import { cn } from '@/lib/utils'
-
-import { headers } from 'next/headers'
-
-import { cookieToInitialState } from 'wagmi'
 import Providers from '@/lib/providers'
 import Web3ModalProvider from '@/lib/providers'
-import { config } from '@/lib/wagmi'
 import Script from 'next/script'
 
 const fontSans = FontSans({
@@ -21,7 +15,8 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
 	title: 'WebXR | MyriadFlow',
-	description: 'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
+	description:
+		'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
 	icons: {
 		icon: '/favicon.ico',
 	},
@@ -29,7 +24,8 @@ export const metadata: Metadata = {
 		type: 'website',
 		url: 'https://webxr.myriadflow.com',
 		title: 'WebXR | MyriadFlow',
-		description: 'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
+		description:
+			'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
 		images: [
 			{
 				url: '/metaimg.png', // Path to the image in the public folder
@@ -43,7 +39,8 @@ export const metadata: Metadata = {
 		card: 'summary_large_image',
 		site: '@MyriadFlow',
 		title: 'WebXR | MyriadFlow',
-		description: 'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
+		description:
+			'The future of shopping is here! MyriadFlow lets you chat with lifelike AI brand ambassadors about your favorite products, all within a captivating VR experience.',
 		images: [
 			{
 				url: '/metaimg.png', // Path to the image in the public folder
@@ -60,7 +57,6 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	// const initialState = cookieToInitialState(config, headers().get('cookie'))
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<head>
@@ -68,14 +64,14 @@ export default function RootLayout({
 				<Script src='https://aframe.io/releases/1.5.0/aframe.min.js'></Script>
 			</head>
 			<Providers>
-			<body
-				className={cn(
-					'min-h-screen bg-background font-sans antialiased',
-					fontSans.variable
-				)}
-			>
-				<Web3ModalProvider>{children}</Web3ModalProvider>
-			</body>
+				<body
+					className={cn(
+						'min-h-screen bg-background font-sans antialiased',
+						fontSans.variable
+					)}
+				>
+					<Web3ModalProvider>{children}</Web3ModalProvider>
+				</body>
 			</Providers>
 		</html>
 	)

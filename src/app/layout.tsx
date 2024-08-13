@@ -4,8 +4,10 @@ import './globals.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { cn } from '@/lib/utils'
 import Providers from '@/lib/providers'
+import { config } from '@/lib/wagmi'
 import Web3ModalProvider from '@/lib/providers'
 import Script from 'next/script'
+import AppKitProvider from '@/lib/providers'
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -70,7 +72,7 @@ export default function RootLayout({
 						fontSans.variable
 					)}
 				>
-					<Web3ModalProvider>{children}</Web3ModalProvider>
+					<AppKitProvider>{children}</AppKitProvider>
 				</body>
 			</Providers>
 		</html>

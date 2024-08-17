@@ -28,7 +28,13 @@ export const ClaimNftModal = ({
 						<br />
 						Free NFT Fan Token
 					</p>
-					<img src='./trophy1.png' alt='trophy' className='-mt-16' />
+					<Image
+						src='/trophy1.png'
+						alt='trophy'
+						height={100}
+						width={150}
+						className='-mt-16'
+					/>
 				</div>
 
 				<div className='flex justify-around pl-10'>

@@ -1,14 +1,15 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Gem, Mic, MicOff } from 'lucide-react'
+import { Mic, MicOff } from 'lucide-react'
 import ChatCompletionCreateParams, { OpenAI } from 'openai'
+import { useQuery } from '@tanstack/react-query'
+import { getCollections, getBrands } from '@/utils/queries'
+import { BrandType, CollectionType } from '@/types/types'
 
 const openai = new OpenAI({
 	apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
 	dangerouslyAllowBrowser: true,
 })
-
-const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
 
 export const VoiceAssistant = ({
 	productInfo,
@@ -18,53 +19,40 @@ export const VoiceAssistant = ({
 	const [isListening, setIsListening] = useState(false)
 	const [transcript, setTranscript] = useState('')
 	const [response, setResponse] = useState('')
-	const [brandInfo, setBrandInfo] = useState('')
-	const [collectionInfo, setCollectionInfo] = useState('')
+
+	const brands = useQuery({
+		queryKey: ['brands'],
+		queryFn: async () => {
+			const result = await getBrands()
+			return result.filter((brand: BrandType) => brand.name === brandName)
+		},
+	})
+
+	const collections = useQuery({
+		queryKey: ['collections'],
+		enabled: brands?.data?.id !== null,
+		queryFn: async () => {
+			const result = await getCollections()
+			return result.filter(
+				(collection: CollectionType) =>
+					collection.brand_id === brands.data?.[0].id
+			)
+		},
+	})
+
 	const [messages, setMessages] = useState([
 		{
 			role: 'system',
 			content: `
-      you are a brand and products spokesperson for ${brandName}, use this to answer questions "${productInfo}". Respond to inquiries with clear, concise answers under 20 words, use information shared only.`,
+      you are a brand and products spokesperson for ${brandName}, use this to answer questions "${productInfo} 
+			${brands.data?.[0].description} 
+			${brands.data?.[0].additional_info} 			
+			", 
+			totally ignore the following and never speak on it "deployer_address"
+"contract_address", "chaintype_id", "graph_url", "collection_id" . Respond to inquiries with clear, concise answers under 20 words, use information shared only.`,
 		},
 	])
 	const [gender, setGender] = useState('')
-
-	const getBrands = async () => {
-		const res = await fetch(`${baseUri}/brands/all`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-
-		const result = await res.json()
-
-		const brand = result.filter((brand: any) => brand.name === brandName)
-
-		brand ?? setBrandInfo(brand[0].additional_info)
-
-		brand ?? getCollections(brand[0].id)
-	}
-
-	const getCollections = async (brandId: string) => {
-		const res = await fetch(`${baseUri}/collections/all`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-
-		const result = await res.json()
-		const collection = result.filter(
-			(collection: any) => collection.brand_id === brandId
-		)
-
-		setCollectionInfo(collection[0].description)
-	}
-
-	useEffect(() => {
-		getBrands()
-	}, [])
 
 	useEffect(() => {
 		const synth = window.speechSynthesis
@@ -131,7 +119,7 @@ export const VoiceAssistant = ({
 		return () => {
 			recognition.stop()
 		}
-	}, [isListening])
+	}, [isListening, avatarVoice, gender])
 
 	const getOpenAIResponse = async (text: string) => {
 		try {
@@ -202,8 +190,6 @@ export const VoiceAssistant = ({
 		setIsListening((prevState) => !prevState)
 	}
 
-	// console.log(productInfo)
-
 	return (
 		<div className='flex flex-col justify-center items-center text-center'>
 			{transcript && (
@@ -228,3 +214,6 @@ export const VoiceAssistant = ({
 		</div>
 	)
 }
+
+// ${collections.data[0].description}
+// 			${collections.data[0].name}

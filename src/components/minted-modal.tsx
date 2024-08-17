@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export const MintedModal = ({
 	onClose,
 	phygitalName,
@@ -13,11 +15,11 @@ export const MintedModal = ({
 		<div className='p-4 rounded-lg shadow-md bg-white'>
 			<div>
 				<div className='flex justify-between items-center'>
-					<img src='./trophy2.png' alt='trophy' />
+					<Image src='/trophy2.png' alt='trophy' height={100} width={100} />
 					<p className='text-center font-bold text-4xl text-transparent bg-gradient-to-r from-blue-500 to-purple-700 bg-clip-text'>
 						Congratulations!
 					</p>
-					<img src='./trophy1.png' alt='trophy' />
+					<Image src='/trophy1.png' alt='trophy' height={100} width={100} />
 				</div>
 				<p className='text-center text-lg'>
 					You have successfully minted {phygitalName} phygital NFT!

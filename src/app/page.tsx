@@ -3,6 +3,7 @@ import Link from 'next/link'
 import LeaderBoard from '@/components/leaderboard'
 import AvatarLeaderboard from '@/components/avatar-leaderboard'
 import Footer from '@/components/footer'
+import Image from 'next/image'
 
 import { ConnectWallet } from '@/components/connect-wallet'
 
@@ -12,18 +13,10 @@ export default function Home() {
 			<div className='px-10 flex justify-between pb-[10px] bg-gradient-to-r from-pink-100 via-blue-500 to-purple-500'>
 				<div className='mt-4'>
 					<Link href='/'>
-						<img src='/logo.png' style={{ width: '200px' }} alt='Logo' />
+						<Image src='/logo.png' width={200} height={0} alt='Logo' />
 					</Link>
 				</div>
-				<div
-					style={{
-						display: 'flex',
-						gap: '40px',
-						fontSize: '20px',
-						color: 'white',
-					}}
-					className='mt-6'
-				>
+				<div className='mt-6 flex gap-12 text-[20px] text-white'>
 					<Link href='https://myriadflow.com' target='_blank'>
 						Home
 					</Link>
@@ -61,9 +54,11 @@ export default function Home() {
 				<div className='w-1/2 h-full flex items-center justify-center'>
 					<div className='relative w-80 h-80 rounded-full overflow-hidden'>
 						{/* <img src="MFsquarebackgroun1.png" alt="Background" className="absolute inset-0 w-full h-full object-cover opacity-50" /> */}
-						<img
-							src='heroframe.png'
+						<Image
+							src='/heroframe.png'
 							alt='AI Avatar'
+							height={350}
+							width={350}
 							className='absolute inset-0'
 						/>
 					</div>

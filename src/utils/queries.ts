@@ -8,6 +8,11 @@ export const getBrands = async () => {
 	return response.data
 }
 
+export const getCollections = async () => {
+	const response = await axios.get(`${baseURI}/collections/all`)
+	return response.data
+}
+
 export const getPhygital = async (id: string) => {
 	const response = await axios.get(`${baseURI}/phygitals/${id}`)
 	return response.data

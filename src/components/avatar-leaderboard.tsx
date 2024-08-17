@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useQueries, useQuery } from '@tanstack/react-query'
 import { getAvatars, getFanTokens } from '@/utils/queries'
 import { AvatarType, FanTokenType } from '@/types/types'
+import Image from 'next/image'
 
 const AvatarLeaderboard = () => {
 	const getTopAvatars = (avatars: AvatarType[], fantokens: FanTokenType[]) => {
@@ -58,9 +59,9 @@ const AvatarLeaderboard = () => {
 
 			{topAvatars && (
 				<div className='flex justify-between px-16'>
-					<div className='text-white text-2xl'>
-						This Week's Top Performing AI-Powered Brand Ambassadors
-					</div>
+					<h2 className='text-white text-2xl'>
+						{"This Week's Top Performing AI-Powered Brand Ambassadors"}
+					</h2>
 				</div>
 			)}
 
@@ -72,11 +73,13 @@ const AvatarLeaderboard = () => {
 							<>
 								<Avatar
 									modelSrc={topAvatars?.[1].url!}
-									cameraInitialDistance={4.5}
+									cameraInitialDistance={3.2}
 								/>
 								<div className='relative mt-4'>
-									<img
-										src='./silver.png'
+									<Image
+										height={150}
+										width={150}
+										src='/silver.png'
 										alt='Silver'
 										className='w-full h-auto object-cover'
 									/>
@@ -88,7 +91,7 @@ const AvatarLeaderboard = () => {
 									No. tokens: {topAvatars?.[1].count}
 								</div>
 								<Link
-									href={`/https://webxr-polygon.vercel.app/${topAvatars?.[1].phygital_id}`}
+									href={`https://webxr-polygon.vercel.app/${topAvatars?.[1].phygital_id}`}
 								>
 									<button className='text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
@@ -104,11 +107,13 @@ const AvatarLeaderboard = () => {
 							<>
 								<Avatar
 									modelSrc={topAvatars?.[0].url!}
-									cameraInitialDistance={4.5}
+									cameraInitialDistance={3}
 								/>
 								<div className='relative mt-4'>
-									<img
-										src='./gold.png'
+									<Image
+										height={150}
+										width={150}
+										src='/gold.png'
 										alt='Gold'
 										className='w-full h-auto object-cover'
 									/>
@@ -120,7 +125,7 @@ const AvatarLeaderboard = () => {
 									No. tokens: {topAvatars?.[0].count}
 								</div>
 								<Link
-									href={`/https://webxr-polygon.vercel.app/${topAvatars?.[0].phygital_id}`}
+									href={`https://webxr-polygon.vercel.app/${topAvatars?.[0].phygital_id}`}
 								>
 									<button className='text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
@@ -136,18 +141,20 @@ const AvatarLeaderboard = () => {
 							<>
 								<Avatar
 									modelSrc={topAvatars?.[2].url!}
-									cameraInitialDistance={4.5}
+									cameraInitialDistance={3.5}
 								/>
-								<img
-									src='./bronze.png'
+								<Image
+									height={150}
+									width={150}
+									src='/bronze.png'
 									alt='Bronze'
-									className='w-full h-auto object-cover mt-4'
+									className='w-3/5 object-cover mt-4'
 								/>
 								<div className='text-white flex justify-center mt-4 mb-8'>
 									No. tokens: {topAvatars?.[2].count}
 								</div>
 								<Link
-									href={`/https://webxr-polygon.vercel.app/${topAvatars?.[2].phygital_id}`}
+									href={`https://webxr-polygon.vercel.app/${topAvatars?.[2].phygital_id}`}
 								>
 									<button className='text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
@@ -161,13 +168,17 @@ const AvatarLeaderboard = () => {
 
 			{/* Background with Trophies */}
 			<div className='bg-gray-800 relative'>
-				<img
-					src='./trophy1.png'
+				<Image
+					width={100}
+					height={100}
+					src='/trophy1.png'
 					alt='Left Trophy'
 					className='absolute top-0 left-10 w-24 h-24'
 				/>
-				<img
-					src='./trophy2.png'
+				<Image
+					width={100}
+					height={100}
+					src='/trophy2.png'
 					alt='Right Trophy'
 					className='absolute top-0 right-10 w-24 h-24'
 				/>

@@ -9,7 +9,7 @@ const Footer = () => {
 			<div className='flex justify-between items-center'>
 				<div className='brand'>
 					<Link href='#' passHref>
-						<img
+						<Image
 							src='/logo.png'
 							alt='logo'
 							width={300}
@@ -32,8 +32,8 @@ const Footer = () => {
 				>
 					<div className='rounded-full border-2 border-indigo-500 bg-indigo-900 p-4 flex items-center gap-2'>
 						<Link href='https://discord.gg/38jktRtuY7' target='_blank'>
-							<img
-								src='./Vector3.png'
+							<Image
+								src='/Vector3.png'
 								alt='Discord logo'
 								width={20}
 								height={20}
@@ -42,8 +42,8 @@ const Footer = () => {
 					</div>
 					<div className='rounded-full border-2 border-indigo-500 bg-indigo-900 p-4 flex items-center gap-2'>
 						<Link href='https://t.me/MyriadFlow' target='_blank'>
-							<img
-								src='./Vector4.png'
+							<Image
+								src='/Vector4.png'
 								alt='Telegram logo'
 								width={20}
 								height={20}
@@ -52,13 +52,13 @@ const Footer = () => {
 					</div>
 					<div className='rounded-full border-2 border-indigo-500 bg-indigo-900 p-4 flex items-center gap-2'>
 						<Link href='https://x.com/0xMyriadFlow' target='_blank'>
-							<img src='./Vector2.jpeg' alt='X logo' width={18} height={18} />
+							<Image src='/Vector2.jpeg' alt='X logo' width={18} height={18} />
 						</Link>
 					</div>
 					<div className='rounded-full border-2 border-indigo-500 bg-indigo-900 p-4 flex items-center gap-2'>
 						<Link href='https://www.instagram.com/0xmyriadflow' target='_blank'>
-							<img
-								src='./Vector5.png'
+							<Image
+								src='/Vector5.png'
 								alt='Instagram logo'
 								width={16}
 								height={16}

@@ -92,7 +92,12 @@ export const ClaimNft = ({
 						</div>
 
 						<div className='flex justify-around'>
-							<img src='./trophy2.png' alt='trophy image' />
+							<Image
+								src='/trophy2.png'
+								alt='trophy image'
+								height={100}
+								width={150}
+							/>
 
 							<Image
 								src={`https://nftstorage.link/ipfs/${removePrefix(freeNft)}`}
@@ -101,7 +106,12 @@ export const ClaimNft = ({
 								width={150}
 								className='mt-16'
 							/>
-							<img src='./trophy1.png' alt='trophy image' />
+							<Image
+								src='/trophy1.png'
+								alt='trophy image'
+								height={100}
+								width={150}
+							/>
 						</div>
 
 						<p className='text-lg text-center px-10 py-4'>

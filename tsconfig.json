@@ -29,7 +29,7 @@
 		".next/types/**/*.ts",
 		"src/app/[id]/page.tsx",
 		"src/components/create-wallet.jsx",
-		"src/components/claim-nft.js"
+		"src/components/claim-nft.tsx"
 	],
 	"exclude": ["node_modules", "page.tsx"]
 }

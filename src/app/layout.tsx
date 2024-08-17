@@ -4,10 +4,11 @@ import './globals.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { cn } from '@/lib/utils'
 import Providers from '@/lib/providers'
-import { config } from '@/lib/wagmi'
-import Web3ModalProvider from '@/lib/providers'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 import Script from 'next/script'
 import AppKitProvider from '@/lib/providers'
+import { ToastContainer } from 'react-toastify'
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -72,7 +73,9 @@ export default function RootLayout({
 						fontSans.variable
 					)}
 				>
+					<ToastContainer />
 					<AppKitProvider>{children}</AppKitProvider>
+					<ReactQueryDevtools />
 				</body>
 			</Providers>
 		</html>

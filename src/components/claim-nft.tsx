@@ -6,7 +6,7 @@ import { useAccount } from 'wagmi'
 import { toast } from 'react-toastify'
 import { simulateContract, writeContract } from '@wagmi/core'
 import { useState } from 'react'
-import { X } from 'lucide-react'
+
 import { ConnectWallet } from './connect-wallet'
 import { config } from '@/lib/wagmi'
 import reward from '@/lib/reward.json'
@@ -35,10 +35,6 @@ export const ClaimNft = ({
 	const [claimNft, setClaimNft] = useState(false)
 	const [brandId, setBrandId] = useState('')
 	const account = useAccount()
-
-	const handleClick = () => {
-		onClose(false)
-	}
 
 	const createFanToken = async () => {
 		const abi = reward.abi
@@ -80,10 +76,6 @@ export const ClaimNft = ({
 		<>
 			{!claimNft ? (
 				<div className='relative bg-white p-4 text-black rounded-lg shadow-md'>
-					<div className='flex items-center justify-end '>
-						<X color='#000' className='cursor-pointer' onClick={handleClick} />
-					</div>
-
 					<div className='p-4 space-y-4'>
 						<div className='flex justify-around'>
 							<p className='text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-900 text-center'>
@@ -95,7 +87,7 @@ export const ClaimNft = ({
 							<Image
 								src='/trophy2.png'
 								alt='trophy image'
-								height={100}
+								height={50}
 								width={150}
 							/>
 
@@ -103,13 +95,13 @@ export const ClaimNft = ({
 								src={`https://nftstorage.link/ipfs/${removePrefix(freeNft)}`}
 								alt='Free NFT Image'
 								height={80}
-								width={150}
+								width={120}
 								className='mt-16'
 							/>
 							<Image
 								src='/trophy1.png'
 								alt='trophy image'
-								height={100}
+								height={50}
 								width={150}
 							/>
 						</div>

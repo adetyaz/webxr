@@ -13,7 +13,7 @@ const Leaderboard = () => {
 		queryFn: async () => {
 			const avatars = await getAvatars()
 			return avatars
-				.filter((avatar: AvatarType) => avatar.chaintype_id === chaintype)
+				.find((avatar: AvatarType) => avatar.chaintype_id === chaintype)
 				.reverse()
 		},
 	})
@@ -44,10 +44,7 @@ const Leaderboard = () => {
 				</div>
 			</div>
 
-			<div
-				className='pt-20 flex'
-				style={{ gap: '40px', flexWrap: 'wrap', justifyContent: 'center' }}
-			>
+			<div className='pt-20 flex gap-9 flex-wrap justify-center'>
 				{avatars
 					?.slice(0, 12)
 					.reverse()

@@ -12,7 +12,12 @@ import { toast } from 'react-toastify'
 
 import { VoiceAssistant } from '@/components/voice-assistant'
 import { useQueries, useQuery } from '@tanstack/react-query'
-import { getAvatars, getPhygital, getWebXR } from '@/utils/queries'
+import {
+	getAvatars,
+	getPhygital,
+	getProfileByWallet,
+	getWebXR,
+} from '@/utils/queries'
 import { AvatarType } from '@/types/types'
 
 export default function Home({ params }: { params: { id: string } }) {
@@ -21,6 +26,8 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [unlockClaimed, setUnlockClaimed] = useState(false)
 
 	const account = useAccount()
+
+	const profileImage = 'QmcKFdgcuhmAQRniKwkua5aF9iuKSMJUtQekhLDNyTDfE3'
 
 	const results = useQueries({
 		queries: [
@@ -36,21 +43,23 @@ export default function Home({ params }: { params: { id: string } }) {
 				queryKey: ['avatar'],
 				queryFn: async () => {
 					const avatars = await getAvatars()
-					return avatars.filter(
-						(avatar: AvatarType) => avatar.phygital_id === id
-					)
+					return avatars.find((avatar: AvatarType) => avatar.phygital_id === id)
 				},
+			},
+			{
+				queryKey: ['profile'],
+				queryFn: () => getProfileByWallet(account.address!),
 			},
 		],
 	})
 
-	const [phygitalResult, webxrResult, avatarResult] = results
+	const [phygitalResult, webxrResult, avatarResult, profileResult] = results
 
-	useEffect(() => {
-		setTimeout(() => {
-			setUnlockClaimed(true)
-		}, 60000)
-	}, [])
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		setUnlockClaimed(true)
+	// 	}, 60000)
+	// }, [])
 
 	const closeClaimed = () => {
 		setUnlockClaimed(false)
@@ -63,7 +72,8 @@ export default function Home({ params }: { params: { id: string } }) {
 	if (
 		phygitalResult.isLoading ||
 		webxrResult.isLoading ||
-		avatarResult.isLoading
+		avatarResult.isLoading ||
+		profileResult.isLoading
 	)
 		return (
 			<div className='h-screen flex flex-col justify-center items-center'>
@@ -77,12 +87,29 @@ export default function Home({ params }: { params: { id: string } }) {
 	const phygital = phygitalResult.data
 	const webxr = webxrResult.data
 	const avatar = avatarResult.data
+	const profile = profileResult.data
+
+	console.log(profile)
 
 	return (
 		<main className='flex h-screen flex-col items-center justify-between p-24 relative'>
 			<header className='absolute top-0 p-4 w-full flex justify-between z-10'>
 				<Image src='/logo.png' alt='logo' height={150} width={250} />
-				<ConnectWallet />
+				<div className='flex gap-4'>
+					<Image
+						src={
+							profileImage
+								? `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${profileImage}`
+								: '/profile.png'
+						}
+						alt='Profile'
+						className='mr-[4px] size-[40px] rounded-[30px]'
+						height={0}
+						width={0}
+					/>
+
+					<ConnectWallet />
+				</div>
 			</header>
 
 			<a-scene className='h-48'>
@@ -103,14 +130,11 @@ export default function Home({ params }: { params: { id: string } }) {
 					<VoiceAssistant
 						productInfo={phygital}
 						brandName={phygital.brand_name}
-						voice={avatar[0].avatar_voice}
+						voice={avatar.avatar_voice}
 					/>
 				</div>
 				<div className='absolute h-3/4 left-4 bottom-16'>
-					<Avatar
-						modelSrc={avatar && avatar[0].url}
-						cameraInitialDistance={3.5}
-					/>
+					<Avatar modelSrc={avatar && avatar.url} cameraInitialDistance={3.5} />
 					<button className='border-2 border-white text-white bg-black mx-auto flex item-center gap-4 justify-center bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-full px-8 py-2'>
 						{account.address ? 'Customize' : 'Unlock'}
 					</button>

@@ -32,3 +32,9 @@ export const getFanTokens = async () => {
 	const response = await axios.get(`${baseURI}/fantoken/all`)
 	return response.data
 }
+
+export const getProfileByWallet = async (walletAddress: string) => {
+	const response = await axios.get(`${baseURI}/profile/wallet/${walletAddress}`)
+
+	return response
+}

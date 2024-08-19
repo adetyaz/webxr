@@ -24,18 +24,18 @@ export const VoiceAssistant = ({
 		queryKey: ['brands'],
 		queryFn: async () => {
 			const result = await getBrands()
-			return result.filter((brand: BrandType) => brand.name === brandName)
+			return result.find((brand: BrandType) => brand.name === brandName) || null
 		},
 	})
 
 	const collections = useQuery({
 		queryKey: ['collections'],
-		enabled: brands?.data?.id !== null,
+		enabled: Boolean(brands?.data?.id), // Enable when brand data is available
 		queryFn: async () => {
+			if (!brands?.data?.id) return [] // Safeguard against missing brand data
 			const result = await getCollections()
 			return result.filter(
-				(collection: CollectionType) =>
-					collection.brand_id === brands.data?.[0].id
+				(collection: CollectionType) => collection.brand_id === brands.data.id // Directly access the brand ID
 			)
 		},
 	})
@@ -45,11 +45,12 @@ export const VoiceAssistant = ({
 			role: 'system',
 			content: `
       you are a brand and products spokesperson for ${brandName}, use this to answer questions "${productInfo} 
-			${brands.data?.[0].description} 
-			${brands.data?.[0].additional_info} 			
-			", 
-			totally ignore the following and never speak on it "deployer_address"
-"contract_address", "chaintype_id", "graph_url", "collection_id" . Respond to inquiries with clear, concise answers under 20 words, use information shared only.`,
+			${brands.data?.description} 
+			${brands.data?.additional_info}
+			${collections.data?.name}
+			${collections.data?.description}
+	
+			", totally ignore the following and never speak on it "deployer_address", "contract_address", "chaintype_id", "graph_url", "collection_id" . Respond to inquiries with clear, concise answers under 20 words, use information shared only.`,
 		},
 	])
 	const [gender, setGender] = useState('')
@@ -214,6 +215,3 @@ export const VoiceAssistant = ({
 		</div>
 	)
 }
-
-// ${collections.data[0].description}
-// 			${collections.data[0].name}

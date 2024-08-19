@@ -5,7 +5,11 @@ const nextConfig = {
 		return config
 	},
 	images: {
-		domains: ['utfs.io', 'nftstorage.link'],
+		domains: [
+			'utfs.io',
+			'nftstorage.link',
+			'ivory-adjacent-hyena-559.mypinata.cloud',
+		],
 	},
 }
 

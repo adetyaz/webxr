@@ -20,6 +20,8 @@ const Leaderboard = () => {
 
 	const avatars = result.data
 
+	console.log(avatars)
+
 	return (
 		<>
 			<div className='bg-black relative'>

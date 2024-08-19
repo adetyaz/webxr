@@ -34,7 +34,7 @@ export const VoiceAssistant = ({
 		queryFn: async () => {
 			if (!brands?.data?.id) return [] // Safeguard against missing brand data
 			const result = await getCollections()
-			return result.filter(
+			return result.find(
 				(collection: CollectionType) => collection.brand_id === brands.data.id // Directly access the brand ID
 			)
 		},
@@ -44,16 +44,33 @@ export const VoiceAssistant = ({
 		{
 			role: 'system',
 			content: `
-      you are a brand and products spokesperson for ${brandName}, use this to answer questions "${productInfo} 
-			${brands.data?.description} 
-			${brands.data?.additional_info}
-			${collections.data?.name}
-			${collections.data?.description}
-	
+      you are a brand and products spokesperson for ${brandName}, use this to answer questions "
+			${productInfo}
+			Brands Description${brands.data?.description || 'No description available'},
+			Brands additional Data: ${brands.data?.additional_info || 'Not specified'},
+			Collection Name: ${collections.data?.name || 'Not specified'},
+			Collection Description: ${
+				collections.data?.description || 'No description available'
+			},
+			Product Name: ${productInfo.name || 'Not specified'},
+			Product Description: ${productInfo.description || 'Not specified'},
+			Product manufacturer: ${productInfo.manufacturer || 'Not specified'},
+		 Category: ${productInfo.category?.data?.[0] || 'Uncategorized'},
+    Color: ${productInfo.color || 'Not specified'},
+    Material: ${productInfo.material || 'Not specified'},
+    Origin Country: ${productInfo.origin_country || 'Not specified'},
+    Price: ${productInfo.price || 'Free'},
+    Product Information: ${
+			productInfo.product_info || 'No additional information'
+		},
+    Size: ${productInfo.size || 'Not specified'},
+    Quantity: ${productInfo.quantity || 'Not specified'},
+    Royalty: ${productInfo.royality || 'None'},
+    Weight: ${productInfo.weight || 'Not specified'} kg,
+    Usage: ${productInfo.usage || 'Not specified'}
 			", totally ignore the following and never speak on it "deployer_address", "contract_address", "chaintype_id", "graph_url", "collection_id" . Respond to inquiries with clear, concise answers under 20 words, use information shared only.`,
 		},
 	])
-	const [gender, setGender] = useState('')
 
 	useEffect(() => {
 		const synth = window.speechSynthesis
@@ -81,46 +98,50 @@ export const VoiceAssistant = ({
 	}, [])
 
 	useEffect(() => {
-		if (avatarVoice === 'Denise') {
-			console.log(gender)
-			setGender('female')
-		} else if (avatarVoice === 'Richard') {
-			console.log(gender)
-			setGender('male')
+		// Feature detection for webkitSpeechRecognition
+		const SpeechRecognition =
+			(window as any).SpeechRecognition ||
+			(window as any).webkitSpeechRecognition
+		let recognition: any
+
+		if (SpeechRecognition) {
+			recognition = new SpeechRecognition()
+			recognition.continuous = false
+			recognition.interimResults = false
+			recognition.lang = 'en-US'
+
+			recognition.onresult = (event: any) => {
+				const speechToText = event.results[0][0].transcript
+				setTranscript(speechToText)
+				addMessage({ role: 'user', content: speechToText })
+				getOpenAIResponse(speechToText)
+			}
+
+			recognition.onerror = (event: any) => {
+				console.error('Speech recognition error', event)
+				setIsListening(false)
+			}
+
+			recognition.onend = () => {
+				setIsListening(false)
+			}
 		}
 
-		const recognition = new (window as any).webkitSpeechRecognition()
-		recognition.continuous = false
-		recognition.interimResults = false
-		recognition.lang = 'en-US'
-
-		recognition.onresult = (event: any) => {
-			const speechToText = event.results[0][0].transcript
-			// console.log(speechToText)
-			setTranscript(speechToText)
-			addMessage({ role: 'user', content: speechToText })
-			getOpenAIResponse(speechToText)
-		}
-
-		recognition.onerror = (event: any) => {
-			// console.error('Speech recognition error', event)
-			setIsListening(false)
-		}
-
-		recognition.onend = () => {
-			setIsListening(false)
-		}
-
-		if (isListening) {
+		if (isListening && recognition) {
 			recognition.start()
-		} else {
+		} else if (recognition) {
 			recognition.stop()
+		} else {
+			console.warn('Speech Recognition API is not supported in this browser.')
+			setIsListening(false) // Automatically stop listening in unsupported browsers
 		}
 
 		return () => {
-			recognition.stop()
+			if (recognition) {
+				recognition.stop()
+			}
 		}
-	}, [isListening, avatarVoice, gender])
+	}, [isListening])
 
 	const getOpenAIResponse = async (text: string) => {
 		try {
@@ -145,7 +166,7 @@ export const VoiceAssistant = ({
 					...prevMessages,
 					{ role: 'assistant', content: aiResponse },
 				])
-				speak(aiResponse, gender)
+				speak(aiResponse)
 			} else {
 				console.error('Received an invalid response from OpenAI')
 			}
@@ -161,24 +182,23 @@ export const VoiceAssistant = ({
 		setMessages((prevMessages) => [...prevMessages, message])
 	}
 
-	const speak = (text: string, gender: string) => {
+	const speak = (text: string) => {
 		const synth = window.speechSynthesis
 		const utterance = new SpeechSynthesisUtterance(text)
 		const voices = synth.getVoices()
 
 		// Try to match the gender in the voice name
 		const selectedVoice = voices.find((voice) => {
-			if (gender === 'male') {
-				return /male/i.test(voice.name) || /male/i.test(voice.lang)
-			} else if (gender === 'female') {
-				return /female/i.test(voice.name) || /female/i.test(voice.lang)
+			if (avatarVoice === 'Richard') {
+				return voice.name === 'Google UK English Male'
+			} else if (avatarVoice === 'Denise') {
+				return voice.name === 'Google UK English Female'
 			}
 			return false
 		})
 
 		if (selectedVoice) {
 			utterance.voice = selectedVoice
-			console.log(selectedVoice)
 		} else if (voices.length > 0) {
 			// Fallback to the first voice if no matching gender voice is found
 			utterance.voice = voices[0]

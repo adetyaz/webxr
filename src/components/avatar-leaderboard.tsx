@@ -48,6 +48,8 @@ const AvatarLeaderboard = () => {
 
 	const topAvatars = topAvatarsResult.data
 
+	console.log(topAvatars)
+
 	return (
 		<div>
 			{/* Title */}

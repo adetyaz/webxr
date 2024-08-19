@@ -46,14 +46,10 @@ export default function Home({ params }: { params: { id: string } }) {
 					return avatars.find((avatar: AvatarType) => avatar.phygital_id === id)
 				},
 			},
-			{
-				queryKey: ['profile'],
-				queryFn: () => getProfileByWallet(account.address!),
-			},
 		],
 	})
 
-	const [phygitalResult, webxrResult, avatarResult, profileResult] = results
+	const [phygitalResult, webxrResult, avatarResult] = results
 
 	// useEffect(() => {
 	// 	setTimeout(() => {
@@ -72,8 +68,7 @@ export default function Home({ params }: { params: { id: string } }) {
 	if (
 		phygitalResult.isLoading ||
 		webxrResult.isLoading ||
-		avatarResult.isLoading ||
-		profileResult.isLoading
+		avatarResult.isLoading
 	)
 		return (
 			<div className='h-screen flex flex-col justify-center items-center'>
@@ -87,9 +82,6 @@ export default function Home({ params }: { params: { id: string } }) {
 	const phygital = phygitalResult.data
 	const webxr = webxrResult.data
 	const avatar = avatarResult.data
-	const profile = profileResult.data
-
-	console.log(profile)
 
 	return (
 		<main className='flex h-screen flex-col items-center justify-between p-24 relative'>

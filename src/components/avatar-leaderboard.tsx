@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { Avatar } from '@readyplayerme/visage'
 import Link from 'next/link'
 import { useQueries, useQuery } from '@tanstack/react-query'

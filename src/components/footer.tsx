@@ -4,70 +4,159 @@ import Link from 'next/link' // Use Link for navigation
 
 const Footer = () => {
 	return (
-		<footer className='bg-gradient-to-r from-indigo-500 to-purple-600 py-20 px-10 text-white'>
-			{/* Brand Section */}
-			<div className='flex justify-between items-center'>
-				<div className='brand'>
-					<Link href='#' passHref>
-						<Image
-							src='/logo.png'
-							alt='logo'
-							width={300}
-							height={300}
-							className='my-10'
-						/>
-					</Link>
-					<p>
-						Revolutionary platform for exploring and launching NFT Xperiences.
-					</p>
-					<p className='mt-10 mb-4'>
-						© Copyright 2023 - 2024 MyriadFlow. All rights reserved
-					</p>
-				</div>
-
-				{/* Connect Section */}
-				<div
-					id='connect'
-					className='flex flex-col justify-center items-center gap-6'
+		<div>
+			<footer
+				style={{
+					background:
+						'linear-gradient(90deg, #30D8FF 0%, #A32CC4 50%, #C243FE 100%)',
+					padding: '40px 60px',
+				}}
+			>
+				<section
+					style={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+					}}
 				>
-					<div className='rounded-full border-2 border-indigo-500 bg-indigo-900 p-4 flex items-center gap-2'>
-						<Link href='https://discord.gg/38jktRtuY7' target='_blank'>
-							<Image
-								src='/Vector3.png'
-								alt='Discord logo'
-								width={20}
-								height={20}
+					<div className='brand' style={{ textAlign: 'left' }}>
+						<Link href='#' passHref>
+							<img
+								src='/MFlogo.png'
+								width={200}
+								height={200}
+								alt='logo'
+								style={{ marginBottom: '20px' }}
 							/>
 						</Link>
+						<p style={{ color: 'white', maxWidth: '350px', fontSize: '14px' }}>
+							Innovative next-gen platform for exploring and launching NFT
+							Xperiences with AI-powered brand ambassadors and no-code tools.
+						</p>
+						<p style={{ marginTop: '30px', color: 'white', fontSize: '12px' }}>
+							© Copyright 2024 MyriadFlow. All rights reserved
+						</p>
 					</div>
-					<div className='rounded-full border-2 border-indigo-500 bg-indigo-900 p-4 flex items-center gap-2'>
-						<Link href='https://t.me/MyriadFlow' target='_blank'>
-							<Image
-								src='/Vector4.png'
-								alt='Telegram logo'
-								width={20}
-								height={20}
-							/>
+
+					<div
+						className='links'
+						style={{ textAlign: 'left', color: 'white', fontSize: '14px' }}
+					>
+						<h3 className='text-2xl font-semibold'>About</h3>
+						<Link
+							href='/MyriadFlow_Terms_of_Service.pdf'
+							target='_blank'
+							style={{
+								color: 'white',
+								textDecoration: 'none',
+								display: 'block',
+								marginTop: '28px',
+							}}
+						>
+							Terms of Service
+						</Link>
+						<Link
+							href='/MyriadFlow_Creator_Terms_and_Conditions.pdf'
+							target='_blank'
+							style={{
+								color: 'white',
+								textDecoration: 'none',
+								display: 'block',
+							}}
+						>
+							Creator Terms and Conditions
+						</Link>
+						<Link
+							href='/MyriadFlow_Privacy_Policy.pdf'
+							target='_blank'
+							style={{
+								color: 'white',
+								textDecoration: 'none',
+								display: 'block',
+							}}
+						>
+							Privacy Policy
+						</Link>
+						<Link
+							href='/MyriadFlow_Community_Guidelines.pdf'
+							target='_blank'
+							style={{
+								color: 'white',
+								textDecoration: 'none',
+								display: 'block',
+							}}
+						>
+							Community Guidelines
 						</Link>
 					</div>
-					<div className='rounded-full border-2 border-indigo-500 bg-indigo-900 p-4 flex items-center gap-2'>
-						<Link href='https://x.com/0xMyriadFlow' target='_blank'>
-							<Image src='/Vector2.jpeg' alt='X logo' width={18} height={18} />
+
+					<div
+						className='platform'
+						style={{ textAlign: 'left', color: 'white', fontSize: '14px' }}
+					>
+						<h3 className='text-2xl font-semibold'>Platform</h3>
+						<Link
+							href='https://studio.myriadflow.com'
+							style={{
+								color: 'white',
+								textDecoration: 'none',
+								display: 'block',
+								marginTop: '28px',
+							}}
+						>
+							Studio
+						</Link>
+						<Link
+							href='https://discover.myriadflow.com'
+							style={{
+								color: 'white',
+								textDecoration: 'none',
+								display: 'block',
+							}}
+						>
+							Discover
+						</Link>
+						<Link
+							href='https://webxr.myriadflow.com'
+							style={{
+								color: 'white',
+								textDecoration: 'none',
+								display: 'block',
+							}}
+						>
+							WebXR
 						</Link>
 					</div>
-					<div className='rounded-full border-2 border-indigo-500 bg-indigo-900 p-4 flex items-center gap-2'>
-						<Link href='https://www.instagram.com/0xmyriadflow' target='_blank'>
-							<Image
-								src='/Vector5.png'
-								alt='Instagram logo'
-								width={16}
-								height={16}
-							/>
-						</Link>
-					</div>
-				</div>
-			</div>
-		</footer>
+
+					<section
+						id='connect'
+						className='social-links'
+						style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}
+					>
+						{[
+							'/Vector3.png',
+							'/Vector4.png',
+							'/Vector2.png',
+							'/Vector5.png',
+						].map((icon, index) => (
+							<div
+								key={index}
+								style={{
+									borderRadius: '50%',
+									border: '2px solid #0E46A3',
+									padding: '16px',
+									backgroundColor: '#15063C',
+								}}
+							>
+								<Link href='#' target='_blank'>
+									<img src={icon} width={20} height={20} alt='Social Icon' />
+								</Link>
+							</div>
+						))}
+					</section>
+				</section>
+			</footer>
+		</div>
 	)
 }
 

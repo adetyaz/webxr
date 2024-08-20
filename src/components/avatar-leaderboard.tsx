@@ -90,7 +90,7 @@ const AvatarLeaderboard = () => {
 									No. tokens: {topAvatars?.[1].count}
 								</div>
 								<Link
-									href={`https://webxr-polygon.vercel.app/${topAvatars?.[1].phygital_id}`}
+									href={`https://webxr.myriadflow.com/${topAvatars?.[1].phygital_id}`}
 								>
 									<button className='text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
@@ -124,7 +124,7 @@ const AvatarLeaderboard = () => {
 									No. tokens: {topAvatars?.[0].count}
 								</div>
 								<Link
-									href={`https://webxr-polygon.vercel.app/${topAvatars?.[0].phygital_id}`}
+									href={`https://webxr.myriadflow.com/${topAvatars?.[0].phygital_id}`}
 								>
 									<button className='text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
@@ -153,7 +153,7 @@ const AvatarLeaderboard = () => {
 									No. tokens: {topAvatars?.[2].count}
 								</div>
 								<Link
-									href={`https://webxr-polygon.vercel.app/${topAvatars?.[2].phygital_id}`}
+									href={`https://webxr.myriadflow.com/${topAvatars?.[2].phygital_id}`}
 								>
 									<button className='text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR

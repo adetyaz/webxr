@@ -57,3 +57,30 @@ export type CollectionType = {
 	brand_id: string
 	chaintype_id: string
 }
+
+export type PhygitalType = {
+	id: string
+	name: string
+	brand_name: string
+	category: any // Replace with appropriate type if known
+	description: string
+	price: number
+	quantity: number
+	royalty: number
+	image: string
+	product_info: string
+	color: string
+	size: string
+	weight: number
+	material: string
+	usage: string
+	quality: string
+	manufacturer: string
+	origin_country: string
+	metadata_uri: string
+	deployer_address: string
+	contract_address: string
+	graph_url: string
+	collection_id: string
+	chaintype_id: string
+}

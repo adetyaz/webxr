@@ -1,5 +1,6 @@
+import { PhygitalType } from '@/types/types'
 import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
 
 export const InfoCard = ({ phygital }: any) => {
 	const removePrefix = (uri: any) => {
@@ -41,9 +42,11 @@ export const InfoCard = ({ phygital }: any) => {
 					<p>{phygital.brand_name}</p>
 				</div>
 			</div>
-			<button className=' py-3 bg-[#30D8FF] rounded-lg mt-4 mx-auto w-full'>
-				View on Discover
-			</button>
+			<Link href={`https://base-discover.vercel.app/nfts/${phygital.id}`}>
+				<button className=' py-3 bg-[#30D8FF] rounded-lg mt-4 mx-auto w-full'>
+					View on Discover
+				</button>
+			</Link>
 		</div>
 	)
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -56,9 +55,11 @@ export const ClaimNftModal = ({
 							supporters each week.
 						</p>
 						<div className='flex items-center pt-10 pb-8'>
-							<button className='w-2/5 mx-auto text-black text-center text-base py-2 rounded-full bg-blue-400 focus:ring-4 focus:outline-none'>
-								View in my assets
-							</button>
+							<Link href={'https://base-discover.vercel.app/profile'}>
+								<button className='w-2/5 mx-auto text-black text-center text-base py-2 rounded-full bg-blue-400 focus:ring-4 focus:outline-none'>
+									View in my assets
+								</button>
+							</Link>
 
 							<button
 								className='w-2/5 mx-auto text-black text-center text-base py-2 rounded-full border border-purple-800 focus:ring-4 focus:outline-none'

@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export const MintedModal = ({
 	onClose,
@@ -34,9 +35,11 @@ export const MintedModal = ({
 			</div>
 
 			<div className='flex items-center justify-center py-4'>
-				<button className='w-2/5 mx-auto text-black focus:outline-none rounded-full py-2 text-center bg-blue-500'>
-					View in my assets
-				</button>
+				<Link href={'https://base-discover.vercel.app/profile'}>
+					<button className='w-2/5 mx-auto text-black focus:outline-none rounded-full py-2 text-center bg-blue-500'>
+						View in my assets
+					</button>
+				</Link>
 
 				<button
 					className='w-2/5 mx-auto text-black focus:outline-none rounded-full py-2 text-center border border-purple-500'

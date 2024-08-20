@@ -9,7 +9,7 @@ const Leaderboard = () => {
 	const chaintype = process.env.NEXT_PUBLIC_BASECHAINTYPE
 
 	const result = useQuery({
-		queryKey: ['avatars'],
+		queryKey: ['avatarsList'],
 		queryFn: async () => {
 			const avatars = await getAvatars()
 			return avatars
@@ -19,8 +19,6 @@ const Leaderboard = () => {
 	})
 
 	const avatars = result.data
-
-	console.log(avatars)
 
 	return (
 		<>

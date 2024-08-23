@@ -20,7 +20,7 @@ const Footer = () => {
 					}}
 				>
 					<div className='brand' style={{ textAlign: 'left' }}>
-						<Link href='#' passHref>
+						<Link href='https://myriadflow.com/' passHref>
 							<img
 								src='/MFlogo.png'
 								width={200}

@@ -72,30 +72,30 @@ export const VoiceAssistant = ({
 		},
 	])
 
-	useEffect(() => {
-		const synth = window.speechSynthesis
+	// useEffect(() => {
+	// 	const synth = window.speechSynthesis
 
-		// Create a speech synthesis utterance
-		const utterance = new SpeechSynthesisUtterance(
-			"Welcome to our world! Feel free to explore and discover hidden treasures together with your AI companion. Let's embark on this adventure!"
-		)
+	// 	// Create a speech synthesis utterance
+	// 	const utterance = new SpeechSynthesisUtterance(
+	// 		"Welcome to our world! Feel free to explore and discover hidden treasures together with your AI companion. Let's embark on this adventure!"
+	// 	)
 
-		// Speak the message after a delay of 5 seconds
-		const timeoutId = setTimeout(() => {
-			if (!synth.speaking) {
-				synth.speak(utterance)
-			}
-		}, 5000)
+	// 	// Speak the message after a delay of 5 seconds
+	// 	const timeoutId = setTimeout(() => {
+	// 		if (!synth.speaking) {
+	// 			synth.speak(utterance)
+	// 		}
+	// 	}, 5000)
 
-		// Cleanup function to cancel speech synthesis and timeout if necessary
-		return () => {
-			clearTimeout(timeoutId)
-			if (synth.speaking) {
-				synth.cancel()
-				console.log('Speech synthesis canceled')
-			}
-		}
-	}, [])
+	// 	// Cleanup function to cancel speech synthesis and timeout if necessary
+	// 	return () => {
+	// 		clearTimeout(timeoutId)
+	// 		if (synth.speaking) {
+	// 			synth.cancel()
+	// 			console.log('Speech synthesis canceled')
+	// 		}
+	// 	}
+	// }, [])
 
 	useEffect(() => {
 		// Feature detection for webkitSpeechRecognition

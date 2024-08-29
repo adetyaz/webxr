@@ -84,27 +84,15 @@ export default function Home({ params }: { params: { id: string } }) {
 	const avatar = avatarResult.data
 
 	return (
-		<main className='flex h-screen flex-col items-center justify-between p-24 relative'>
+		<main className='flex h-dvh flex-col items-center justify-between p-24 relative'>
 			<header className='absolute top-0 p-4 w-full flex justify-between z-10'>
 				<Image src='/logo.png' alt='logo' height={150} width={250} />
 				<div className='flex gap-4'>
-					<Image
-						src={
-							profileImage
-								? `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${profileImage}`
-								: '/profile.png'
-						}
-						alt='Profile'
-						className='mr-[4px] size-[40px] rounded-[30px]'
-						height={0}
-						width={0}
-					/>
-
 					<ConnectWallet />
 				</div>
 			</header>
 
-			<a-scene className='h-48'>
+			<a-scene>
 				<a-sky
 					src={
 						webxr.image360 !== 'undefined' &&
@@ -114,10 +102,9 @@ export default function Home({ params }: { params: { id: string } }) {
 				></a-sky>
 			</a-scene>
 			<section>
-				<div className='absolute right-2 bottom-2'>
+				<div className='hidden md:block absolute right-2 bottom-8'>
 					<InfoCard phygital={phygital} />
 				</div>
-
 				<div className='absolute transform -translate-x-1/2 text-white bottom-2'>
 					<VoiceAssistant
 						productInfo={phygital}
@@ -125,9 +112,9 @@ export default function Home({ params }: { params: { id: string } }) {
 						voice={avatar.avatar_voice}
 					/>
 				</div>
-				<div className='absolute h-3/4 left-4 bottom-16'>
+				<div className='absolute transform -translate-x-1/2 md:-translate-x-0 md:left-4  bottom-28 md:bottom-16 h-2/5 md:h-3/4'>
 					<Avatar modelSrc={avatar && avatar.url} cameraInitialDistance={3.5} />
-					<button className='border-2 border-white text-white bg-black mx-auto flex item-center gap-4 justify-center bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-full px-8 py-2'>
+					<button className='hidden border-2 border-white text-white bg-black mx-auto md:block bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-full px-8 py-2'>
 						{account.address ? 'Customize' : 'Unlock'}
 					</button>
 				</div>

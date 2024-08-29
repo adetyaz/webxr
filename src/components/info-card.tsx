@@ -15,7 +15,7 @@ export const InfoCard = ({ phygital }: any) => {
 	}
 
 	return (
-		<div className='p-8 bg-white bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-lg size-80'>
+		<div className='md:p-8 bg-white bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-lg size-80'>
 			<div className='flex items-center gap-8'>
 				<h3>{phygital ? phygital.name : 'Phygital name'}</h3>
 				<Image

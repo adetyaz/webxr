@@ -19,11 +19,13 @@ import {
 	getWebXR,
 } from '@/utils/queries'
 import { AvatarType } from '@/types/types'
+import { BadgeInfo } from 'lucide-react'
 
 export default function Home({ params }: { params: { id: string } }) {
 	const { id } = params
 	const [unlockModal, setUnlockModal] = useState(false)
 	const [unlockClaimed, setUnlockClaimed] = useState(false)
+	const [showCard, setShowCard] = useState(false)
 
 	const account = useAccount()
 
@@ -85,9 +87,24 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	return (
 		<main className='flex h-dvh flex-col items-center justify-between p-24 relative'>
-			<header className='absolute top-0 p-4 w-full flex justify-between z-10'>
-				<Image src='/logo.png' alt='logo' height={150} width={250} />
+			<header className='absolute top-0 p-4 w-full flex items-center justify-between z-10'>
+				<Image
+					src='/logo.png'
+					alt='logo'
+					height={150}
+					width={250}
+					className='h-[70px] w-[150px] md:h-[100px] md:w-[250px]'
+				/>
 				<div className='flex gap-4'>
+					<button
+						className='md:hidden text-white'
+						onClick={() => {
+							console.log('heyy')
+							setShowCard(!showCard)
+						}}
+					>
+						<BadgeInfo />
+					</button>
 					<ConnectWallet />
 				</div>
 			</header>
@@ -101,7 +118,14 @@ export default function Home({ params }: { params: { id: string } }) {
 					rotation='0 -130 0'
 				></a-sky>
 			</a-scene>
+
 			<section>
+				{showCard && (
+					<div className='z-10 top-1/2 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2'>
+						<InfoCard phygital={phygital} />
+					</div>
+				)}
+
 				<div className='hidden md:block absolute right-2 bottom-8'>
 					<InfoCard phygital={phygital} />
 				</div>
@@ -112,7 +136,7 @@ export default function Home({ params }: { params: { id: string } }) {
 						voice={avatar.avatar_voice}
 					/>
 				</div>
-				<div className='absolute transform -translate-x-1/2 md:-translate-x-0 md:left-4  bottom-28 md:bottom-16 h-2/5 md:h-3/4'>
+				<div className='absolute transform -translate-x-1/2  md:-translate-x-0 md:left-4 bottom-48 md:bottom-16 h-3/5 md:h-3/4'>
 					<Avatar modelSrc={avatar && avatar.url} cameraInitialDistance={3.5} />
 					<button className='hidden border-2 border-white text-white bg-black mx-auto md:block bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-full px-8 py-2'>
 						{account.address ? 'Customize' : 'Unlock'}

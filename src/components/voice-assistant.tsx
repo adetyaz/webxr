@@ -213,7 +213,7 @@ export const VoiceAssistant = ({
 
 	return (
 		<div className='flex flex-col justify-center items-center text-center'>
-			{transcript && (
+			{/* {transcript && (
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
 					<p>User: &nbsp;{transcript}</p>
 				</div>
@@ -222,7 +222,7 @@ export const VoiceAssistant = ({
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
 					<p>Assistant: &nbsp;{response}</p>
 				</div>
-			)}
+			)} */}
 			<div>
 				<button
 					onClick={handleListen}

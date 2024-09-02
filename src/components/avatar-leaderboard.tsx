@@ -50,7 +50,7 @@ const AvatarLeaderboard = () => {
 	return (
 		<div>
 			{/* Title */}
-			<div className='font-bold text-white text-6xl px-16 mb-8'>
+			<div className='font-bold text-white text-5xl px-16 mb-8'>
 				Avatar Leaderboard
 			</div>
 
@@ -67,7 +67,7 @@ const AvatarLeaderboard = () => {
 			{topAvatars && (
 				<div className='flex flex-wrap justify-center px-10 py-20 '>
 					{/* Silver */}
-					<div className='w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0'>
+					<div className='w-full md:w-1/3 flex flex-col order-2 md:order-none items-center justify-center mb-10 md:mb-0'>
 						{topAvatars?.[1] && (
 							<>
 								<Avatar
@@ -101,7 +101,7 @@ const AvatarLeaderboard = () => {
 					</div>
 
 					{/* Gold */}
-					<div className='w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0'>
+					<div className='w-full md:w-1/3 flex flex-col order-1 md:order-none items-center justify-center mb-10 md:mb-0'>
 						{topAvatars?.[0] && (
 							<>
 								<Avatar
@@ -135,7 +135,7 @@ const AvatarLeaderboard = () => {
 					</div>
 
 					{/* Bronze */}
-					<div className='w-full md:w-1/3 flex flex-col items-center justify-center'>
+					<div className='w-full md:w-1/3 flex flex-col order-3 md:order-none items-center justify-center'>
 						{topAvatars?.[2] && (
 							<>
 								<Avatar
@@ -183,21 +183,6 @@ const AvatarLeaderboard = () => {
 				/>
 				<div className='text-center text-2xl font-bold text-white bg-gradient-to-r from-blue-500 to-purple-700 bg-clip-text py-4'>
 					Rewarding Creators, Owners and Supporters.
-				</div>
-			</div>
-
-			{/* Call to Action */}
-			<div className='flex items-center justify-center min-h-screen'>
-				<div className='p-1 rounded-lg w-96 h-96 flex items-center justify-center bg-transparent border-8 border-transparent rounded-8 bg-gradient-to-r from-black to-gray-800 bg-clip-border'>
-					<div className='text-center h-80 w-80 flex flex-col items-center justify-center'>
-						<h1 className='text-white font-bold mb-4 text-3xl'>
-							Create Profile
-						</h1>
-						<p className='mb-4 text-white'>& Earn Rewards</p>
-						<button className='rounded bg-transparent border-8 border-transparent bg-gradient-to-r from-white to-pink-500 bg-clip-border text-black cursor-pointer hover:scale-105 transition-transform duration-300'>
-							Get Started
-						</button>
-					</div>
 				</div>
 			</div>
 		</div>

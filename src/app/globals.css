@@ -84,15 +84,3 @@
 .a-enter-vr-button {
 	display: none;
 }
-
-/* .gradient-text-container {
-	background-color: black;
-	text-align: center;
-	padding: 20px;
-} */
-
-.gradient-text {
-	background: linear-gradient(to right, #ec4899, #ec489a, #3b82f6, #3b82f6);
-	-webkit-background-clip: text;
-	color: transparent;
-}

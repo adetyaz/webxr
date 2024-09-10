@@ -10,6 +10,10 @@ import { useState } from 'react'
 import { ConnectWallet } from './connect-wallet'
 import { config } from '@/lib/wagmi'
 import reward from '@/lib/reward.json'
+import mainAbi from '@/lib/mainnetAbi.json'
+import { useQuery } from '@tanstack/react-query'
+import { getBrands } from '@/utils/queries'
+import { BrandType } from '@/types/types'
 
 const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
 
@@ -36,27 +40,51 @@ export const ClaimNft = ({
 	const [brandId, setBrandId] = useState('')
 	const account = useAccount()
 
-	const createFanToken = async () => {
-		const abi = reward.abi
-		const { request } = await simulateContract(config, {
-			abi,
+	const brand = useQuery({
+		queryKey: ['brand'],
+		queryFn: async () => {
+			const brandId = await getBrands()
+			return brandId.find((brand: BrandType) => brand.name === brandName)
+		},
+	})
 
-			address: '0x771C15e87272d6A57900f009Cd833b38dd7869e5',
-			functionName: 'createFanToken',
-			args: [String(contractAddress), 1, 1, '0x0', 'www.xyz.com'],
+	const brandResult = brand.data
+
+	const createFanToken = async () => {
+		// const abi = reward.abi
+		// const { request } = await simulateContract(config, {
+		// 	abi,
+		// 	address: '0x7Bc52aEd144B3262c17442e5223113C2f29a7033',
+		// 	// address: '0x771C15e87272d6A57900f009Cd833b38dd7869e5'
+		// 	functionName: 'createFanToken',
+		// 	args: [String(contractAddress), 1, '0x0', 'www.xyz.com'],
+		// })
+		// const hash = await writeContract(config, request)
+		// console.log('HASH', hash)
+
+		const response = await fetch(`${baseUri}/create-fan-token`, {
+			method: 'POST',
+			body: JSON.stringify({
+				nftContractAddress: contractAddress,
+				amount: '1',
+				data: '0x0',
+				uri: 'www.xyz.com',
+			}),
 		})
-		const hash = await writeContract(config, request)
+
+		const hash = await response.json()
 
 		if (hash) {
 			const res = await fetch(`${baseUri}/fantoken`, {
 				method: 'POST',
 				body: JSON.stringify({
-					brand_id: brandId,
+					brand_id: brandResult.id,
 					collection_id: collectionId,
 					phygital_id: phygitalId,
 					phygital_name: phygitalName,
 					chaintype_id: chainTypeId,
-					fan_token_id: hash,
+					fantoken_id: hash.txHash,
+					wallet_address: account.address,
 				}),
 			})
 

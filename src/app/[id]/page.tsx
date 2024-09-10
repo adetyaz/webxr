@@ -53,11 +53,11 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	const [phygitalResult, webxrResult, avatarResult] = results
 
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		setUnlockClaimed(true)
-	// 	}, 60000)
-	// }, [])
+	useEffect(() => {
+		setTimeout(() => {
+			setUnlockClaimed(true)
+		}, 60000)
+	}, [])
 
 	const closeClaimed = () => {
 		setUnlockClaimed(false)

@@ -20,6 +20,7 @@ import {
 } from '@/utils/queries'
 import { AvatarType } from '@/types/types'
 import { BadgeInfo } from 'lucide-react'
+import Header from '@/components/header'
 
 export default function Home({ params }: { params: { id: string } }) {
 	const { id } = params
@@ -53,11 +54,11 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	const [phygitalResult, webxrResult, avatarResult] = results
 
-	useEffect(() => {
-		setTimeout(() => {
-			setUnlockClaimed(true)
-		}, 60000)
-	}, [])
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		setUnlockClaimed(true)
+	// 	}, 60000)
+	// }, [])
 
 	const closeClaimed = () => {
 		setUnlockClaimed(false)
@@ -87,27 +88,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	return (
 		<main className='flex h-dvh flex-col items-center justify-between p-24 relative'>
-			<header className='absolute top-0 p-4 w-full flex items-center justify-between z-10'>
-				<Image
-					src='/logo.png'
-					alt='logo'
-					height={150}
-					width={250}
-					className='h-[70px] w-[150px] md:h-[100px] md:w-[250px]'
-				/>
-				<div className='flex gap-4'>
-					<button
-						className='md:hidden text-white'
-						onClick={() => {
-							console.log('heyy')
-							setShowCard(!showCard)
-						}}
-					>
-						<BadgeInfo />
-					</button>
-					<ConnectWallet />
-				</div>
-			</header>
+			<Header home={false} />
 
 			<a-scene>
 				<a-sky

@@ -6,34 +6,12 @@ import Footer from '@/components/footer'
 import Image from 'next/image'
 
 import { ConnectWallet } from '@/components/connect-wallet'
+import Header from '../components/header'
 
 export default function Home() {
 	return (
 		<div className='bg-black'>
-			<div className='px-10 flex justify-between pb-[10px] bg-gradient-to-r from-pink-100 via-blue-500 to-purple-500'>
-				<div className='mt-4'>
-					<Link href='/'>
-						<Image src='/logo.png' width={200} height={0} alt='Logo' />
-					</Link>
-				</div>
-				<div className='mt-6 flex gap-12 text-[20px] text-white'>
-					<Link href='https://myriadflow.com' target='_blank'>
-						Home
-					</Link>
-					<Link href='https://discover.myriadflow.com' target='_blank'>
-						Discover
-					</Link>
-					<Link href='https://studio.myriadflow.com' target='_blank'>
-						Studio
-					</Link>
-					<Link href='https://webxr.myriadflow.com/' target='_blank'>
-						WebXR
-					</Link>
-				</div>
-				<div className='mt-6'>
-					<ConnectWallet />
-				</div>
-			</div>
+			<Header home />
 			<div className='flex h-screen bg-[#121212] text-white relative'>
 				<div className='absolute right-0 bottom-[0px] md:left-[25%] w-[140px] lg:w-[337px] h-[125px] lg:h-[316px] bg-[#11D9C5] rounded-full blur-3xl opacity-20' />
 				<div className='absolute right-0 top-0 md:right-[10%] w-[140px] lg:w-[337px] h-[125px] lg:h-[316px] bg-[#DF1FDD] rounded-full blur-3xl opacity-20' />

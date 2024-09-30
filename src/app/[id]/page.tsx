@@ -54,11 +54,11 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	const [phygitalResult, webxrResult, avatarResult] = results
 
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		setUnlockClaimed(true)
-	// 	}, 60000)
-	// }, [])
+	useEffect(() => {
+		setTimeout(() => {
+			setUnlockClaimed(true)
+		}, 60000)
+	}, [])
 
 	const closeClaimed = () => {
 		setUnlockClaimed(false)
@@ -154,3 +154,8 @@ export default function Home({ params }: { params: { id: string } }) {
 		</main>
 	)
 }
+
+// {
+//     "message": "DelegateMintFanToken transaction sent",
+//     "txHash": "0x90cac9ae683f738e7a00fb2cefe87f1a4bea1d4420cfbf598b3a9f3fd31aa35c"
+// }

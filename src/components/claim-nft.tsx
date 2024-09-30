@@ -50,50 +50,72 @@ export const ClaimNft = ({
 
 	const brandResult = brand.data
 
-	const createFanToken = async () => {
-		// const abi = reward.abi
-		// const { request } = await simulateContract(config, {
-		// 	abi,
-		// 	address: '0x7Bc52aEd144B3262c17442e5223113C2f29a7033',
-		// 	// address: '0x771C15e87272d6A57900f009Cd833b38dd7869e5'
-		// 	functionName: 'createFanToken',
-		// 	args: [String(contractAddress), 1, '0x0', 'www.xyz.com'],
-		// })
-		// const hash = await writeContract(config, request)
-		// console.log('HASH', hash)
+	console.log(contractAddress)
 
-		const response = await fetch(`${baseUri}/create-fan-token`, {
+	// const createFanToken = async () => {
+	// 	// const abi = reward.abi
+	// 	// const { request } = await simulateContract(config, {
+	// 	// 	abi,
+	// 	// 	address: '0x7Bc52aEd144B3262c17442e5223113C2f29a7033',
+	// 	// 	// address: '0x771C15e87272d6A57900f009Cd833b38dd7869e5'
+	// 	// 	functionName: 'createFanToken',
+	// 	// 	args: [String(contractAddress), 1, '0x0', 'www.xyz.com'],
+	// 	// })
+	// 	// const hash = await writeContract(config, request)
+	// 	// console.log('HASH', hash)
+
+	// 	const response = await fetch(`${baseUri}/create-fan-token`, {
+	// 		method: 'POST',
+	// 		body: JSON.stringify({
+	// 			nftContractAddress: contractAddress,
+	// 			amount: '1',
+	// 			data: '0x0',
+	// 			uri: 'www.xyz.com',
+	// 		}),
+	// 	})
+
+	// 	const hash = await response.json()
+
+	// 	if (hash) {
+	// 		const res = await fetch(`${baseUri}/fantoken`, {
+	// 			method: 'POST',
+	// 			body: JSON.stringify({
+	// 				brand_id: brandResult.id,
+	// 				collection_id: collectionId,
+	// 				phygital_id: phygitalId,
+	// 				phygital_name: phygitalName,
+	// 				chaintype_id: chainTypeId,
+	// 				fantoken_id: hash.txHash,
+	// 				wallet_address: account.address,
+	// 			}),
+	// 		})
+
+	// 		const result = await res.json()
+
+	// 		if (result) {
+	// 			setClaimNft(true)
+	// 		}
+	// 	}
+	// }
+
+	const mintFanToken = async () => {
+		const response = await fetch(`${baseUri}/delegate-mint-fantoken`, {
 			method: 'POST',
 			body: JSON.stringify({
+				creatorWallet: account.address,
 				nftContractAddress: contractAddress,
 				amount: '1',
 				data: '0x0',
-				uri: 'www.xyz.com',
 			}),
 		})
 
 		const hash = await response.json()
 
-		if (hash) {
-			const res = await fetch(`${baseUri}/fantoken`, {
-				method: 'POST',
-				body: JSON.stringify({
-					brand_id: brandResult.id,
-					collection_id: collectionId,
-					phygital_id: phygitalId,
-					phygital_name: phygitalName,
-					chaintype_id: chainTypeId,
-					fantoken_id: hash.txHash,
-					wallet_address: account.address,
-				}),
-			})
-
-			const result = await res.json()
-
-			if (result) {
-				setClaimNft(true)
-			}
+		if (hash && hash.txHash) {
+			setClaimNft(true)
 		}
+
+		console.log(hash)
 	}
 
 	const removePrefix = (uri: string) => {
@@ -147,7 +169,7 @@ export const ClaimNft = ({
 								if (!account.address) {
 									toast.warning('Connect or Create a wallet')
 								} else {
-									createFanToken()
+									mintFanToken()
 								}
 							}}
 						>

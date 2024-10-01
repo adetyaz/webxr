@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
-const baseURI = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
+export const baseURI =
+	process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
 
 export const getBrands = async () => {
 	const response = await axios.get(`${baseURI}/brands/all`)

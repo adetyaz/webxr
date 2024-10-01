@@ -2,35 +2,26 @@
 import { InfoCard } from '@/components/info-card'
 import Image from 'next/image'
 import { Avatar } from '@readyplayerme/visage'
-import { useAccount } from 'wagmi'
-import { ConnectWallet } from '@/components/connect-wallet'
+import { useAccount, useChainId } from 'wagmi'
 import { useEffect, useState } from 'react'
-import { ConnectWalletModal } from '@/components/connect-wallet-modal'
-import { MintedModal } from '@/components/minted-modal'
 import { ClaimNft } from '@/components/claim-nft'
 import { toast } from 'react-toastify'
-
 import { VoiceAssistant } from '@/components/voice-assistant'
-import { useQueries, useQuery } from '@tanstack/react-query'
-import {
-	getAvatars,
-	getPhygital,
-	getProfileByWallet,
-	getWebXR,
-} from '@/utils/queries'
+import { useQueries } from '@tanstack/react-query'
+import { getAvatars, getPhygital, getWebXR } from '@/utils/queries'
 import { AvatarType } from '@/types/types'
-import { BadgeInfo } from 'lucide-react'
 import Header from '@/components/header'
+import Moralis from 'moralis'
 
 export default function Home({ params }: { params: { id: string } }) {
 	const { id } = params
-	const [unlockModal, setUnlockModal] = useState(false)
 	const [unlockClaimed, setUnlockClaimed] = useState(false)
 	const [showCard, setShowCard] = useState(false)
+	const [mintedNFTs, setMintedNFTs] = useState([])
 
 	const account = useAccount()
-
-	const profileImage = 'QmcKFdgcuhmAQRniKwkua5aF9iuKSMJUtQekhLDNyTDfE3'
+	const chainId = useChainId()
+	const apiKey = process.env.NEXT_PUBLIC_MORALIS_API_KEY
 
 	const results = useQueries({
 		queries: [
@@ -55,10 +46,38 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [phygitalResult, webxrResult, avatarResult] = results
 
 	useEffect(() => {
-		setTimeout(() => {
-			setUnlockClaimed(true)
-		}, 60000)
-	}, [])
+		const fetchNFTs = async () => {
+			try {
+				await Moralis.start({ apiKey })
+
+				const assets = await Moralis.EvmApi.nft.getWalletNFTs({
+					chain: chainId,
+					format: 'decimal',
+					mediaItems: false,
+					address: account.address!,
+				})
+
+				//@ts-ignore
+				setMintedNFTs(assets?.raw?.result)
+				console.log('NFTs:', assets.raw.result)
+			} catch (e) {
+				console.error(e)
+			}
+		}
+
+		if (account.address && chainId) {
+			fetchNFTs()
+		}
+	}, [account])
+
+	useEffect(() => {
+		//@ts-ignore
+		if (account && !mintedNFTs && !mintedNFTs[0]?.token_hash) {
+			setTimeout(() => {
+				setUnlockClaimed(true)
+			}, 60000)
+		}
+	}, [mintedNFTs, account])
 
 	const closeClaimed = () => {
 		setUnlockClaimed(false)
@@ -88,7 +107,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	return (
 		<main className='flex h-dvh flex-col items-center justify-between p-24 relative'>
-			<Header home={false} />
+			<Header home={false} onClick={() => setShowCard(!showCard)} />
 
 			<a-scene>
 				<a-sky
@@ -137,16 +156,12 @@ export default function Home({ params }: { params: { id: string } }) {
 				</div> */}
 
 				{unlockClaimed && (
-					<div className='modal w-3/6'>
+					<div className='modal w-[95%] sm:w-5/6 md:w-3/6'>
 						<ClaimNft
 							onClose={closeClaimed}
 							freeNft={webxr.free_nft_image}
 							brandName={phygital.brand_name}
-							phygitalName={phygital.name}
 							contractAddress={phygital.contract_address}
-							chainTypeId={phygital.chaintype_id}
-							collectionId={phygital.collection_id}
-							phygitalId={phygital.id}
 						/>
 					</div>
 				)}
@@ -154,8 +169,3 @@ export default function Home({ params }: { params: { id: string } }) {
 		</main>
 	)
 }
-
-// {
-//     "message": "DelegateMintFanToken transaction sent",
-//     "txHash": "0x90cac9ae683f738e7a00fb2cefe87f1a4bea1d4420cfbf598b3a9f3fd31aa35c"
-// }

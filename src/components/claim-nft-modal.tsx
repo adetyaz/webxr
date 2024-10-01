@@ -36,7 +36,7 @@ export const ClaimNftModal = ({
 					/>
 				</div>
 
-				<div className='flex justify-around pl-10'>
+				<div className='flex justify-around md:pl-10'>
 					<Image
 						src={`${'https://nftstorage.link/ipfs'}/${removePrefix(freeNft)}`}
 						alt='Free NFT Image'
@@ -46,11 +46,11 @@ export const ClaimNftModal = ({
 					/>
 
 					<div>
-						<p className='text-xl pt-0 pl-10 pr-10'>
+						<p className='text-xl pt-0 md:px-10'>
 							By owning this NFT, you show your support to {brandName} and help
 							them reach higher on the MyriadFlow avatar leaderboard!
 						</p>
-						<p className='text-xl pt-5 pl-10 pr-10 font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-pink-500 to-purple-800'>
+						<p className='text-xl pt-5 md:px-10 font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-pink-500 to-purple-800'>
 							Rewards are distributed to top 3 avatar creators, owners and
 							supporters each week.
 						</p>

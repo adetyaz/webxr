@@ -11,7 +11,7 @@ const Header = ({
 	onClick,
 }: {
 	home: boolean
-	onClick: React.ReactEventHandler
+	onClick?: React.ReactEventHandler
 }) => {
 	const [isScrolled, setIsScrolled] = useState(false)
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)

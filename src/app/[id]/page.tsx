@@ -8,7 +8,7 @@ import { ClaimNft } from '@/components/claim-nft'
 import { toast } from 'react-toastify'
 import { VoiceAssistant } from '@/components/voice-assistant'
 import { useQueries } from '@tanstack/react-query'
-import { getAvatars, getPhygital, getWebXR } from '@/utils/queries'
+import { baseURI, getAvatars, getPhygital, getWebXR } from '@/utils/queries'
 import { AvatarType } from '@/types/types'
 import Header from '@/components/header'
 import Moralis from 'moralis'
@@ -46,6 +46,20 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [phygitalResult, webxrResult, avatarResult] = results
 
 	useEffect(() => {
+		const getUserNfts = async () => {
+			try {
+				const response = await fetch(
+					`${baseURI}/get-mint-fantoken/${account.address}`
+				)
+				const results = await response.json()
+
+				console.log(results)
+			} catch (error) {
+				console.error(error)
+				toast.error('Error fetching NFTs')
+			}
+		}
+
 		const fetchNFTs = async () => {
 			try {
 				await Moralis.start({ apiKey })
@@ -67,6 +81,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
 		if (account.address && chainId) {
 			fetchNFTs()
+			getUserNfts()
 		}
 	}, [account])
 

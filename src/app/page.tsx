@@ -1,10 +1,9 @@
 'use client'
-import Link from 'next/link'
+
 import LeaderBoard from '@/components/leaderboard'
 import AvatarLeaderboard from '@/components/avatar-leaderboard'
 import Footer from '@/components/footer'
 import Image from 'next/image'
-
 import { ConnectWallet } from '@/components/connect-wallet'
 import Header from '../components/header'
 

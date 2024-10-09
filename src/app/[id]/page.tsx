@@ -2,7 +2,7 @@
 import { InfoCard } from '@/components/info-card'
 import Image from 'next/image'
 import { Avatar } from '@readyplayerme/visage'
-import { useAccount, useChainId } from 'wagmi'
+import { useAccount, useChainId, useConnect } from 'wagmi'
 import { useEffect, useState } from 'react'
 import { ClaimNft } from '@/components/claim-nft'
 import { toast } from 'react-toastify'
@@ -12,6 +12,7 @@ import { baseURI, getAvatars, getPhygital, getWebXR } from '@/utils/queries'
 import { AvatarType } from '@/types/types'
 import Header from '@/components/header'
 import Moralis from 'moralis'
+import { injected } from 'wagmi/connectors'
 
 export default function Home({ params }: { params: { id: string } }) {
 	const { id } = params
@@ -19,7 +20,9 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [showCard, setShowCard] = useState(false)
 	const [mintedNFTs, setMintedNFTs] = useState([])
 
-	const account = useAccount()
+	const { address, isConnected } = useAccount()
+	const { connect } = useConnect()
+
 	const chainId = useChainId()
 	const apiKey = process.env.NEXT_PUBLIC_MORALIS_API_KEY
 
@@ -46,20 +49,6 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [phygitalResult, webxrResult, avatarResult] = results
 
 	useEffect(() => {
-		const getUserNfts = async () => {
-			try {
-				const response = await fetch(
-					`${baseURI}/get-mint-fantoken/${account.address}`
-				)
-				const results = await response.json()
-
-				console.log(results)
-			} catch (error) {
-				console.error(error)
-				toast.error('Error fetching NFTs')
-			}
-		}
-
 		const fetchNFTs = async () => {
 			try {
 				await Moralis.start({ apiKey })
@@ -68,7 +57,7 @@ export default function Home({ params }: { params: { id: string } }) {
 					chain: chainId,
 					format: 'decimal',
 					mediaItems: false,
-					address: account.address!,
+					address: address!,
 				})
 
 				//@ts-ignore
@@ -79,11 +68,10 @@ export default function Home({ params }: { params: { id: string } }) {
 			}
 		}
 
-		if (account.address && chainId) {
+		if (address && chainId) {
 			fetchNFTs()
-			getUserNfts()
 		}
-	}, [account])
+	}, [address])
 
 	useEffect(() => {
 		//@ts-ignore
@@ -92,7 +80,7 @@ export default function Home({ params }: { params: { id: string } }) {
 				setUnlockClaimed(true)
 			}, 60000)
 		}
-	}, [mintedNFTs, account])
+	}, [mintedNFTs, address])
 
 	const closeClaimed = () => {
 		setUnlockClaimed(false)
@@ -154,7 +142,7 @@ export default function Home({ params }: { params: { id: string } }) {
 				<div className='absolute transform -translate-x-1/2  md:-translate-x-0 md:left-4 bottom-48 md:bottom-16 h-3/5 md:h-3/4'>
 					<Avatar modelSrc={avatar && avatar.url} cameraInitialDistance={3.5} />
 					<button className='hidden border-2 border-white text-white bg-black mx-auto md:block bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-full px-8 py-2'>
-						{account.address ? 'Customize' : 'Unlock'}
+						{address ? 'Customize' : 'Unlock'}
 					</button>
 				</div>
 				{/* {!account.address && (

@@ -3,8 +3,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { toast, ToastContainer } from 'react-toastify'
-import { useAccount, useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect, useConnect } from 'wagmi'
 import { BadgeInfo } from 'lucide-react'
+import { injected } from 'wagmi/connectors'
 
 const Header = ({
 	home,
@@ -16,7 +17,8 @@ const Header = ({
 	const [isScrolled, setIsScrolled] = useState(false)
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 	const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
-	const { address } = useAccount()
+	const { isConnected, address } = useAccount()
+	const { connect } = useConnect()
 	const { disconnect } = useDisconnect()
 	const pathname = usePathname()
 	const [name, setName] = useState('')
@@ -25,6 +27,24 @@ const Header = ({
 	const menuRef = useRef<HTMLDivElement>(null)
 
 	const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
+
+	useEffect(() => {
+		// Check for saved wallet address in localStorage
+		const savedAddress = localStorage.getItem('walletAddress')
+
+		if (savedAddress) {
+			// Automatically connect if there's an address saved and not currently connected
+			if (!isConnected) {
+				connect({ connector: injected() })
+			}
+		}
+
+		// Manage session details in localStorage based on connection status
+		if (isConnected && !savedAddress) {
+			// Store session details in localStorage
+			localStorage.setItem('walletAddress', address!)
+		}
+	}, [connect, isConnected, address])
 
 	useEffect(() => {
 		const getUserData = async () => {
@@ -96,6 +116,7 @@ const Header = ({
 	}
 
 	const handleLogout = () => {
+		localStorage.removeItem('walletAddress')
 		disconnect()
 	}
 

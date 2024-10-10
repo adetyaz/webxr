@@ -75,7 +75,7 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	useEffect(() => {
 		//@ts-ignore
-		if (account && !mintedNFTs && !mintedNFTs[0]?.token_hash) {
+		if (address && !mintedNFTs && !mintedNFTs[0]?.token_hash) {
 			setTimeout(() => {
 				setUnlockClaimed(true)
 			}, 60000)

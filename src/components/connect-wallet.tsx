@@ -3,7 +3,7 @@
 export const ConnectWallet = () => {
 	return (
 		<>
-			<w3m-button/>
+			<w3m-button />
 		</>
 	)
 }

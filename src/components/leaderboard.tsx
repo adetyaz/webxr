@@ -44,12 +44,12 @@ const Leaderboard = () => {
 	return (
 		<>
 			<div className='bg-black relative'>
-				<div
+				<h1
 					className='text-center font-bold text-[30px] py-[20px] bg-[#00000021] bg-gradient-to-r from-pink-500 via-pink-500 to-blue-500 text-transparent bg-clip-text'
 					style={{ WebkitTextFillColor: 'transparent' }}
 				>
 					More than NFTs.
-				</div>
+				</h1>
 			</div>
 
 			<div className='px-16 pt-20'>

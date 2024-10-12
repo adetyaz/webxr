@@ -18,7 +18,7 @@ const Header = ({
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 	const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
 	const { isConnected, address } = useAccount()
-	const { connect } = useConnect()
+	const { connect, connectors } = useConnect()
 	const { disconnect } = useDisconnect()
 	const pathname = usePathname()
 	const [name, setName] = useState('')
@@ -26,33 +26,25 @@ const Header = ({
 	const [username, setUserName] = useState('')
 	const menuRef = useRef<HTMLDivElement>(null)
 	const [isSessionActive, setIsSessionActive] = useState(false)
+	const [storedAddress, setStoredAddress] = useState<string | null>(null)
 
 	const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
 
 	useEffect(() => {
-		// Check for saved wallet address in localStorage
+		// Check for an existing wallet session in localStorage
 		const savedAddress = localStorage.getItem('walletAddress')
+		setStoredAddress(savedAddress)
 
-		if (savedAddress) {
-			// Set session active if wallet was previously connected
-			setIsSessionActive(true)
+		// Silently connect if there's a saved address but the user is not connected
+		if (savedAddress && !isConnected) {
+			connect({ connector: connectors[0] }) // Assuming InjectedConnector for MetaMask
 		}
 
-		// Manage session details in localStorage based on connection status
-		if (isConnected) {
-			if (!savedAddress) {
-				// Store session details in localStorage when connected
-				localStorage.setItem('walletAddress', address!)
-			}
-			setIsSessionActive(true) // Update session state on connection
-		} else {
-			if (savedAddress) {
-				// Clear session on disconnect
-				localStorage.removeItem('walletAddress')
-				setIsSessionActive(false)
-			}
+		// On connection, store wallet address in localStorage
+		if (isConnected && !savedAddress) {
+			localStorage.setItem('walletAddress', address!)
 		}
-	}, [isConnected, address])
+	}, [isConnected, address, connect, connectors])
 
 	useEffect(() => {
 		const getUserData = async () => {
@@ -154,7 +146,7 @@ const Header = ({
 						<img src={'/logo.png'} className='w-32 md:w-48' alt='Logo' />
 					</a>
 					<div
-						className={` items-center space-x-8 text-lg font-bold ${
+						className={`items-center space-x-8 text-lg font-bold hidden md:flex ${
 							!home ? 'hidden' : 'sm:flex'
 						}`}
 					>

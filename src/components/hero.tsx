@@ -26,9 +26,9 @@ export const Hero = () => {
 			className='flex flex-col justify-between sm:block bg-[#111] text-white relative bg-cover bg-center pt-12'
 			style={{ backgroundImage: isWideScreen ? 'url(/webXR.jpg)' : 'none' }}
 		>
-			<div className=' md:w-1/2 h-full px-8 md:px-16 py-20 flex flex-col justify-start'>
+			<div className=' md:w-1/2 h-full px-8 md:px-16 py-20 md:py-56 flex flex-col justify-start'>
 				<h1
-					className='text-5xl md:text-7xl font-bold text-center sm:text-left bg-gradient-to-r from-pink-500 via-pink-500 via-blue-500 to-blue-500 text-transparent bg-clip-text'
+					className='text-5xl md:text-7xl font-bold text-center sm:text-left gradient-text text-transparent'
 					style={{ WebkitTextFillColor: 'transparent' }}
 				>
 					MyriadFlow <br /> WebXR

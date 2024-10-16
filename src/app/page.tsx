@@ -44,15 +44,18 @@ export default function Home() {
 			{/* // 	</div> */}
 			{/* // </div> */}
 
-			<div className='bg-gradient-to-r from-black via-gray-900 to-purple-900'>
+			<div className='relative'>
+				<div
+					className='absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40'
+					style={{ backgroundImage: "url('/web-bg.png')" }}
+				></div>
+				{/* Overlay */}
+				<div className='absolute inset-0 bg-black bg-opacity-50'></div>
 				<LeaderBoard />
-			</div>
-
-			<div className='bg-gradient-to-r from-black via-gray-900 to-purple-900 pt-20'>
 				<AvatarLeaderboard />
 			</div>
 
-			<div className='bg-gradient-to-r from-black via-gray-900 to-purple-900 pt-20'>
+			<div className='bg-gradient-to-b from-[#121212] to-[#121212] '>
 				<Footer />
 			</div>
 		</div>

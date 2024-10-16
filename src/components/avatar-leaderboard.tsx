@@ -48,16 +48,17 @@ const AvatarLeaderboard = () => {
 	const topAvatars = topAvatarsResult.data
 
 	return (
-		<div>
+		<div className='py-32 md:py-40'>
 			{/* Title */}
-			<div className='font-bold text-white text-6xl px-16 mb-8'>
-				Avatar Leaderboard
+			<div className='px-16 mb-8 flex gap-4'>
+				<div className='bg-[#DF1FDD] h-16 w-2'></div>
+				<h1 className='font-bold text-white text-6xl'>Avatar Leaderboard</h1>
 			</div>
 
 			{/* Top Performing Avatars Section */}
 
 			{topAvatars && (
-				<div className='flex justify-between px-16'>
+				<div className='flex justify-between px-16 pb-12'>
 					<h2 className='text-white text-2xl'>
 						{"This Week's Top Performing AI-Powered Brand Ambassadors"}
 					</h2>
@@ -65,14 +66,14 @@ const AvatarLeaderboard = () => {
 			)}
 
 			{topAvatars && (
-				<div className='flex flex-wrap justify-center px-10 py-20 '>
+				<div className='flex flex-wrap items-end justify-center px-10 py-20 bg-[#ffffff42] relative '>
 					{/* Silver */}
-					<div className='w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0'>
+					<div className='h-max w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0 '>
 						{topAvatars?.[1] && (
 							<>
 								<Avatar
 									modelSrc={topAvatars?.[1].url!}
-									cameraInitialDistance={3.2}
+									cameraInitialDistance={2.5}
 								/>
 								<div className='relative mt-4'>
 									<Image
@@ -82,31 +83,37 @@ const AvatarLeaderboard = () => {
 										alt='Silver'
 										className='w-full h-auto object-cover'
 									/>
-									<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-2xl font-bold text-white'>
-										SILVER
+								</div>
+								<div>
+									<div className='text-white flex gap-4 items-center justify-center mt-4 '>
+										<Image src='/star.png' alt='star' width={20} height={20} />
+										{topAvatars?.[1].count * 100}
+										<Image src='/star.png' alt='star' width={20} height={20} />
 									</div>
+									<p className='text-center text-xl text-white mb-4'>
+										star points
+									</p>
 								</div>
-								<div className='text-white flex justify-center mt-4 mb-8'>
-									No. tokens: {topAvatars?.[1].count}
-								</div>
+
 								<Link
 									href={`https://webxr.myriadflow.com/${topAvatars?.[1].phygital_id}`}
 								>
-									<button className='text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
+									<div className='bg-gradient-to-b from-[#999999] to-[#DD21DD]  text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
-									</button>
+									</div>
 								</Link>
 							</>
 						)}
+						<div className=' h-12'></div>
 					</div>
 
 					{/* Gold */}
-					<div className='w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0'>
+					<div className='h-max w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0'>
 						{topAvatars?.[0] && (
 							<>
 								<Avatar
 									modelSrc={topAvatars?.[0].url!}
-									cameraInitialDistance={3}
+									cameraInitialDistance={5}
 								/>
 								<div className='relative mt-4'>
 									<Image
@@ -116,26 +123,31 @@ const AvatarLeaderboard = () => {
 										alt='Gold'
 										className='w-full h-auto object-cover'
 									/>
-									<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-2xl font-bold text-white'>
-										GOLD
-									</div>
 								</div>
-								<div className='text-white flex justify-center mt-4 mb-8'>
-									No. tokens: {topAvatars?.[0].count}
+								<div>
+									<div className='text-white flex gap-4 items-center justify-center mt-4 '>
+										<Image src='/star.png' alt='star' width={20} height={20} />
+										{topAvatars?.[0].count * 100}
+										<Image src='/star.png' alt='star' width={20} height={20} />
+									</div>
+									<p className='text-center text-xl text-white mb-4'>
+										star points
+									</p>
 								</div>
 								<Link
 									href={`https://webxr.myriadflow.com/${topAvatars?.[0].phygital_id}`}
 								>
-									<button className='text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
+									<div className='bg-gradient-to-b from-[#999999] to-[#DD21DD]  text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
-									</button>
+									</div>
 								</Link>
 							</>
 						)}
+						<div className='h-28'></div>
 					</div>
 
 					{/* Bronze */}
-					<div className='w-full md:w-1/3 flex flex-col items-center justify-center'>
+					<div className='h-max w-full md:w-1/3 flex flex-col items-center justify-center'>
 						{topAvatars?.[2] && (
 							<>
 								<Avatar
@@ -149,15 +161,23 @@ const AvatarLeaderboard = () => {
 									alt='Bronze'
 									className='w-3/5 object-cover mt-4'
 								/>
-								<div className='text-white flex justify-center mt-4 mb-8'>
-									No. tokens: {topAvatars?.[2].count}
+								<div>
+									<div className='text-white flex gap-4 items-center justify-center mt-4 '>
+										<Image src='/star.png' alt='star' width={20} height={20} />
+										{topAvatars?.[2].count * 100}
+										<Image src='/star.png' alt='star' width={20} height={20} />
+									</div>
+									<p className='text-center text-xl text-white mb-4'>
+										star points
+									</p>
 								</div>
+
 								<Link
 									href={`https://webxr.myriadflow.com/${topAvatars?.[2].phygital_id}`}
 								>
-									<button className='text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
+									<div className='bg-gradient-to-b from-[#999999] to-[#DD21DD] text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
-									</button>
+									</div>
 								</Link>
 							</>
 						)}
@@ -187,16 +207,20 @@ const AvatarLeaderboard = () => {
 			</div>
 
 			{/* Call to Action */}
-			<div className='flex items-center justify-center min-h-screen'>
-				<div className='p-1 rounded-lg w-96 h-96 flex items-center justify-center bg-transparent border-8 border-transparent rounded-8 bg-gradient-to-r from-black to-gray-800 bg-clip-border'>
-					<div className='text-center h-80 w-80 flex flex-col items-center justify-center'>
+			<div className='flex items-center justify-center min-h-screen relative z-10 '>
+				<div className='p-2 w-96 h-80 flex items-center justify-center bg-gradient-to-b from-blue-500 to-pink-500 rounded-3xl'>
+					<div className='text-center size-full flex flex-col items-center justify-center bg-[#121212] rounded-2xl'>
 						<h1 className='text-white font-bold mb-4 text-3xl'>
 							Create Profile
 						</h1>
-						<p className='mb-4 text-white'>& Earn Rewards</p>
-						<button className='rounded bg-transparent border-8 border-transparent bg-gradient-to-r from-white to-pink-500 bg-clip-border text-black cursor-pointer hover:scale-105 transition-transform duration-300'>
-							Get Started
-						</button>
+						<p className='mb-4 text-white text-xl'>& Earn Rewards</p>
+						<Link href={'https://base-discover.vercel.app/profile'}>
+							<button className='rounded-lg px-2 py-3 bg-gradient-to-r from-purple-700 to-blue-500 text-black cursor-pointer hover:scale-105 transition-transform duration-300'>
+								<span className='size-full bg-white py-2 px-6 rounded'>
+									Get Started
+								</span>
+							</button>
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -205,3 +229,5 @@ const AvatarLeaderboard = () => {
 }
 
 export default AvatarLeaderboard
+
+// background: linear-gradient(0deg, #DD21DD 0%, #999999 100%);

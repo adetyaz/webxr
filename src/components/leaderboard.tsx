@@ -43,9 +43,9 @@ const Leaderboard = () => {
 
 	return (
 		<>
-			<div className='bg-black relative'>
+			<div className='bg-black relative z-10'>
 				<h1
-					className='text-center font-bold text-[30px] py-[20px] bg-[#00000021] bg-gradient-to-r from-pink-500 via-pink-500 to-blue-500 text-transparent bg-clip-text'
+					className='text-center font-bold text-4xl md:text-5xl py-[20px] bg-[#00000021] gradient-text-banner text-transparent '
 					style={{ WebkitTextFillColor: 'transparent' }}
 				>
 					More than NFTs.

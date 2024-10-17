@@ -26,14 +26,14 @@ export const Hero = () => {
 			className='flex flex-col justify-between sm:block bg-[#111] text-white relative bg-cover bg-center pt-12'
 			style={{ backgroundImage: isWideScreen ? 'url(/webXR.jpg)' : 'none' }}
 		>
-			<div className=' md:w-1/2 h-full px-8 md:px-16 py-20 md:py-56 flex flex-col justify-start'>
+			<div className=' md:w-1/2 h-full px-8 md:px-16 2xl:px-36 py-20 md:py-56 flex flex-col justify-start'>
 				<h1
 					className='text-5xl md:text-7xl font-bold text-center sm:text-left gradient-text text-transparent'
 					style={{ WebkitTextFillColor: 'transparent' }}
 				>
 					MyriadFlow <br /> WebXR
 				</h1>
-				<h2 className='text-2xl font-semibold mt-6 text-white text-center sm:text-left'>
+				<h2 className='text-2xl md:text-4xl font-semibold mt-6 text-white text-center sm:text-left'>
 					Xperience & Interact
 				</h2>
 				<p className='text-2xl mt-10'>

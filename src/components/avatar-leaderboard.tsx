@@ -4,6 +4,7 @@ import { useQueries, useQuery } from '@tanstack/react-query'
 import { getAvatars, getFanTokens } from '@/utils/queries'
 import { AvatarType, FanTokenType } from '@/types/types'
 import Image from 'next/image'
+import { getFanMainTokens } from '../utils/queries'
 
 const AvatarLeaderboard = () => {
 	const getTopAvatars = (avatars: AvatarType[], fantokens: FanTokenType[]) => {
@@ -32,23 +33,33 @@ const AvatarLeaderboard = () => {
 				queryFn: getAvatars,
 			},
 			{
-				queryKey: ['fantokens'],
+				queryKey: ['mainFanTokens'],
+				queryFn: getFanMainTokens,
+			},
+			{
+				queryKey: ['fanTokens'],
 				queryFn: getFanTokens,
 			},
 		],
 	})
 
-	const [avatarsResult, fantokenResults] = results
+	const [avatarsResult, fanTokenMainResults, fanTokenResults] = results
 
 	const topAvatarsResult = useQuery({
 		queryKey: ['topAvatars'],
-		queryFn: () => getTopAvatars(avatarsResult.data, fantokenResults.data),
+		queryFn: () => getTopAvatars(avatarsResult.data, fanTokenMainResults.data),
 	})
 
 	const topAvatars = topAvatarsResult.data
 
+	console.log(topAvatars)
+
+	console.log(fanTokenMainResults.data)
+
+	console.log(fanTokenResults.data)
+
 	return (
-		<div className='py-32 md:py-40'>
+		<div className='py-32 md:py-40 relative z-10'>
 			{/* Title */}
 			<div className='px-16 mb-8 flex gap-4'>
 				<div className='bg-[#DF1FDD] h-16 w-2'></div>
@@ -68,7 +79,7 @@ const AvatarLeaderboard = () => {
 			{topAvatars && (
 				<div className='flex flex-wrap items-end justify-center px-10 py-20 bg-[#ffffff42] relative '>
 					{/* Silver */}
-					<div className='h-max w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0 '>
+					<div className='h-max md:h-[30rem] w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0 '>
 						{topAvatars?.[1] && (
 							<>
 								<Avatar
@@ -85,7 +96,7 @@ const AvatarLeaderboard = () => {
 									/>
 								</div>
 								<div>
-									<div className='text-white flex gap-4 items-center justify-center mt-4 '>
+									<div className='text-white flex gap-4 items-center justify-center mt-4 text-xl'>
 										<Image src='/star.png' alt='star' width={20} height={20} />
 										{topAvatars?.[1].count * 100}
 										<Image src='/star.png' alt='star' width={20} height={20} />
@@ -104,16 +115,16 @@ const AvatarLeaderboard = () => {
 								</Link>
 							</>
 						)}
-						<div className=' h-12'></div>
+						<div className='h-12'></div>
 					</div>
 
 					{/* Gold */}
-					<div className='h-max w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0'>
+					<div className='h-max md:h-[35rem] w-full md:w-1/3 flex flex-col items-center justify-center mb-10 md:mb-0'>
 						{topAvatars?.[0] && (
 							<>
 								<Avatar
 									modelSrc={topAvatars?.[0].url!}
-									cameraInitialDistance={5}
+									cameraInitialDistance={3}
 								/>
 								<div className='relative mt-4'>
 									<Image
@@ -125,7 +136,7 @@ const AvatarLeaderboard = () => {
 									/>
 								</div>
 								<div>
-									<div className='text-white flex gap-4 items-center justify-center mt-4 '>
+									<div className='text-white flex gap-4 items-center justify-center mt-4 text-xl'>
 										<Image src='/star.png' alt='star' width={20} height={20} />
 										{topAvatars?.[0].count * 100}
 										<Image src='/star.png' alt='star' width={20} height={20} />
@@ -147,12 +158,12 @@ const AvatarLeaderboard = () => {
 					</div>
 
 					{/* Bronze */}
-					<div className='h-max w-full md:w-1/3 flex flex-col items-center justify-center'>
+					<div className='h-max md:h-[30rem] w-full md:w-1/3 flex flex-col items-center justify-center'>
 						{topAvatars?.[2] && (
 							<>
 								<Avatar
 									modelSrc={topAvatars?.[2].url!}
-									cameraInitialDistance={3.5}
+									cameraInitialDistance={0.5}
 								/>
 								<Image
 									height={150}
@@ -162,7 +173,7 @@ const AvatarLeaderboard = () => {
 									className='w-3/5 object-cover mt-4'
 								/>
 								<div>
-									<div className='text-white flex gap-4 items-center justify-center mt-4 '>
+									<div className='text-white flex gap-4 items-center justify-center mt-4 text-xl'>
 										<Image src='/star.png' alt='star' width={20} height={20} />
 										{topAvatars?.[2].count * 100}
 										<Image src='/star.png' alt='star' width={20} height={20} />
@@ -201,9 +212,12 @@ const AvatarLeaderboard = () => {
 					alt='Right Trophy'
 					className='absolute top-0 right-10 w-24 h-24'
 				/>
-				<div className='text-center text-2xl font-bold text-white bg-gradient-to-r from-blue-500 to-purple-700 bg-clip-text py-4'>
+				<h1
+					className='text-center text-4xl font-bold gradient-text-banner-2 text-transparent py-4'
+					style={{ WebkitTextFillColor: 'transparent' }}
+				>
 					Rewarding Creators, Owners and Supporters.
-				</div>
+				</h1>
 			</div>
 
 			{/* Call to Action */}

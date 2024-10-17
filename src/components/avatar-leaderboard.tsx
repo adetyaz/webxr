@@ -52,11 +52,11 @@ const AvatarLeaderboard = () => {
 
 	const topAvatars = topAvatarsResult.data
 
-	console.log(topAvatars)
+	// console.log(topAvatars)
 
-	console.log(fanTokenMainResults.data)
+	// console.log(fanTokenMainResults.data)
 
-	console.log(fanTokenResults.data)
+	// console.log(fanTokenResults.data)
 
 	return (
 		<div className='py-32 md:py-40 relative z-10'>

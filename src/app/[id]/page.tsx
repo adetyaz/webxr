@@ -12,7 +12,6 @@ import { baseURI, getAvatars, getPhygital, getWebXR } from '@/utils/queries'
 import { AvatarType } from '@/types/types'
 import Header from '@/components/header'
 import Moralis from 'moralis'
-import { injected } from 'wagmi/connectors'
 
 export default function Home({ params }: { params: { id: string } }) {
 	const { id } = params
@@ -20,8 +19,7 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [showCard, setShowCard] = useState(false)
 	const [mintedNFTs, setMintedNFTs] = useState([])
 
-	const { address, isConnected } = useAccount()
-	const { connect } = useConnect()
+	const { address } = useAccount()
 
 	const chainId = useChainId()
 	const apiKey = process.env.NEXT_PUBLIC_MORALIS_API_KEY

@@ -19,7 +19,7 @@ const Leaderboard = () => {
 		})
 
 		const avatardata: AvatarType[] = await avatar.json()
-		// setAvatar(avatardata);
+
 		setAvatar([...avatardata].reverse())
 	}
 
@@ -43,16 +43,16 @@ const Leaderboard = () => {
 
 	return (
 		<>
-			<div className='bg-black relative z-10'>
+			<div className='bg-black'>
 				<h1
-					className='text-center font-bold text-4xl md:text-5xl py-[20px] bg-[#00000021] gradient-text-banner text-transparent '
+					className='text-center font-bold text-4xl py-[20px] bg-[#00000021] gradient-text-banner text-transparent '
 					style={{ WebkitTextFillColor: 'transparent' }}
 				>
 					More than NFTs.
 				</h1>
 			</div>
 
-			<div className='px-16 pt-20'>
+			<div className='px-16 pt-20 relative z-10'>
 				<div className='text-lg font-semibold mt-6 text-[#DF1FDD]'>
 					Most Recently Launched
 				</div>

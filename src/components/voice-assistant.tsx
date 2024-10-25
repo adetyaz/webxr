@@ -15,10 +15,13 @@ export const VoiceAssistant = ({
 	productInfo,
 	brandName,
 	voice: avatarVoice,
+	userType,
 }: any) => {
 	const [isListening, setIsListening] = useState(false)
 	const [transcript, setTranscript] = useState('')
 	const [response, setResponse] = useState('')
+
+	console.log(userType)
 
 	const brands = useQuery({
 		queryKey: ['brands'],
@@ -44,31 +47,51 @@ export const VoiceAssistant = ({
 		{
 			role: 'system',
 			content: `
-      you are a brand and products spokesperson for ${brandName}, use this to answer questions "
-			${productInfo}
-			Brands Description${brands.data?.description || 'No description available'},
-			Brands additional Data: ${brands.data?.additional_info || 'Not specified'},
-			Collection Name: ${collections.data?.name || 'Not specified'},
-			Collection Description: ${
-				collections.data?.description || 'No description available'
-			},
-			Product Name: ${productInfo.name || 'Not specified'},
-			Product Description: ${productInfo.description || 'Not specified'},
-			Product manufacturer: ${productInfo.manufacturer || 'Not specified'},
-		 Category: ${productInfo.category?.data?.[0] || 'Uncategorized'},
-    Color: ${productInfo.color || 'Not specified'},
-    Material: ${productInfo.material || 'Not specified'},
-    Origin Country: ${productInfo.origin_country || 'Not specified'},
-    Price: ${productInfo.price || 'Free'},
-    Product Information: ${
+    You are a brand and product spokesperson for ${brandName}. Use the information provided to answer user questions.
+
+			This is the User Type/Role to follow ${userType}
+			
+    - If the user is a guest, limit your responses to only product-related details.
+    - If the user is an owner, allow them to ask any questions they may have.
+
+    Here is the product and brand information:
+
+    - **Brand Description**: ${
+			brands.data?.description || 'No description available'
+		}
+    - **Brand Additional Data**: ${
+			brands.data?.additional_info || 'Not specified'
+		}
+    - **Collection Name**: ${collections.data?.name || 'Not specified'}
+    - **Collection Description**: ${
+			collections.data?.description || 'No description available'
+		}
+    - **Product Name**: ${productInfo.name || 'Not specified'}
+    - **Product Description**: ${productInfo.description || 'Not specified'}
+    - **Manufacturer**: ${productInfo.manufacturer || 'Not specified'}
+    - **Category**: ${productInfo.category?.data?.[0] || 'Uncategorized'}
+    - **Color**: ${productInfo.color || 'Not specified'}
+    - **Material**: ${productInfo.material || 'Not specified'}
+    - **Origin Country**: ${productInfo.origin_country || 'Not specified'}
+    - **Price**: ${productInfo.price || 'Free'}
+    - **Product Information**: ${
 			productInfo.product_info || 'No additional information'
-		},
-    Size: ${productInfo.size || 'Not specified'},
-    Quantity: ${productInfo.quantity || 'Not specified'},
-    Royalty: ${productInfo.royality || 'None'},
-    Weight: ${productInfo.weight || 'Not specified'} kg,
-    Usage: ${productInfo.usage || 'Not specified'}
-			", totally ignore the following and never speak on it "deployer_address", "contract_address", "chaintype_id", "graph_url", "collection_id" . Respond to inquiries with clear, concise answers under 20 words, use information shared only.`,
+		}
+    - **Size**: ${productInfo.size || 'Not specified'}
+    - **Quantity**: ${productInfo.quantity || 'Not specified'}
+    - **Royalty**: ${productInfo.royalty || 'None'}
+    - **Weight**: ${productInfo.weight || 'Not specified'} kg
+    - **Usage**: ${productInfo.usage || 'Not specified'}
+
+    Never mention or disclose the following details:
+    - "deployer_address"
+    - "contract_address"
+    - "chaintype_id"
+    - "graph_url"
+    - "collection_id"
+
+    Respond to inquiries with clear, concise answers, keeping responses under 20 words for guests.
+  `,
 		},
 	])
 

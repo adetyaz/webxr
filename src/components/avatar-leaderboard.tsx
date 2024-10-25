@@ -13,33 +13,27 @@ const AvatarLeaderboard = () => {
 	const { address } = useAccount()
 
 	const chainId = useChainId()
+
+	const CHAIN_ID = 8453
 	const apiKey = process.env.NEXT_PUBLIC_MORALIS_API_KEY
 
-	useEffect(() => {
-		console.log(chainId)
+	const fetchNFTs = async (address: string) => {
+		try {
+			await Moralis.start({ apiKey })
 
-		const fetchNFTs = async () => {
-			try {
-				await Moralis.start({ apiKey })
+			const assets = await Moralis.EvmApi.nft.getWalletNFTs({
+				chain: CHAIN_ID,
+				format: 'decimal',
+				mediaItems: false,
+				address,
+			})
 
-				const assets = await Moralis.EvmApi.nft.getWalletNFTs({
-					chain: chainId,
-					format: 'decimal',
-					mediaItems: false,
-					address: '0x99BD4BDD7A9c22E2a35F09A6Bd17f038D5E5eB87',
-				})
-
-				//@ts-ignore
-				console.log('NFTs:', assets.raw.result)
-			} catch (e) {
-				console.error(e)
-			}
+			//@ts-ignore
+			console.log('NFTs:', assets.raw.result)
+		} catch (e) {
+			console.error(e)
 		}
-
-		if (address) {
-			fetchNFTs()
-		}
-	}, [address])
+	}
 
 	const getTopAvatars = (avatars: AvatarType[], fantokens: FanTokenType[]) => {
 		const avatarTokenCount = avatars?.reduce((count, avatar) => {
@@ -70,7 +64,8 @@ const AvatarLeaderboard = () => {
 				queryKey: ['mainFanTokens'],
 				queryFn: async () => {
 					const results = await getFanMainTokens()
-					return results.map((token: any) => token.creatorWallet)
+					return results
+					// .map((token: any) => token.creatorWallet)
 				},
 			},
 			{
@@ -84,14 +79,14 @@ const AvatarLeaderboard = () => {
 
 	const topAvatarsResult = useQuery({
 		queryKey: ['topAvatars'],
-		queryFn: () => getTopAvatars(avatarsResult.data, fanTokenMainResults.data),
+		queryFn: () => getTopAvatars(avatarsResult.data, fanTokenResults.data),
 	})
 
 	const topAvatars = topAvatarsResult.data
 
 	// console.log(topAvatars)
 
-	// console.log(fanTokenMainResults.data)
+	console.log(fanTokenMainResults.data)
 
 	// console.log(fanTokenResults.data)
 

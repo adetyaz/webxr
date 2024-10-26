@@ -12,16 +12,15 @@ import { baseURI, getAvatars, getPhygital, getWebXR } from '@/utils/queries'
 import { AvatarType } from '@/types/types'
 import Header from '@/components/header'
 import Moralis from 'moralis'
-import { injected } from 'wagmi/connectors'
 
 export default function Home({ params }: { params: { id: string } }) {
 	const { id } = params
 	const [unlockClaimed, setUnlockClaimed] = useState(false)
 	const [showCard, setShowCard] = useState(false)
 	const [mintedNFTs, setMintedNFTs] = useState([])
+	const [userType, setUserType] = useState('guest')
 
-	const { address, isConnected } = useAccount()
-	const { connect } = useConnect()
+	const { address } = useAccount()
 
 	const chainId = useChainId()
 	const apiKey = process.env.NEXT_PUBLIC_MORALIS_API_KEY
@@ -57,12 +56,28 @@ export default function Home({ params }: { params: { id: string } }) {
 					chain: chainId,
 					format: 'decimal',
 					mediaItems: false,
-					address: address!,
+					address: '0x99BD4BDD7A9c22E2a35F09A6Bd17f038D5E5eB87',
 				})
 
 				//@ts-ignore
 				setMintedNFTs(assets?.raw?.result)
-				console.log('NFTs:', assets.raw.result)
+
+				// console.log('NFTs:', assets.raw.result)
+				// console.log('Contract Address: ', phygitalResult.data?.contract_address)
+				// console.log(
+				// 	'Token Addresses: ',
+				// 	assets.raw.result.map((nft) => nft.token_address)
+				// )
+
+				if (assets?.raw?.result && phygitalResult?.data?.contract_address) {
+					const result = assets.raw.result.find(
+						(nft) => nft.token_address === phygitalResult.data.contract_address
+					)
+					console.log(result)
+					setUserType('owner')
+				} else {
+					console.log('No matching data or contract address is undefined')
+				}
 			} catch (e) {
 				console.error(e)
 			}
@@ -108,6 +123,8 @@ export default function Home({ params }: { params: { id: string } }) {
 	const webxr = webxrResult.data
 	const avatar = avatarResult.data
 
+	// console.log(phygital)
+
 	return (
 		<main className='flex h-dvh flex-col items-center justify-between p-24 relative'>
 			<Header home={false} onClick={() => setShowCard(!showCard)} />
@@ -137,6 +154,7 @@ export default function Home({ params }: { params: { id: string } }) {
 						productInfo={phygital}
 						brandName={phygital.brand_name}
 						voice={avatar.avatar_voice}
+						userType={userType}
 					/>
 				</div>
 				<div className='absolute transform -translate-x-1/2  md:-translate-x-0 md:left-4 bottom-48 md:bottom-16 h-3/5 md:h-3/4'>

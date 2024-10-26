@@ -127,7 +127,7 @@ const Header = ({
 	return (
 		<>
 			<div
-				className={`fixed top-0 w-full  py-4 transition-all duration-300 ease-in-out 
+				className={`fixed top-0 w-full py-4 transition-all duration-300 ease-in-out 
 					${isScrolled ? 'bg-white' : 'bg-transparent'} 
 					${home ? 'bg-gradient-to-r' : 'bg-transparent'} 
 				
@@ -146,7 +146,7 @@ const Header = ({
 						<img src={'/logo.png'} className='w-32 md:w-48' alt='Logo' />
 					</a>
 					<div
-						className={`items-center space-x-8 text-lg font-bold hidden md:flex ${
+						className={`items-center space-x-8 text-lg font-bold hidden ${
 							!home ? 'hidden' : 'sm:flex'
 						}`}
 					>

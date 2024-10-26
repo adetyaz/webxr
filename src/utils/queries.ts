@@ -34,6 +34,11 @@ export const getFanTokens = async () => {
 	return response.data
 }
 
+export const getFanMainTokens = async () => {
+	const response = await axios.get(`${baseURI}/get-mint-fantoken`)
+	return response.data
+}
+
 export const getProfileByWallet = async (walletAddress: string) => {
 	const response = await axios.get(`${baseURI}/profile/wallet/${walletAddress}`)
 

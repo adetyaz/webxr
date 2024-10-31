@@ -19,7 +19,7 @@ export default function Home({ params }: { params: { id: string } }) {
 	const { id } = params
 	const [unlockClaimed, setUnlockClaimed] = useState(false)
 	const [showCard, setShowCard] = useState(false)
-	const [mintedNFTs, setMintedNFTs] = useState([])
+	const [mintedNFTs, setMintedNFTs] = useState<any[]>([])
 	const [userType, setUserType] = useState('guest')
 	const [showProvenance, setShowProvenance] = useState(false)
 	
@@ -80,7 +80,7 @@ export default function Home({ params }: { params: { id: string } }) {
 					address: address!,
 				})
 
-
+				setMintedNFTs(assets?.raw?.result || [])
 				console.log(assets?.raw?.result)
 				if (assets?.raw?.result && phygitalAddress) {
 					const addressResult = assets.raw.result.some(

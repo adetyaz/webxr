@@ -29,8 +29,8 @@ export const InfoCard = ({ phygital }: any) => {
 				/>
 			</div>
 			<div>
-				<div className=''>
-					<p className='text-ellipsis'>
+				<div>
+					<p className='text-ellipsis text-base'>
 						{!phygital.description
 							? 'loading'
 							: truncateString(phygital?.description)}

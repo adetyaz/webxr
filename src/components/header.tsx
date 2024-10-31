@@ -33,7 +33,6 @@ const Header = ({
 	const [isSessionActive, setIsSessionActive] = useState(false)
 	const [storedAddress, setStoredAddress] = useState<string | null>(null)
 
-	console.log(userType)
 
 	const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
 

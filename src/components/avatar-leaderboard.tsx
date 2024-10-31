@@ -10,9 +10,9 @@ import { useAccount, useChainId, useConnect } from 'wagmi'
 import { useEffect, useState } from 'react'
 
 const AvatarLeaderboard = () => {
-	const { address } = useAccount()
+	// const { address } = useAccount()
 
-	const chainId = useChainId()
+	// const chainId = useChainId()
 
 	const CHAIN_ID = 8453
 	const apiKey = process.env.NEXT_PUBLIC_MORALIS_API_KEY

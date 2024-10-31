@@ -9,9 +9,11 @@ import { toast } from 'react-toastify'
 import { VoiceAssistant } from '@/components/voice-assistant'
 import { useQueries } from '@tanstack/react-query'
 import { baseURI, getAvatars, getPhygital, getWebXR } from '@/utils/queries'
-import { AvatarType } from '@/types/types'
+import { AvatarType, PhygitalType } from '@/types/types'
 import Header from '@/components/header'
 import Moralis from 'moralis'
+import { ProvenanceAttestation } from '@/components/provenance-attestation'
+
 
 export default function Home({ params }: { params: { id: string } }) {
 	const { id } = params
@@ -19,6 +21,8 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [showCard, setShowCard] = useState(false)
 	const [mintedNFTs, setMintedNFTs] = useState([])
 	const [userType, setUserType] = useState('guest')
+	const [showProvenance, setShowProvenance] = useState(false)
+	
 
 	const { address } = useAccount()
 
@@ -28,19 +32,25 @@ export default function Home({ params }: { params: { id: string } }) {
 	const results = useQueries({
 		queries: [
 			{
-				queryKey: ['phygital'],
+				queryKey: ['phygital', id],
 				queryFn: () => getPhygital(id),
+				staleTime: 1000 * 60 * 5,
+				retry: 3,
 			},
 			{
-				queryKey: ['webxr'],
+				queryKey: ['webxr', id],
 				queryFn: () => getWebXR(id),
+				staleTime: 1000 * 60 * 5,
+				retry: 3,
 			},
 			{
-				queryKey: ['avatar'],
+				queryKey: ['avatar', id],
 				queryFn: async () => {
 					const avatars = await getAvatars()
 					return avatars.find((avatar: AvatarType) => avatar.phygital_id === id)
 				},
+				staleTime: 1000 * 60 * 5,
+				retry: 3,
 			},
 		],
 	})
@@ -48,7 +58,18 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [phygitalResult, webxrResult, avatarResult] = results
 
 	useEffect(() => {
-		const fetchNFTs = async () => {
+	// console.log(phygitalResult.data)
+		if (address && chainId && phygitalResult.data) {
+			fetchNFTs(phygitalResult.data)
+		}
+
+	}, [phygitalResult, address, chainId])
+
+
+		const fetchNFTs = async (data: PhygitalType) => {
+		
+			const phygitalAddress = data.contract_address
+
 			try {
 				await Moralis.start({ apiKey })
 
@@ -56,25 +77,21 @@ export default function Home({ params }: { params: { id: string } }) {
 					chain: chainId,
 					format: 'decimal',
 					mediaItems: false,
-					address: '0x99BD4BDD7A9c22E2a35F09A6Bd17f038D5E5eB87',
+					address: address!,
 				})
 
-				//@ts-ignore
-				setMintedNFTs(assets?.raw?.result)
 
-				// console.log('NFTs:', assets.raw.result)
-				// console.log('Contract Address: ', phygitalResult.data?.contract_address)
-				// console.log(
-				// 	'Token Addresses: ',
-				// 	assets.raw.result.map((nft) => nft.token_address)
-				// )
-
-				if (assets?.raw?.result && phygitalResult?.data?.contract_address) {
-					const result = assets.raw.result.find(
-						(nft) => nft.token_address === phygitalResult.data.contract_address
+				console.log(assets?.raw?.result)
+				if (assets?.raw?.result && phygitalAddress) {
+					const addressResult = assets.raw.result.some(
+						(nft) => nft.token_address.toLowerCase() === phygitalAddress.toLowerCase()
 					)
-					console.log(result)
-					setUserType('owner')
+					
+					if (addressResult === true) {
+						
+						setUserType('owner')
+					}
+
 				} else {
 					console.log('No matching data or contract address is undefined')
 				}
@@ -82,11 +99,6 @@ export default function Home({ params }: { params: { id: string } }) {
 				console.error(e)
 			}
 		}
-
-		if (address && chainId) {
-			fetchNFTs()
-		}
-	}, [address])
 
 	useEffect(() => {
 		//@ts-ignore
@@ -123,11 +135,10 @@ export default function Home({ params }: { params: { id: string } }) {
 	const webxr = webxrResult.data
 	const avatar = avatarResult.data
 
-	// console.log(phygital)
 
 	return (
 		<main className='flex h-dvh flex-col items-center justify-between p-24 relative'>
-			<Header home={false} onClick={() => setShowCard(!showCard)} />
+			<Header home={false} onClick={() => setShowCard(!showCard)} userType={userType} showAttestation={() => setShowProvenance(true)} />
 
 			<a-scene>
 				<a-sky
@@ -145,7 +156,10 @@ export default function Home({ params }: { params: { id: string } }) {
 						<InfoCard phygital={phygital} />
 					</div>
 				)}
-
+				{userType === 'owner' && showProvenance && <div className='z-10 md:w-[60%] top-1/2 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 h-[85%] overflow-y-scroll'>
+					<ProvenanceAttestation phygital={phygital} avatarModel={avatar && avatar.url} showAttestation={() => setShowProvenance(false)} />
+					</div>
+}
 				<div className='hidden md:block absolute right-2 bottom-8'>
 					<InfoCard phygital={phygital} />
 				</div>

@@ -3,14 +3,14 @@ import LeaderBoard from '@/components/leaderboard'
 import AvatarLeaderboard from '@/components/avatar-leaderboard'
 import Footer from '@/components/footer'
 import Image from 'next/image'
-import { ConnectWallet } from '@/components/connect-wallet'
+
 import Header from '../components/header'
 import { Hero } from '@/components/hero'
 
 export default function Home() {
 	return (
 		<div className='bg-black'>
-			<Header home />
+			<Header home userType={''} />
 			<Hero />
 			{/* 
 			<div className='flex h-screen bg-[#121212] text-white relative'>

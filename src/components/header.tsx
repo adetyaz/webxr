@@ -6,13 +6,18 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useAccount, useDisconnect, useConnect } from 'wagmi'
 import { BadgeInfo } from 'lucide-react'
 import { injected } from 'wagmi/connectors'
+import Image from 'next/image'
 
 const Header = ({
 	home,
 	onClick,
+	userType,
+	showAttestation
 }: {
 	home: boolean
 	onClick?: React.ReactEventHandler
+	userType: string
+	showAttestation: () => void
 }) => {
 	const [isScrolled, setIsScrolled] = useState(false)
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -27,6 +32,8 @@ const Header = ({
 	const menuRef = useRef<HTMLDivElement>(null)
 	const [isSessionActive, setIsSessionActive] = useState(false)
 	const [storedAddress, setStoredAddress] = useState<string | null>(null)
+
+	console.log(userType)
 
 	const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
 
@@ -308,6 +315,9 @@ const Header = ({
 							<img src='/menu.png' alt='Menu' className='w-6 h-6 ml-4' />
 						</button>
 						<BadgeInfo className='cursor-pointer md:hidden' onClick={onClick} />
+						{userType === 'owner' && <div onClick={showAttestation} className='cursor-pointer'>
+							<Image src='/receipt.png' alt='Create' width={40} height={40} />
+						</div>}
 					</div>
 				</div>
 				{isDropdownOpen && (

@@ -83,4 +83,6 @@ export type PhygitalType = {
 	graph_url: string
 	collection_id: string
 	chaintype_id: string
+	created_at: string
+	updated_at: string
 }

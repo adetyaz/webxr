@@ -10,7 +10,7 @@ import { Hero } from '@/components/hero'
 export default function Home() {
 	return (
 		<div className='bg-black'>
-			<Header home userType={''} />
+			<Header home  />
 			<Hero />
 			{/* 
 			<div className='flex h-screen bg-[#121212] text-white relative'>

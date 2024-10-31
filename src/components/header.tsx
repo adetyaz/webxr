@@ -16,8 +16,8 @@ const Header = ({
 }: {
 	home: boolean
 	onClick?: React.ReactEventHandler
-	userType: string
-	showAttestation: () => void
+	userType?: string
+	showAttestation?: () => void
 }) => {
 	const [isScrolled, setIsScrolled] = useState(false)
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)

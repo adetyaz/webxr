@@ -14,6 +14,11 @@ export const getCollections = async () => {
 	return response.data
 }
 
+export const getPhygitals = async () => {
+	const response = await axios.get(`${baseURI}/phygitals/all`)
+	return response.data
+}
+
 export const getPhygital = async (id: string) => {
 	const response = await axios.get(`${baseURI}/phygitals/${id}`)
 	return response.data

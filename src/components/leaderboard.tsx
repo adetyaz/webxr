@@ -43,7 +43,7 @@ const Leaderboard = () => {
 
 	return (
 		<>
-			<div className='bg-black'>
+			<div className='bg-black relative z-10'>
 				<h1
 					className='text-center font-bold text-4xl py-[20px] bg-[#00000021] gradient-text-banner text-transparent '
 					style={{ WebkitTextFillColor: 'transparent' }}

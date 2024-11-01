@@ -21,7 +21,7 @@ export const VoiceAssistant = ({
 	const [transcript, setTranscript] = useState('')
 	const [response, setResponse] = useState('')
 
-	console.log(userType)
+	// console.log(userType)
 
 	const brands = useQuery({
 		queryKey: ['brands'],
@@ -50,7 +50,7 @@ export const VoiceAssistant = ({
     You are a brand and product spokesperson for ${brandName}. Use the information provided to answer user questions.
 
 			This is the User Type/Role to follow ${userType}
-			
+
     - If the user is a guest, limit your responses to only product-related details.
     - If the user is an owner, allow them to ask any questions they may have.
 
@@ -95,30 +95,30 @@ export const VoiceAssistant = ({
 		},
 	])
 
-	useEffect(() => {
-		const synth = window.speechSynthesis
+	// useEffect(() => {
+	// 	const synth = window.speechSynthesis
 
-		// Create a speech synthesis utterance
-		const utterance = new SpeechSynthesisUtterance(
-			`Welcome, Feel free to explore ${brandName} and discover hidden treasures together with your AI companion.`
-		)
+	// 	// Create a speech synthesis utterance
+	// 	const utterance = new SpeechSynthesisUtterance(
+	// 		`Welcome, Feel free to explore ${brandName} and discover hidden treasures together with your AI companion.`
+	// 	)
 
-		// Speak the message after a delay of 5 seconds
-		const timeoutId = setTimeout(() => {
-			if (!synth.speaking) {
-				synth.speak(utterance)
-			}
-		}, 5000)
+	// 	// Speak the message after a delay of 5 seconds
+	// 	const timeoutId = setTimeout(() => {
+	// 		if (!synth.speaking) {
+	// 			synth.speak(utterance)
+	// 		}
+	// 	}, 5000)
 
-		// Cleanup function to cancel speech synthesis and timeout if necessary
-		return () => {
-			clearTimeout(timeoutId)
-			if (synth.speaking) {
-				synth.cancel()
-				console.log('Speech synthesis canceled')
-			}
-		}
-	}, [])
+	// 	// Cleanup function to cancel speech synthesis and timeout if necessary
+	// 	return () => {
+	// 		clearTimeout(timeoutId)
+	// 		if (synth.speaking) {
+	// 			synth.cancel()
+	// 			console.log('Speech synthesis canceled')
+	// 		}
+	// 	}
+	// }, [])
 
 	useEffect(() => {
 		// Feature detection for webkitSpeechRecognition

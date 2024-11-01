@@ -1,58 +1,34 @@
 import { Avatar } from '@readyplayerme/visage'
 import Link from 'next/link'
 import { useQueries, useQuery } from '@tanstack/react-query'
-import { getAvatars, getFanTokens } from '@/utils/queries'
+import { getAvatars, getFanTokens, getPhygitals } from '@/utils/queries'
 import { AvatarType, FanTokenType } from '@/types/types'
 import Image from 'next/image'
 import { getFanMainTokens } from '../utils/queries'
-import Moralis from 'moralis'
-import { useAccount, useChainId, useConnect } from 'wagmi'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
 
 const AvatarLeaderboard = () => {
-	// const { address } = useAccount()
+	const [count, setCount] = useState<number[]>([])
 
-	// const chainId = useChainId()
+	// const getTopAvatars = (avatars: AvatarType[], fantokens: FanTokenType[]) => {
+	// 	const avatarTokenCount = avatars?.reduce((count, avatar) => {
+	// 		count[avatar.phygital_id] = fantokens.filter(
+	// 			(token) => token.phygital_id === avatar.phygital_id
+	// 		).length
+	// 		return count
+	// 	}, {} as Record<string, number>)
 
-	const CHAIN_ID = 8453
-	const apiKey = process.env.NEXT_PUBLIC_MORALIS_API_KEY
+	// 	const topAvatarsData = Object.entries(avatarTokenCount)
+	// 		.sort(([, countA], [, countB]) => countB - countA)
+	// 		.slice(0, 3)
+	// 		.map(([phygitalId, count]) => {
+	// 			const avatar = avatars.find((a) => a.phygital_id === phygitalId)
+	// 			return { ...avatar, count }
+	// 		})
 
-	const fetchNFTs = async (address: string) => {
-		try {
-			await Moralis.start({ apiKey })
-
-			const assets = await Moralis.EvmApi.nft.getWalletNFTs({
-				chain: CHAIN_ID,
-				format: 'decimal',
-				mediaItems: false,
-				address,
-			})
-
-			//@ts-ignore
-			console.log('NFTs:', assets.raw.result)
-		} catch (e) {
-			console.error(e)
-		}
-	}
-
-	const getTopAvatars = (avatars: AvatarType[], fantokens: FanTokenType[]) => {
-		const avatarTokenCount = avatars?.reduce((count, avatar) => {
-			count[avatar.phygital_id] = fantokens.filter(
-				(token) => token.phygital_id === avatar.phygital_id
-			).length
-			return count
-		}, {} as Record<string, number>)
-
-		const topAvatarsData = Object.entries(avatarTokenCount)
-			.sort(([, countA], [, countB]) => countB - countA)
-			.slice(0, 3)
-			.map(([phygitalId, count]) => {
-				const avatar = avatars.find((a) => a.phygital_id === phygitalId)
-				return { ...avatar, count }
-			})
-
-		return topAvatarsData
-	}
+	// 	return topAvatarsData
+	// }
 
 	const results = useQueries({
 		queries: [
@@ -63,32 +39,60 @@ const AvatarLeaderboard = () => {
 			{
 				queryKey: ['mainFanTokens'],
 				queryFn: async () => {
-					const results = await getFanMainTokens()
-					return results
-					// .map((token: any) => token.creatorWallet)
-				},
+					const results = await getFanMainTokens();
+					// Count occurrences of each contract address
+					const addressCount = results.reduce((acc: Record<string, number>, token: any) => {
+							const address = token.nftContractAddress;  // Use the correct property name here
+							acc[address] = (acc[address] || 0) + 1;
+							return acc;
+					}, {});
+			
+				 // Find top 3 addresses with the highest counts
+				 const topThree = Object.entries(addressCount as Record<string, number>)
+				 .sort(([, countA], [, countB]) => countB - countA)
+				 .slice(0, 3)  // Take the top 3 items
+				 .map(([address, count]) => ({address, count})); // Return only the addresses
+ 
+				 const topThreeAddresses = topThree.map((item: any) => item.address);
+				 const counts = topThree.map((item: any) => item.count);
+				 setCount(counts as number[]);
+
+				 const allPhygitals = await getPhygitals();
+
+				// Filter phygitals by top 3 addresses and extract the ids
+				const filteredPhygitalIds = allPhygitals
+				.filter((phygital: any) => {
+					const match = topThreeAddresses.includes(phygital.contract_address);
+					return match;
+				})
+				.map((phygital: any) => phygital.id);
+
+				const allAvatars = await getAvatars();
+				const matchedAvatars = allAvatars
+						.filter((avatar: any) => {
+								const match = filteredPhygitalIds.includes(avatar.phygital_id);
+								return match;
+						})
+						.map((avatar: any) => avatar);
+				return matchedAvatars;
+			},
 			},
 			{
 				queryKey: ['fanTokens'],
 				queryFn: getFanTokens,
 			},
+			
 		],
 	})
 
 	const [avatarsResult, fanTokenMainResults, fanTokenResults] = results
 
-	const topAvatarsResult = useQuery({
-		queryKey: ['topAvatars'],
-		queryFn: () => getTopAvatars(avatarsResult.data, fanTokenResults.data),
-	})
+	// const topAvatarsResult = useQuery({
+	// 	queryKey: ['topAvatars'],
+	// 	queryFn: () => getTopAvatars(avatarsResult.data, fanTokenResults.data),
+	// })
 
-	const topAvatars = topAvatarsResult.data
-
-	// console.log(topAvatars)
-
-	console.log(fanTokenMainResults.data)
-
-	// console.log(fanTokenResults.data)
+	const topAvatars = fanTokenMainResults.data
 
 	return (
 		<div className='py-32 md:py-40 relative z-10'>
@@ -130,7 +134,7 @@ const AvatarLeaderboard = () => {
 								<div>
 									<div className='text-white flex gap-4 items-center justify-center mt-4 text-xl'>
 										<Image src='/star.png' alt='star' width={20} height={20} />
-										{topAvatars?.[1].count * 100}
+										{count[1] * 100}
 										<Image src='/star.png' alt='star' width={20} height={20} />
 									</div>
 									<p className='text-center text-xl text-white mb-4'>
@@ -170,7 +174,7 @@ const AvatarLeaderboard = () => {
 								<div>
 									<div className='text-white flex gap-4 items-center justify-center mt-4 text-xl'>
 										<Image src='/star.png' alt='star' width={20} height={20} />
-										{topAvatars?.[0].count * 100}
+										{count[0] * 100}
 										<Image src='/star.png' alt='star' width={20} height={20} />
 									</div>
 									<p className='text-center text-xl text-white mb-4'>
@@ -207,7 +211,7 @@ const AvatarLeaderboard = () => {
 								<div>
 									<div className='text-white flex gap-4 items-center justify-center mt-4 text-xl'>
 										<Image src='/star.png' alt='star' width={20} height={20} />
-										{topAvatars?.[2].count * 100}
+										{count[2] * 100}
 										<Image src='/star.png' alt='star' width={20} height={20} />
 									</div>
 									<p className='text-center text-xl text-white mb-4'>
@@ -277,3 +281,32 @@ const AvatarLeaderboard = () => {
 export default AvatarLeaderboard
 
 // background: linear-gradient(0deg, #DD21DD 0%, #999999 100%);
+
+
+
+// [
+// 	{
+// 			"ID": "cd048436-ba08-4a41-aed6-874f7ff36589",
+// 			"creatorWallet": "0x11665C74d68B76dd16937E9aB0BC336BC4608b86",
+// 			"nftContractAddress": "0xee842ad1fc66b7f0eed270117e36914c004859ed",
+// 			"token_id": "5",
+// 			"amount": "1",
+// 			"data": "0x0",
+// 			"txHash": "0x9eb11900c0597886413bb4657bb67f1fefa5248fd6196b7e2839335ead0fcf67",
+// 			"created_at": "2024-09-30T05:09:11.399965Z",
+// 			"updated_at": "2024-09-30T05:09:11.399965Z"
+// 	},
+// 	{
+// 			"ID": "c3878431-4121-4ef2-99e6-7966bc1847f4",
+// 			"creatorWallet": "0x11665C74d68B76dd16937E9aB0BC336BC4608b86",
+// 			"nftContractAddress": "0x33D2De72f00A78DA0Af6739EE664f06e6ACe21E9",
+// 			"token_id": "6",
+// 			"amount": "1",
+// 			"data": "0x0",
+// 			"txHash": "0xa5040fce2bbf18075b86d27406e00ec5102b44658a2940c7d4ba7ef5b72b191e",
+// 			"created_at": "2024-09-30T05:38:26.356657Z",
+// 			"updated_at": "2024-09-30T05:38:26.356657Z"
+// 	},
+// 	{
+
+// ]

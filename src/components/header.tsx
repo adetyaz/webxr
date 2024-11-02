@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { toast, ToastContainer } from 'react-toastify'
 import { useAccount, useDisconnect, useConnect } from 'wagmi'
 import { BadgeInfo } from 'lucide-react'
-import { injected } from 'wagmi/connectors'
+
 import Image from 'next/image'
 
 const Header = ({
@@ -30,7 +30,7 @@ const Header = ({
 	const [profileImage, setProfileImage] = useState('')
 	const [username, setUserName] = useState('')
 	const menuRef = useRef<HTMLDivElement>(null)
-	const [isSessionActive, setIsSessionActive] = useState(false)
+
 	const [storedAddress, setStoredAddress] = useState<string | null>(null)
 
 
@@ -133,11 +133,11 @@ const Header = ({
 	return (
 		<>
 			<div
-				className={`fixed top-0 w-full py-4 transition-all duration-300 ease-in-out 
+				className={`fixed top-0 w-full py-4 transition-all duration-300 ease-in-out
 					${isScrolled ? 'bg-white' : 'bg-transparent'} 
 					${home ? 'bg-gradient-to-r' : 'bg-transparent'} 
 				
-				z-50`}
+				z-20`}
 				style={
 					home
 						? {

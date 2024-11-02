@@ -47,7 +47,7 @@ export const ClaimNft = ({
 	return (
 		<>
 			{!claimNft ? (
-				<div className='relative bg-white p-4 text-black rounded-lg shadow-md'>
+				<div className='relative bg-white p-4 mt-10 md:mt-0 text-black rounded-lg shadow-md'>
 					<div className='p-4 space-y-4'>
 						<div className='flex justify-around'>
 							<p className='text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-900 text-center'>
@@ -61,6 +61,7 @@ export const ClaimNft = ({
 								alt='trophy image'
 								height={50}
 								width={150}
+								className='size-24 md:w-[150px] md:h-[150px]'
 							/>
 							<Image
 								src={`https://nftstorage.link/ipfs/${removePrefix(freeNft)}`}
@@ -74,6 +75,7 @@ export const ClaimNft = ({
 								alt='trophy image'
 								height={50}
 								width={150}
+								className='size-24 md:w-[150px] md:h-[150px]'
 							/>
 						</div>
 
@@ -85,7 +87,7 @@ export const ClaimNft = ({
 
 					<div className='flex items-center pb-4'>
 						<button
-							className='w-1/3 mx-auto text-black focus:ring-4 outline-none rounded-full text-lg py-1 text-center bg-blue-400'
+							className='w-fit mx-auto text-black focus:ring-4 outline-none rounded-full text-base sm:text-lg py-1 text-center bg-blue-400 px-4'
 							onClick={() => {
 								if (!account.address) {
 									toast.warning('Connect or Create a wallet')

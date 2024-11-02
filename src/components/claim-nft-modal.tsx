@@ -20,29 +20,29 @@ export const ClaimNftModal = ({
 
 	return (
 		<>
-			<div className='relative px-4 pb-4 pt-8 bg-white text-black rounded-lg shadow-lg'>
+			<div className='relative px-4 pb-4 pt-4 mt-10 md:mt-0 bg-white text-black rounded-lg shadow-lg z-50'>
 				<div className='flex justify-around'>
-					<p className='text-3xl font-bold text-center text-black '>
+					<h1 className='text-xl md:text-3xl font-bold text-center text-black'>
 						You Have Claimed Your
 						<br />
 						Free NFT Fan Token
-					</p>
+					</h1>
 					<Image
 						src='/trophy1.png'
 						alt='trophy'
 						height={100}
 						width={150}
-						className='-mt-16'
+						className=' md:-mt-16 size-14 md:w-[150px] md:h-[100px]'
 					/>
 				</div>
 
-				<div className='flex justify-around md:pl-10'>
+				<div className='flex flex-col md:flex-row justify-center md:justify-around md:pl-10 gap-4'>
 					<Image
 						src={`${'https://nftstorage.link/ipfs'}/${removePrefix(freeNft)}`}
 						alt='Free NFT Image'
 						height={0}
 						width={150}
-						className='h-32'
+						className='h-32 mx-auto md:mx-0'
 					/>
 
 					<div>
@@ -56,13 +56,13 @@ export const ClaimNftModal = ({
 						</p>
 						<div className='flex items-center pt-10 pb-8'>
 							<Link href={'https://base-discover.vercel.app/profile'}>
-								<button className='w-fit mx-auto text-black text-center text-base py-2 px-8 rounded-full bg-blue-400 focus:ring-4 focus:outline-none'>
+								<button className='w-fit mx-auto text-black text-center text-base py-2 px-4 md:px-8 rounded-full bg-blue-400 focus:ring-4 focus:outline-none'>
 									View in my assets
 								</button>
 							</Link>
 
 							<button
-								className='w-2/5 mx-auto text-black text-center text-base py-2 rounded-full border border-purple-800 focus:ring-4 focus:outline-none'
+								className='w-fit md:w-2/5  mx-auto text-black text-center text-base py-2 rounded-full border border-purple-800 focus:ring-4 focus:outline-none'
 								onClick={handleClick}
 							>
 								Continue Experience

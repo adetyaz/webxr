@@ -179,12 +179,7 @@ export default function Home({ params }: { params: { id: string } }) {
 					</div>
 				)}
 				{userType === 'owner' && showProvenance &&
-					<div className='fixed inset-0 bg-white backdrop-blur-sm z-50 flex items-center justify-center'
-						style={{
-							boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-							WebkitBoxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-							MozBoxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-						}}>
+					<div className='fixed inset-0 bg-white backdrop-blur-sm z-50 flex items-center justify-center shadow-md'>
 						<div className='z-10 md:w-[60%] top-1/2 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 h-[85%] overflow-y-scroll border border-black'>
 							<ProvenanceAttestation phygital={phygital} avatarModel={avatar && avatar.url} showAttestation={() => setShowProvenance(false)} />
 						</div>
@@ -230,7 +225,7 @@ export default function Home({ params }: { params: { id: string } }) {
 							contractAddress={phygital.contract_address}
 						/>
 					</div>
-				)}
+			 )}
 			</section>
 		</main>
 	)

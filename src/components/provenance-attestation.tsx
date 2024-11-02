@@ -50,7 +50,7 @@ export const ProvenanceAttestation = ({phygital, avatarModel, showAttestation}: 
         <p>Created by: {phygital.brand_name}</p>
         <p>Owned by: {address}</p>
         <p>Date purchased: 20 / 10 / 2024</p>
-        <p>0.01 ETH</p>
+        <p>{phygital.price} ETH</p>
       </div>
     </div>
     <hr className="my-8" />

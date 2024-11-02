@@ -58,7 +58,7 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [phygitalResult, webxrResult, avatarResult] = results
 
 	useEffect(() => {
-	// console.log(phygitalResult.data)
+		// console.log(phygitalResult.data)
 		if (address && chainId && phygitalResult.data) {
 			fetchNFTs(phygitalResult.data)
 		}
@@ -66,39 +66,39 @@ export default function Home({ params }: { params: { id: string } }) {
 	}, [phygitalResult, address, chainId])
 
 
-		const fetchNFTs = async (data: PhygitalType) => {
-		
-			const phygitalAddress = data.contract_address
+	const fetchNFTs = async (data: PhygitalType) => {
 
-			try {
-				await Moralis.start({ apiKey })
+		const phygitalAddress = data.contract_address
 
-				const assets = await Moralis.EvmApi.nft.getWalletNFTs({
-					chain: chainId,
-					format: 'decimal',
-					mediaItems: false,
-					address: address!,
-				})
+		try {
+			await Moralis.start({ apiKey })
 
-				setMintedNFTs(assets?.raw?.result || [])
-				console.log(assets?.raw?.result)
-				if (assets?.raw?.result && phygitalAddress) {
-					const addressResult = assets.raw.result.some(
-						(nft) => nft.token_address.toLowerCase() === phygitalAddress.toLowerCase()
-					)
-					
-					if (addressResult === true) {
-						
-						setUserType('owner')
-					}
+			const assets = await Moralis.EvmApi.nft.getWalletNFTs({
+				chain: chainId,
+				format: 'decimal',
+				mediaItems: false,
+				address: address!,
+			})
 
-				} else {
-					console.log('No matching data or contract address is undefined')
+			setMintedNFTs(assets?.raw?.result || [])
+			console.log(assets?.raw?.result)
+			if (assets?.raw?.result && phygitalAddress) {
+				const addressResult = assets.raw.result.some(
+					(nft) => nft.token_address.toLowerCase() === phygitalAddress.toLowerCase()
+				)
+
+				if (addressResult === true) {
+
+					setUserType('owner')
 				}
-			} catch (e) {
-				console.error(e)
+
+			} else {
+				console.log('No matching data or contract address is undefined')
 			}
+		} catch (e) {
+			console.error(e)
 		}
+	}
 
 	useEffect(() => {
 		//@ts-ignore
@@ -156,10 +156,19 @@ export default function Home({ params }: { params: { id: string } }) {
 						<InfoCard phygital={phygital} />
 					</div>
 				)}
-				{userType === 'owner' && showProvenance && <div className='z-10 md:w-[60%] top-1/2 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 h-[85%] overflow-y-scroll'>
-					<ProvenanceAttestation phygital={phygital} avatarModel={avatar && avatar.url} showAttestation={() => setShowProvenance(false)} />
+				{userType === 'owner' && showProvenance &&
+					<div className='fixed inset-0 bg-white backdrop-blur-sm z-50 flex items-center justify-center'
+						style={{
+							boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+							WebkitBoxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+							MozBoxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+						}}>
+						<div className='z-10 md:w-[60%] top-1/2 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 h-[85%] overflow-y-scroll border border-black'>
+							<ProvenanceAttestation phygital={phygital} avatarModel={avatar && avatar.url} showAttestation={() => setShowProvenance(false)} />
+						</div>
 					</div>
-}
+
+				}
 				<div className='hidden md:block absolute right-2 bottom-8'>
 					<InfoCard phygital={phygital} />
 				</div>

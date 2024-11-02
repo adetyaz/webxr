@@ -22,6 +22,7 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [mintedNFTs, setMintedNFTs] = useState<any[]>([])
 	const [userType, setUserType] = useState('guest')
 	const [showProvenance, setShowProvenance] = useState(false)
+	const [notClaimed, setNotClaimed] = useState(false)
 	
 
 	const { address } = useAccount()
@@ -77,23 +78,41 @@ export default function Home({ params }: { params: { id: string } }) {
 				chain: chainId,
 				format: 'decimal',
 				mediaItems: false,
-				address: address!,
+				address: '0x5018683BB277F64888EFa308747E952f8625F3DA',
 			})
 
 			setMintedNFTs(assets?.raw?.result || [])
-			console.log(assets?.raw?.result)
+			// console.log(assets?.raw?.result)
 			if (assets?.raw?.result && phygitalAddress) {
-				const addressResult = assets.raw.result.some(
-					(nft) => nft.token_address.toLowerCase() === phygitalAddress.toLowerCase()
+				const erc721Match = assets.raw.result.some(
+					(nft) => 
+						nft.token_address.toLowerCase() === phygitalAddress.toLowerCase() &&
+						nft.contract_type.toLowerCase() === 'erc721'
 				)
 
-				if (addressResult === true) {
+				const erc1155Match = assets.raw.result.some(
+					(nft) => 
+						nft.token_address.toLowerCase() === phygitalAddress.toLowerCase() &&
+						nft.contract_type.toLowerCase() === 'erc1155'
+				)
 
+				if (erc721Match) {
 					setUserType('owner')
+					setNotClaimed(false)
+				} else if (erc1155Match) {
+					setUserType('guest')
+					setNotClaimed(false)  // Has token but as ERC1155
+				} else {
+					setUserType('guest')
+					setNotClaimed(true)   // No matching token at all
 				}
 
 			} else {
 				console.log('No matching data or contract address is undefined')
+				if (assets?.raw?.result?.length === 0) {
+					setNotClaimed(true)
+					setUserType('guest')
+				}
 			}
 		} catch (e) {
 			console.error(e)
@@ -101,13 +120,16 @@ export default function Home({ params }: { params: { id: string } }) {
 	}
 
 	useEffect(() => {
-		//@ts-ignore
-		if (address && !mintedNFTs && !mintedNFTs[0]?.token_hash) {
-			setTimeout(() => {
+		// Only start timer if user is connected and hasn't claimed
+		if (address && notClaimed) {
+			const timer = setTimeout(() => {
 				setUnlockClaimed(true)
 			}, 60000)
+
+			// Cleanup timer if component unmounts or conditions change
+			return () => clearTimeout(timer)
 		}
-	}, [mintedNFTs, address])
+	}, [address, notClaimed]) // Dependencies now include notClaimed
 
 	const closeClaimed = () => {
 		setUnlockClaimed(false)

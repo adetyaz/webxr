@@ -49,7 +49,7 @@ export const ProvenanceAttestation = ({phygital, avatarModel, showAttestation}: 
         <p>Unique piece</p>
         <p>Created by: {phygital.brand_name}</p>
         <p>Owned by: {address}</p>
-        <p>Date purchased: 20 / 10 / 2024</p>
+        {/* <p>Date purchased: 20 / 10 / 2024</p> */}
         <p>{phygital.price} ETH</p>
       </div>
     </div>
@@ -84,10 +84,10 @@ export const ProvenanceAttestation = ({phygital, avatarModel, showAttestation}: 
           <p>Date created</p>
           <p className="text-right">{formatDateFromISO(phygital.created_at)}</p>
         </div>
-        <div className="grid grid-cols-[1fr_3fr]">
+        {/* <div className="grid grid-cols-[1fr_3fr]">
           <p>Last sale</p>
           <p className="text-right">20/10/2024</p>
-        </div>
+        </div> */}
         <div className="grid grid-cols-[1fr_3fr]">
           <p>Last updated</p>
           <p className="text-right">{formatDateFromISO(phygital.updated_at)}</p>

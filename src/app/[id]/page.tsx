@@ -78,7 +78,7 @@ export default function Home({ params }: { params: { id: string } }) {
 				chain: chainId,
 				format: 'decimal',
 				mediaItems: false,
-				address: '0x5018683BB277F64888EFa308747E952f8625F3DA',
+				address: address!,
 			})
 
 			setMintedNFTs(assets?.raw?.result || [])

@@ -124,7 +124,7 @@ export default function Home({ params }: { params: { id: string } }) {
 		if (address && notClaimed) {
 			const timer = setTimeout(() => {
 				setUnlockClaimed(true)
-			}, 60000)
+			}, 6000)
 
 			// Cleanup timer if component unmounts or conditions change
 			return () => clearTimeout(timer)

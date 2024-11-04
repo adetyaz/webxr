@@ -179,7 +179,7 @@ const Header = ({
 							WebXR
 						</Link>
 					</div>
-					<div className='flex gap-4 items-center'>
+					<div className='flex gap-4 items-baseline'>
 						<div className='flex items-center space-x-4'>
 							{address ? (
 								<>
@@ -315,7 +315,7 @@ const Header = ({
 						</button>
 						<BadgeInfo className='cursor-pointer md:hidden' onClick={onClick} />
 						{userType === 'owner' && <div onClick={showAttestation} className='cursor-pointer'>
-							<Image src='/receipt.png' alt='Create' width={40} height={40} />
+							<Image src='/receipt.png' alt='Create' width={38} height={38} />
 						</div>}
 					</div>
 				</div>

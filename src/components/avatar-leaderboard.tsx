@@ -11,32 +11,7 @@ import { useState } from 'react'
 const AvatarLeaderboard = () => {
 	const [count, setCount] = useState<number[]>([])
 
-	// const getTopAvatars = (avatars: AvatarType[], fantokens: FanTokenType[]) => {
-	// 	const avatarTokenCount = avatars?.reduce((count, avatar) => {
-	// 		count[avatar.phygital_id] = fantokens.filter(
-	// 			(token) => token.phygital_id === avatar.phygital_id
-	// 		).length
-	// 		return count
-	// 	}, {} as Record<string, number>)
-
-	// 	const topAvatarsData = Object.entries(avatarTokenCount)
-	// 		.sort(([, countA], [, countB]) => countB - countA)
-	// 		.slice(0, 3)
-	// 		.map(([phygitalId, count]) => {
-	// 			const avatar = avatars.find((a) => a.phygital_id === phygitalId)
-	// 			return { ...avatar, count }
-	// 		})
-
-	// 	return topAvatarsData
-	// }
-
-	const results = useQueries({
-		queries: [
-			{
-				queryKey: ['avatars'],
-				queryFn: getAvatars,
-			},
-			{
+	const results = useQuery({		
 				queryKey: ['mainFanTokens'],
 				queryFn: async () => {
 					const results = await getFanMainTokens();
@@ -52,47 +27,62 @@ const AvatarLeaderboard = () => {
 				 .sort(([, countA], [, countB]) => countB - countA)
 				 .slice(0, 3)  // Take the top 3 items
 				 .map(([address, count]) => ({address, count})); // Return only the addresses
- 
+				
 				 const topThreeAddresses = topThree.map((item: any) => item.address);
 				 const counts = topThree.map((item: any) => item.count);
 				 setCount(counts as number[]);
 
 				 const allPhygitals = await getPhygitals();
 
-				// Filter phygitals by top 3 addresses and extract the ids
-				const filteredPhygitalIds = allPhygitals
-				.filter((phygital: any) => {
-					const match = topThreeAddresses.includes(phygital.contract_address);
-					return match;
-				})
-				.map((phygital: any) => phygital.id);
+				// // Filter phygitals by top 3 addresses and extract the ids
+				// const filteredPhygitalIds = allPhygitals
+				// .filter((phygital: any) => {
+				// 	const match = topThreeAddresses.includes(phygital.contract_address);
+				// 	return match;
+				// })
+				// .map((phygital: any) => phygital.id);
+
+				// console.log(filteredPhygitalIds, 'phygital ids')
+
+				// Get the ids for each address in the order of topThreeAddresses
+				const orderedPhygitalIds = topThreeAddresses.map((address: string) => {
+					// Find phygitals that match the current address
+					const matchedPhygital = allPhygitals.find((phygital: any) => phygital.contract_address === address);
+					// Return the id if a match is found, otherwise return null
+					return matchedPhygital ? matchedPhygital.id : null;
+				});
+
+				// console.log(orderedPhygitalIds, 'ordered phygital ids');
+
+				// const allAvatars = await getAvatars();
+				// const matchedAvatars = allAvatars
+				// 		.filter((avatar: any) => {
+				// 				const match = filteredPhygitalIds.includes(avatar.phygital_id);
+				// 				return match;
+				// 		})
+				// 		.map((avatar: any) => avatar);
+
+				// 		console.log(matchedAvatars,'matched avatars')
+				// return matchedAvatars;
 
 				const allAvatars = await getAvatars();
-				const matchedAvatars = allAvatars
-						.filter((avatar: any) => {
-								const match = filteredPhygitalIds.includes(avatar.phygital_id);
-								return match;
-						})
-						.map((avatar: any) => avatar);
-				return matchedAvatars;
-			},
-			},
-			{
-				queryKey: ['fanTokens'],
-				queryFn: getFanTokens,
-			},
-			
-		],
-	})
 
-	const [avatarsResult, fanTokenMainResults, fanTokenResults] = results
+					// Get avatars in the order of filteredPhygitalIds
+					const orderedAvatars = orderedPhygitalIds.map((phygitalId: string) => {
+							// Find the avatar that matches the current phygital_id
+							const matchedAvatar = allAvatars.find((avatar: any) => avatar.phygital_id === phygitalId);
+							// Return the avatar if a match is found, otherwise return null
+							return matchedAvatar || null;
+					});
 
-	// const topAvatarsResult = useQuery({
-	// 	queryKey: ['topAvatars'],
-	// 	queryFn: () => getTopAvatars(avatarsResult.data, fanTokenResults.data),
-	// })
+					// console.log(orderedAvatars, 'ordered avatars');
+					return orderedAvatars;
+}
 
-	const topAvatars = fanTokenMainResults.data
+})
+
+
+	const topAvatars = results.data
 
 	return (
 		<div className='py-32 md:py-40 relative z-10'>
@@ -144,6 +134,8 @@ const AvatarLeaderboard = () => {
 
 								<Link
 									href={`https://webxr.myriadflow.com/${topAvatars?.[1].phygital_id}`}
+									rel='noopener noreferrer'
+									target='_blank'
 								>
 									<div className='bg-gradient-to-b from-[#999999] to-[#DD21DD]  text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
@@ -183,6 +175,8 @@ const AvatarLeaderboard = () => {
 								</div>
 								<Link
 									href={`https://webxr.myriadflow.com/${topAvatars?.[0].phygital_id}`}
+									rel='noopener noreferrer'
+									target='_blank'
 								>
 									<div className='bg-gradient-to-b from-[#999999] to-[#DD21DD]  text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
@@ -221,6 +215,8 @@ const AvatarLeaderboard = () => {
 
 								<Link
 									href={`https://webxr.myriadflow.com/${topAvatars?.[2].phygital_id}`}
+									rel='noopener noreferrer'
+									target='_blank'
 								>
 									<div className='bg-gradient-to-b from-[#999999] to-[#DD21DD] text-center text-2xl px-4 py-2 rounded-full border border-black bg-white cursor-pointer hover:bg-gray-200'>
 										WEBXR
@@ -279,34 +275,3 @@ const AvatarLeaderboard = () => {
 }
 
 export default AvatarLeaderboard
-
-// background: linear-gradient(0deg, #DD21DD 0%, #999999 100%);
-
-
-
-// [
-// 	{
-// 			"ID": "cd048436-ba08-4a41-aed6-874f7ff36589",
-// 			"creatorWallet": "0x11665C74d68B76dd16937E9aB0BC336BC4608b86",
-// 			"nftContractAddress": "0xee842ad1fc66b7f0eed270117e36914c004859ed",
-// 			"token_id": "5",
-// 			"amount": "1",
-// 			"data": "0x0",
-// 			"txHash": "0x9eb11900c0597886413bb4657bb67f1fefa5248fd6196b7e2839335ead0fcf67",
-// 			"created_at": "2024-09-30T05:09:11.399965Z",
-// 			"updated_at": "2024-09-30T05:09:11.399965Z"
-// 	},
-// 	{
-// 			"ID": "c3878431-4121-4ef2-99e6-7966bc1847f4",
-// 			"creatorWallet": "0x11665C74d68B76dd16937E9aB0BC336BC4608b86",
-// 			"nftContractAddress": "0x33D2De72f00A78DA0Af6739EE664f06e6ACe21E9",
-// 			"token_id": "6",
-// 			"amount": "1",
-// 			"data": "0x0",
-// 			"txHash": "0xa5040fce2bbf18075b86d27406e00ec5102b44658a2940c7d4ba7ef5b72b191e",
-// 			"created_at": "2024-09-30T05:38:26.356657Z",
-// 			"updated_at": "2024-09-30T05:38:26.356657Z"
-// 	},
-// 	{
-
-// ]

@@ -34,6 +34,11 @@ export const getAvatars = async () => {
 	return response.data
 }
 
+export const getAvatar = async (id: string) => {
+	const response = await axios.get(`${baseURI}/avatars/phygital/${id}`)
+	return response.data
+}
+
 export const getFanTokens = async () => {
 	const response = await axios.get(`${baseURI}/fantoken/all`)
 	return response.data

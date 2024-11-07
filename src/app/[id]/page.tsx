@@ -7,19 +7,21 @@ import { useEffect, useState } from 'react'
 import { ClaimNft } from '@/components/claim-nft'
 import { toast } from 'react-toastify'
 import { VoiceAssistant } from '@/components/voice-assistant'
-import { useQueries } from '@tanstack/react-query'
-import { baseURI, getAvatars, getPhygital, getWebXR } from '@/utils/queries'
-import { AvatarType, PhygitalType } from '@/types/types'
+import { useQueries, useQuery } from '@tanstack/react-query'
+import { baseURI, getAvatar, getAvatars, getPhygital, getPhygitals, getWebXR } from '@/utils/queries'
+import { AvatarType, PhygitalType, WebXRType } from '@/types/types'
 import Header from '@/components/header'
 import Moralis from 'moralis'
 import { ProvenanceAttestation } from '@/components/provenance-attestation'
 
 
 export default function Home({ params }: { params: { id: string } }) {
-	const { id } = params
+	// const { id } = params
+	const id = params?.id.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+	console.log(id)
+	
 	const [unlockClaimed, setUnlockClaimed] = useState(false)
 	const [showCard, setShowCard] = useState(false)
-	const [mintedNFTs, setMintedNFTs] = useState<any[]>([])
 	const [userType, setUserType] = useState('guest')
 	const [showProvenance, setShowProvenance] = useState(false)
 	const [notClaimed, setNotClaimed] = useState(false)
@@ -30,33 +32,40 @@ export default function Home({ params }: { params: { id: string } }) {
 	const chainId = useChainId()
 	const apiKey = process.env.NEXT_PUBLIC_MORALIS_API_KEY
 
+	// First, get the phygital query separately
+	const phygitalQuery = useQuery({
+			queryKey: ['phygitals', id],
+			queryFn: async () => {
+				const phygitals = await getPhygitals();
+				return phygitals.find((phygital: PhygitalType) => phygital.name === id);
+			},
+			staleTime: 1000 * 60 * 5,
+			retry: 3,
+	
+	});
+
+	// Then use the remaining queries with phygitalQuery.data
 	const results = useQueries({
 		queries: [
 			{
-				queryKey: ['phygital', id],
-				queryFn: () => getPhygital(id),
+				queryKey: ['webxr'],
+				enabled: !!phygitalQuery?.data?.id,
+				queryFn: async () => getWebXR(phygitalQuery.data.id),
 				staleTime: 1000 * 60 * 5,
 				retry: 3,
 			},
 			{
-				queryKey: ['webxr', id],
-				queryFn: () => getWebXR(id),
+				queryKey: ['avatar'],
+				enabled: !!phygitalQuery?.data?.id,
+				queryFn: async () => getAvatar(phygitalQuery.data.id),
 				staleTime: 1000 * 60 * 5,
 				retry: 3,
 			},
-			{
-				queryKey: ['avatar', id],
-				queryFn: async () => {
-					const avatars = await getAvatars()
-					return avatars.find((avatar: AvatarType) => avatar.phygital_id === id)
-				},
-				staleTime: 1000 * 60 * 5,
-				retry: 3,
-			},
-		],
-	})
+		]
+	});
 
-	const [phygitalResult, webxrResult, avatarResult] = results
+	const [webxrResult, avatarResult] = results;
+	const phygitalResult = phygitalQuery;
 
 	useEffect(() => {
 		// console.log(phygitalResult.data)
@@ -81,7 +90,7 @@ export default function Home({ params }: { params: { id: string } }) {
 				address: address!,
 			})
 
-			setMintedNFTs(assets?.raw?.result || [])
+			
 			// console.log(assets?.raw?.result)
 			if (assets?.raw?.result && phygitalAddress) {
 				const erc721Match = assets.raw.result.some(
@@ -124,7 +133,7 @@ export default function Home({ params }: { params: { id: string } }) {
 		if (address && notClaimed) {
 			const timer = setTimeout(() => {
 				setUnlockClaimed(true)
-			}, 6000)
+			}, 60000)
 
 			// Cleanup timer if component unmounts or conditions change
 			return () => clearTimeout(timer)
@@ -140,7 +149,7 @@ export default function Home({ params }: { params: { id: string } }) {
 	}
 
 	if (
-		phygitalResult.isLoading ||
+		phygitalQuery.isLoading ||
 		webxrResult.isLoading ||
 		avatarResult.isLoading
 	)
@@ -150,10 +159,10 @@ export default function Home({ params }: { params: { id: string } }) {
 			</div>
 		)
 
-	if (phygitalResult.isError || webxrResult.isError || avatarResult.isError)
+	if (phygitalQuery.isError || webxrResult.isError || avatarResult.isError)
 		return toast.error('Error fetching data')
 
-	const phygital = phygitalResult.data
+	const phygital = phygitalQuery.data
 	const webxr = webxrResult.data
 	const avatar = avatarResult.data
 

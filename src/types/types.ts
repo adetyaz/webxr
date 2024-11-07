@@ -86,3 +86,20 @@ export type PhygitalType = {
 	created_at: string
 	updated_at: string
 }
+
+export type WebXRType = {
+  id: string; // UUID type
+  image360?: string | null;
+  video360?: string | null;
+  rewardsMetadataUri?: string | null;
+  customizations?: Record<string, any> | null; // JSONB as a flexible object
+  freeNftImage?: string | null;
+  goldReward?: string | null;
+  silverReward?: string | null;
+  bronzeReward?: string | null;
+  phygital_id?: string | null;
+  createdAt?: Date; // Timestamp with default to CURRENT_TIMESTAMP
+  updatedAt?: Date; // Timestamp with default to CURRENT_TIMESTAMP
+  chaintypeId?: string | null; // UUID type
+  elevateRegion?: string | null;
+}

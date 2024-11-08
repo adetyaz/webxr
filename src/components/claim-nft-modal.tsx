@@ -21,8 +21,8 @@ export const ClaimNftModal = ({
 	return (
 		<>
 			<div className='relative px-4 pb-4 pt-4 mt-10 md:mt-0 bg-white text-black rounded-lg shadow-lg z-50'>
-				<div className='flex justify-around'>
-					<h1 className='text-xl md:text-3xl font-bold text-center text-black'>
+				<div className='flex justify-around md:justify-center gap-4'>
+					<h1 className='text-xl md:text-3xl font-bold text-center text-black md:py-4'>
 						You Have Claimed Your
 						<br />
 						Free NFT Fan Token
@@ -32,7 +32,7 @@ export const ClaimNftModal = ({
 						alt='trophy'
 						height={100}
 						width={150}
-						className=' md:-mt-16 size-14 md:w-[150px] md:h-[100px]'
+						className=' md:-mt-16 size-14 md:w-[150px] md:h-[150px]'
 					/>
 				</div>
 

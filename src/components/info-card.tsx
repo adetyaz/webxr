@@ -14,6 +14,8 @@ export const InfoCard = ({ phygital }: any) => {
 		return str?.slice(0, length) + '...'
 	}
 
+	const reversedId = phygital.name.toLowerCase().replace(/\s+/g, '-');
+
 	return (
 		<div className='p-8 bg-white bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-lg size-80'>
 			<div className='flex items-center gap-8'>
@@ -42,7 +44,7 @@ export const InfoCard = ({ phygital }: any) => {
 					<p>{phygital.brand_name}</p>
 				</div>
 			</div>
-			<Link href={`https://base-discover.vercel.app/nfts/${phygital.id}`}>
+			<Link href={`https://base-discover.vercel.app/nfts/${reversedId}`}>
 				<button className=' py-3 bg-[#30D8FF] rounded-lg mt-4 mx-auto w-full'>
 					View on Discover
 				</button>

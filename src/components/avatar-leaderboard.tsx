@@ -7,10 +7,9 @@ import Image from 'next/image'
 import { getFanMainTokens } from '../utils/queries'
 import { useState } from 'react'
 
-
 const AvatarLeaderboard = () => {
 	const [count, setCount] = useState<number[]>([])
-
+	
 	const results = useQuery({		
 				queryKey: ['mainFanTokens'],
 				queryFn: async () => {
@@ -31,48 +30,31 @@ const AvatarLeaderboard = () => {
 				 const topThreeAddresses = topThree.map((item: any) => item.address);
 				 const counts = topThree.map((item: any) => item.count);
 				 setCount(counts as number[]);
-
+			
 				 const allPhygitals = await getPhygitals();
-
-				// // Filter phygitals by top 3 addresses and extract the ids
-				// const filteredPhygitalIds = allPhygitals
-				// .filter((phygital: any) => {
-				// 	const match = topThreeAddresses.includes(phygital.contract_address);
-				// 	return match;
-				// })
-				// .map((phygital: any) => phygital.id);
-
-				// console.log(filteredPhygitalIds, 'phygital ids')
 
 				// Get the ids for each address in the order of topThreeAddresses
 				const orderedPhygitalIds = topThreeAddresses.map((address: string) => {
 					// Find phygitals that match the current address
 					const matchedPhygital = allPhygitals.find((phygital: any) => phygital.contract_address === address);
 					// Return the id if a match is found, otherwise return null
-					return matchedPhygital ? matchedPhygital.id : null;
+					return matchedPhygital ? {
+						id: matchedPhygital.id,
+						name: matchedPhygital.name
+					} : null;
 				});
-
-				// console.log(orderedPhygitalIds, 'ordered phygital ids');
-
-				// const allAvatars = await getAvatars();
-				// const matchedAvatars = allAvatars
-				// 		.filter((avatar: any) => {
-				// 				const match = filteredPhygitalIds.includes(avatar.phygital_id);
-				// 				return match;
-				// 		})
-				// 		.map((avatar: any) => avatar);
-
-				// 		console.log(matchedAvatars,'matched avatars')
-				// return matchedAvatars;
 
 				const allAvatars = await getAvatars();
 
 					// Get avatars in the order of filteredPhygitalIds
-					const orderedAvatars = orderedPhygitalIds.map((phygitalId: string) => {
+					const orderedAvatars = orderedPhygitalIds.map((phygital: any) => {
 							// Find the avatar that matches the current phygital_id
-							const matchedAvatar = allAvatars.find((avatar: any) => avatar.phygital_id === phygitalId);
+							const matchedAvatar = allAvatars.find((avatar: any) => avatar.phygital_id === phygital?.id);
 							// Return the avatar if a match is found, otherwise return null
-							return matchedAvatar || null;
+							return matchedAvatar ? {
+								...matchedAvatar,
+								phygitalName: phygital.name
+							} : null;
 					});
 
 					// console.log(orderedAvatars, 'ordered avatars');
@@ -133,7 +115,7 @@ const AvatarLeaderboard = () => {
 								</div>
 
 								<Link
-									href={`https://webxr.myriadflow.com/${topAvatars?.[1].phygital_id}`}
+									href={`https://webxr.myriadflow.com/${topAvatars?.[1].phygitalName.toLowerCase().replace(/\s+/g, '-')}`}
 									rel='noopener noreferrer'
 									target='_blank'
 								>
@@ -174,7 +156,7 @@ const AvatarLeaderboard = () => {
 									</p>
 								</div>
 								<Link
-									href={`https://webxr.myriadflow.com/${topAvatars?.[0].phygital_id}`}
+									href={`https://webxr.myriadflow.com/${topAvatars?.[0].phygitalName.toLowerCase().replace(/\s+/g, '-')}`}
 									rel='noopener noreferrer'
 									target='_blank'
 								>
@@ -214,7 +196,7 @@ const AvatarLeaderboard = () => {
 								</div>
 
 								<Link
-									href={`https://webxr.myriadflow.com/${topAvatars?.[2].phygital_id}`}
+									href={`https://webxr.myriadflow.com/${topAvatars?.[2].phygitalName.toLowerCase().replace(/\s+/g, '-')}`}
 									rel='noopener noreferrer'
 									target='_blank'
 								>

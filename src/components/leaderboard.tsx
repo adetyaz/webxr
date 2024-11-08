@@ -1,45 +1,26 @@
 'use client'
-import { useEffect, useState } from 'react'
+
 import { useQuery } from '@tanstack/react-query'
 import AvatarCard from './avatar-card'
-import { getAvatars } from '@/utils/queries'
+import { getAvatars, getPhygitals } from '@/utils/queries'
 import { AvatarType } from '@/types/types'
 
 const Leaderboard = () => {
-	const [avatar, setAvatar] = useState<AvatarType[]>([])
-
-	const getBrands = async () => {
-		const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
-
-		const avatar = await fetch(`${baseUri}/avatars/all`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-
-		const avatardata: AvatarType[] = await avatar.json()
-
-		setAvatar([...avatardata].reverse())
-	}
-
-	useEffect(() => {
-		getBrands()
-	}, [])
-
-	// const chaintype = process.env.NEXT_PUBLIC_BASECHAINTYPE
-
-	// const result = useQuery({
-	// 	queryKey: ['avatarsList'],
-	// 	queryFn: async () => {
-	// 		const avatars = await getAvatars()
-	// 		return avatars
-	// 			.find((avatar: AvatarType) => avatar.chaintype_id === chaintype)
-	// 			.reverse()
-	// 	},
-	// })
-
-	// const avatars = result.data
+	const result = useQuery({
+		queryKey: ['avatarsList'],
+		queryFn: async () => {
+			const avatars = await getAvatars()
+			const phygitals = await getPhygitals()
+			
+			const avatarsWithNames = avatars.map((avatar: AvatarType) => ({
+				...avatar,
+				phygitalName: phygitals.find((p: { id: string; name: string }) => p.id === avatar.phygital_id)?.name || ''
+			}))
+			
+			return avatarsWithNames.reverse()
+		},
+	})
+	const avatars = result.data
 
 	return (
 		<>
@@ -66,13 +47,13 @@ const Leaderboard = () => {
 			</div>
 
 			<div className='pt-20 flex gap-9 flex-wrap justify-center'>
-				{avatar
+				{avatars
 					?.slice(0, 12)
 					.reverse()
-					.map((avatar: AvatarType, index: number) => (
+					.map((avatar: AvatarType & { phygitalName: string }, index: number) => (
 						<AvatarCard
 							key={index}
-							phygitalId={avatar.phygital_id}
+							phygitalId={avatar.phygitalName}
 							url={avatar.url}
 						/>
 					))}

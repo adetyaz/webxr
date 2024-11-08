@@ -18,7 +18,6 @@ import { ProvenanceAttestation } from '@/components/provenance-attestation'
 export default function Home({ params }: { params: { id: string } }) {
 	// const { id } = params
 	const id = params?.id.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
-	console.log(id)
 	
 	const [unlockClaimed, setUnlockClaimed] = useState(false)
 	const [showCard, setShowCard] = useState(false)
@@ -187,14 +186,14 @@ export default function Home({ params }: { params: { id: string } }) {
 						<InfoCard phygital={phygital} />
 					</div>
 				)}
-				{userType === 'owner' && showProvenance &&
+					{userType === 'owner' && showProvenance && (
 					<div className='fixed inset-0 bg-white backdrop-blur-sm z-50 flex items-center justify-center shadow-md'>
 						<div className='z-10 md:w-[60%] top-1/2 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 h-[85%] overflow-y-scroll border border-black'>
 							<ProvenanceAttestation phygital={phygital} avatarModel={avatar && avatar.url} showAttestation={() => setShowProvenance(false)} />
 						</div>
 					</div>
-
-				}
+				)}
+		
 				<div className='hidden md:block absolute right-2 bottom-8'>
 					<InfoCard phygital={phygital} />
 				</div>

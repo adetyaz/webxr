@@ -21,12 +21,12 @@ const Footer = () => {
 				>
 					<div className='brand' style={{ textAlign: 'left' }}>
 						<Link href='https://myriadflow.com/' passHref>
-							<img
+							<Image
 								src='/MFlogo.png'
 								width={200}
 								height={200}
 								alt='logo'
-								style={{ marginBottom: '20px' }}
+								className="mb-5"
 							/>
 						</Link>
 						<p style={{ color: 'white', maxWidth: '350px', fontSize: '14px' }}>
@@ -149,7 +149,7 @@ const Footer = () => {
 								}}
 							>
 								<Link href='#' target='_blank'>
-									<img src={icon} width={20} height={20} alt='Social Icon' />
+									<Image src={icon} width={20} height={20} alt='Social Icon' />
 								</Link>
 							</div>
 						))}

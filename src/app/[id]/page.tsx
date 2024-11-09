@@ -192,7 +192,7 @@ export default function Home({ params }: { params: { id: string } }) {
 							<ProvenanceAttestation phygital={phygital} avatarModel={avatar && avatar.url} showAttestation={() => setShowProvenance(false)} />
 						</div>
 					</div>
-				)}
+				)} 
 		
 				<div className='hidden md:block absolute right-2 bottom-8'>
 					<InfoCard phygital={phygital} />

@@ -8,8 +8,8 @@ import { ClaimNft } from '@/components/claim-nft'
 import { toast } from 'react-toastify'
 import { VoiceAssistant } from '@/components/voice-assistant'
 import { useQueries, useQuery } from '@tanstack/react-query'
-import { baseURI, getAvatar, getAvatars, getPhygital, getPhygitals, getWebXR } from '@/utils/queries'
-import { AvatarType, PhygitalType, WebXRType } from '@/types/types'
+import { getAvatar, getPhygitals, getWebXR } from '@/utils/queries'
+import { PhygitalType } from '@/types/types'
 import Header from '@/components/header'
 import Moralis from 'moralis'
 import { ProvenanceAttestation } from '@/components/provenance-attestation'
@@ -24,7 +24,6 @@ export default function Home({ params }: { params: { id: string } }) {
 	const [userType, setUserType] = useState('guest')
 	const [showProvenance, setShowProvenance] = useState(false)
 	const [notClaimed, setNotClaimed] = useState(false)
-	
 
 	const { address } = useAccount()
 
@@ -233,7 +232,7 @@ export default function Home({ params }: { params: { id: string } }) {
 							contractAddress={phygital.contract_address}
 						/>
 					</div>
-			 )}
+			  )} 
 			</section>
 		</main>
 	)

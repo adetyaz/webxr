@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import { useState } from 'react'
 import { ConnectWallet } from './connect-wallet'
 import { baseURI } from '@/utils/queries'
+import { X } from 'lucide-react'
 
 export const ClaimNft = ({
 	onClose,
@@ -40,6 +41,10 @@ export const ClaimNft = ({
 		}
 	}
 
+	const handleClick = () => {
+		onClose(false)
+	}
+
 	const removePrefix = (uri: string) => {
 		return uri?.substring(7, uri.length)
 	}
@@ -48,8 +53,11 @@ export const ClaimNft = ({
 		<>
 			{!claimNft ? (
 				<div className='relative bg-white p-4 mt-10 md:mt-0 text-black rounded-lg shadow-md'>
+					<div className='absolute right-4 top-4'>
+						<X className='text-slate-900 cursor-pointer' onClick={handleClick} role='button' />
+					</div>
 					<div className='p-4 space-y-4'>
-						<div className='flex justify-around'>
+						<div>
 							<p className='text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-900 text-center'>
 								Congratulations!
 							</p>

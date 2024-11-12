@@ -18,8 +18,8 @@ export const VoiceAssistant = ({
 	userType,
 }: any) => {
 	const [isListening, setIsListening] = useState(false)
-	const [transcript, setTranscript] = useState('')
-	const [response, setResponse] = useState('')
+	// const [transcript, setTranscript] = useState('')
+	// const [response, setResponse] = useState('')
 
 	// console.log(userType)
 
@@ -135,7 +135,7 @@ export const VoiceAssistant = ({
 
 			recognition.onresult = (event: any) => {
 				const speechToText = event.results[0][0].transcript
-				setTranscript(speechToText)
+				// setTranscript(speechToText)
 				addMessage({ role: 'user', content: speechToText })
 				getOpenAIResponse(speechToText)
 			}
@@ -184,7 +184,7 @@ export const VoiceAssistant = ({
 			const response = await openai.chat.completions.create(params)
 			const aiResponse = response.choices?.[0]?.message?.content?.trim()
 			if (aiResponse) {
-				setResponse(aiResponse)
+				// setResponse(aiResponse)
 				setMessages((prevMessages) => [
 					...prevMessages,
 					{ role: 'assistant', content: aiResponse },

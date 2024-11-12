@@ -1,12 +1,9 @@
 import { PhygitalType } from '@/types/types'
+import { removePrefix } from '@/utils/helper'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export const InfoCard = ({ phygital }: any) => {
-	const removePrefix = (uri: any) => {
-		return uri?.substring(7, uri.length)
-	}
-
 	function truncateString(str: string, length: number = 90): string {
 		if (str?.length <= length) {
 			return str
@@ -14,7 +11,7 @@ export const InfoCard = ({ phygital }: any) => {
 		return str?.slice(0, length) + '...'
 	}
 
-	const reversedId = phygital.name.toLowerCase().replace(/\s+/g, '-');
+	const reversedId = phygital.name.toLowerCase().replace(/\s+/g, '-')
 
 	return (
 		<div className='p-8 bg-white bg-opacity-40 backdrop-filter backdrop-blur-sm rounded-lg size-80'>
@@ -44,7 +41,10 @@ export const InfoCard = ({ phygital }: any) => {
 					<p>{phygital.brand_name}</p>
 				</div>
 			</div>
-			<Link href={`https://discover.myriadflow.com/nfts/${reversedId}`} target='_blank'>
+			<Link
+				href={`https://discover.myriadflow.com/nfts/${reversedId}`}
+				target='_blank'
+			>
 				<button className=' py-3 bg-[#30D8FF] rounded-lg mt-4 mx-auto w-full'>
 					View on Discover
 				</button>

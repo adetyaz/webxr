@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 # Install dependencies with yarn
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 # Rebuild the source code only when needed
 FROM node:18-alpine AS builder

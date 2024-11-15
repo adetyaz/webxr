@@ -23,7 +23,7 @@ const AvatarCard = ({
 	const name = phygitalId.toLowerCase().replace(/\s+/g, '-')
 
 	return (
-		<div className='relative rounded-3xl bg-gradient-to-b from-pink-500 to-blue-500 p-[2px] shadow-md bg-[#FFFFFF1A] md:w-[18rem] md:h-[24rem]'>
+		<div className='relative rounded-3xl bg-gradient-to-b from-pink-500 to-blue-500 p-[2px] shadow-md bg-[#FFFFFF1A] w-10/12 md:w-[18rem] md:h-[24rem]'>
 			<div className='p-4 rounded-3xl grid grid-rows-[3fr_1fr] h-full w-full bg-[#2a2a2a] overflow-hidden'>
 				<div className='flex justify-between items-start'>
 					<Image

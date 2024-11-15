@@ -58,7 +58,9 @@ const Leaderboard = ({
 				<span className='text-lg font-semibold mt-6 text-[#DF1FDD]'>
 					{tagline}
 				</span>
-				<h1 className='text-6xl font-semibold mt-6 text-white'>{title}</h1>
+				<h1 className='text-3xl md:text-6xl font-semibold mt-6 text-white'>
+					{title}
+				</h1>
 				<p className='text-xl font-semibold mt-6 text-white'>{subtitle}</p>
 			</div>
 

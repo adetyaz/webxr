@@ -80,7 +80,9 @@ const AvatarLeaderboard = () => {
 			{/* Title */}
 			<div className='px-16 mb-8 flex gap-4'>
 				<div className='bg-[#DF1FDD] h-16 w-2'></div>
-				<h1 className='font-bold text-white text-6xl'>Avatar Leaderboard</h1>
+				<h1 className='font-bold text-white text-3xl md:text-6xl'>
+					Avatar Leaderboard
+				</h1>
 			</div>
 
 			{/* Top Performing Avatars Section */}
@@ -232,17 +234,17 @@ const AvatarLeaderboard = () => {
 					height={100}
 					src='/trophy1.png'
 					alt='Left Trophy'
-					className='absolute top-0 left-10 w-24 h-24'
+					className='absolute -top-14 md:top-0 -left-1 md:left-10 w-24 h-24'
 				/>
 				<Image
 					width={100}
 					height={100}
 					src='/trophy2.png'
 					alt='Right Trophy'
-					className='absolute top-0 right-10 w-24 h-24'
+					className='absolute -top-14 md:top-0 -right-1 md:right-10 w-24 h-24'
 				/>
 				<h1
-					className='text-center text-4xl font-bold gradient-text-banner-2 text-transparent py-4'
+					className='text-center text-3xl md:text-4xl font-bold gradient-text-banner-2 text-transparent py-4 px-2 md:px-0'
 					style={{ WebkitTextFillColor: 'transparent' }}
 				>
 					Rewarding Creators, Owners and Supporters.

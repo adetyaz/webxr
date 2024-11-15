@@ -9,60 +9,69 @@ import { useState } from 'react'
 
 const AvatarLeaderboard = () => {
 	const [count, setCount] = useState<number[]>([])
-	
-	const results = useQuery({		
-				queryKey: ['mainFanTokens'],
-				queryFn: async () => {
-					const results = await getFanMainTokens();
-					// Count occurrences of each contract address
-					const addressCount = results.reduce((acc: Record<string, number>, token: any) => {
-							const address = token.nftContractAddress;  // Use the correct property name here
-							acc[address] = (acc[address] || 0) + 1;
-							return acc;
-					}, {});
-			
-				 // Find top 3 addresses with the highest counts
-				 const topThree = Object.entries(addressCount as Record<string, number>)
-				 .sort(([, countA], [, countB]) => countB - countA)
-				 .slice(0, 3)  // Take the top 3 items
-				 .map(([address, count]) => ({address, count})); // Return only the addresses
-				
-				 const topThreeAddresses = topThree.map((item: any) => item.address);
-				 const counts = topThree.map((item: any) => item.count);
-				 setCount(counts as number[]);
-			
-				 const allPhygitals = await getPhygitals();
 
-				// Get the ids for each address in the order of topThreeAddresses
-				const orderedPhygitalIds = topThreeAddresses.map((address: string) => {
-					// Find phygitals that match the current address
-					const matchedPhygital = allPhygitals.find((phygital: any) => phygital.contract_address === address);
-					// Return the id if a match is found, otherwise return null
-					return matchedPhygital ? {
-						id: matchedPhygital.id,
-						name: matchedPhygital.name
-					} : null;
-				});
+	const results = useQuery({
+		queryKey: ['mainFanTokens'],
+		queryFn: async () => {
+			const results = await getFanMainTokens()
+			// Count occurrences of each contract address
+			const addressCount = results.reduce(
+				(acc: Record<string, number>, token: any) => {
+					const address = token.nftContractAddress // Use the correct property name here
+					acc[address] = (acc[address] || 0) + 1
+					return acc
+				},
+				{}
+			)
 
-				const allAvatars = await getAvatars();
+			// Find top 3 addresses with the highest counts
+			const topThree = Object.entries(addressCount as Record<string, number>)
+				.sort(([, countA], [, countB]) => countB - countA)
+				.slice(0, 3) // Take the top 3 items
+				.map(([address, count]) => ({ address, count })) // Return only the addresses
 
-					// Get avatars in the order of filteredPhygitalIds
-					const orderedAvatars = orderedPhygitalIds.map((phygital: any) => {
-							// Find the avatar that matches the current phygital_id
-							const matchedAvatar = allAvatars.find((avatar: any) => avatar.phygital_id === phygital?.id);
-							// Return the avatar if a match is found, otherwise return null
-							return matchedAvatar ? {
-								...matchedAvatar,
-								phygitalName: phygital.name
-							} : null;
-					});
+			const topThreeAddresses = topThree.map((item: any) => item.address)
+			const counts = topThree.map((item: any) => item.count)
+			setCount(counts as number[])
 
-					// console.log(orderedAvatars, 'ordered avatars');
-					return orderedAvatars;
-}
+			const allPhygitals = await getPhygitals()
 
-})
+			// Get the ids for each address in the order of topThreeAddresses
+			const orderedPhygitalIds = topThreeAddresses.map((address: string) => {
+				// Find phygitals that match the current address
+				const matchedPhygital = allPhygitals.find(
+					(phygital: any) => phygital.contract_address === address
+				)
+				// Return the id if a match is found, otherwise return null
+				return matchedPhygital
+					? {
+							id: matchedPhygital.id,
+							name: matchedPhygital.name,
+					  }
+					: null
+			})
 
+			const allAvatars = await getAvatars()
+
+			// Get avatars in the order of filteredPhygitalIds
+			const orderedAvatars = orderedPhygitalIds.map((phygital: any) => {
+				// Find the avatar that matches the current phygital_id
+				const matchedAvatar = allAvatars.find(
+					(avatar: any) => avatar.phygital_id === phygital?.id
+				)
+				// Return the avatar if a match is found, otherwise return null
+				return matchedAvatar
+					? {
+							...matchedAvatar,
+							phygitalName: phygital.name,
+					  }
+					: null
+			})
+
+			// console.log(orderedAvatars, 'ordered avatars');
+			return orderedAvatars
+		},
+	})
 
 	const topAvatars = results.data
 
@@ -71,7 +80,9 @@ const AvatarLeaderboard = () => {
 			{/* Title */}
 			<div className='px-16 mb-8 flex gap-4'>
 				<div className='bg-[#DF1FDD] h-16 w-2'></div>
-				<h1 className='font-bold text-white text-6xl'>Avatar Leaderboard</h1>
+				<h1 className='font-bold text-white text-3xl md:text-6xl'>
+					Avatar Leaderboard
+				</h1>
 			</div>
 
 			{/* Top Performing Avatars Section */}
@@ -115,7 +126,9 @@ const AvatarLeaderboard = () => {
 								</div>
 
 								<Link
-									href={`https://webxr.myriadflow.com/${topAvatars?.[1].phygitalName.toLowerCase().replace(/\s+/g, '-')}`}
+									href={`https://webxr.myriadflow.com/${topAvatars?.[1].phygitalName
+										.toLowerCase()
+										.replace(/\s+/g, '-')}`}
 									rel='noopener noreferrer'
 									target='_blank'
 								>
@@ -156,7 +169,9 @@ const AvatarLeaderboard = () => {
 									</p>
 								</div>
 								<Link
-									href={`https://webxr.myriadflow.com/${topAvatars?.[0].phygitalName.toLowerCase().replace(/\s+/g, '-')}`}
+									href={`https://webxr.myriadflow.com/${topAvatars?.[0].phygitalName
+										.toLowerCase()
+										.replace(/\s+/g, '-')}`}
 									rel='noopener noreferrer'
 									target='_blank'
 								>
@@ -196,7 +211,9 @@ const AvatarLeaderboard = () => {
 								</div>
 
 								<Link
-									href={`https://webxr.myriadflow.com/${topAvatars?.[2].phygitalName.toLowerCase().replace(/\s+/g, '-')}`}
+									href={`https://webxr.myriadflow.com/${topAvatars?.[2].phygitalName
+										.toLowerCase()
+										.replace(/\s+/g, '-')}`}
 									rel='noopener noreferrer'
 									target='_blank'
 								>
@@ -217,40 +234,21 @@ const AvatarLeaderboard = () => {
 					height={100}
 					src='/trophy1.png'
 					alt='Left Trophy'
-					className='absolute top-0 left-10 w-24 h-24'
+					className='absolute -top-14 md:top-0 -left-1 md:left-10 w-24 h-24'
 				/>
 				<Image
 					width={100}
 					height={100}
 					src='/trophy2.png'
 					alt='Right Trophy'
-					className='absolute top-0 right-10 w-24 h-24'
+					className='absolute -top-14 md:top-0 -right-1 md:right-10 w-24 h-24'
 				/>
 				<h1
-					className='text-center text-4xl font-bold gradient-text-banner-2 text-transparent py-4'
+					className='text-center text-3xl md:text-4xl font-bold gradient-text-banner-2 text-transparent py-4 px-2 md:px-0'
 					style={{ WebkitTextFillColor: 'transparent' }}
 				>
 					Rewarding Creators, Owners and Supporters.
 				</h1>
-			</div>
-
-			{/* Call to Action */}
-			<div className='flex items-center justify-center min-h-screen relative z-10 '>
-				<div className='p-2 w-96 h-80 flex items-center justify-center bg-gradient-to-b from-blue-500 to-pink-500 rounded-3xl'>
-					<div className='text-center size-full flex flex-col items-center justify-center bg-[#121212] rounded-2xl'>
-						<h1 className='text-white font-bold mb-4 text-3xl'>
-							Create Profile
-						</h1>
-						<p className='mb-4 text-white text-xl'>& Earn Rewards</p>
-						<Link href={'https://base-discover.vercel.app/profile'}>
-							<button className='rounded-lg px-2 py-3 bg-gradient-to-r from-purple-700 to-blue-500 text-black cursor-pointer hover:scale-105 transition-transform duration-300'>
-								<span className='size-full bg-white py-2 px-6 rounded'>
-									Get Started
-								</span>
-							</button>
-						</Link>
-					</div>
-				</div>
 			</div>
 		</div>
 	)

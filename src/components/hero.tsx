@@ -40,8 +40,12 @@ export const Hero = () => {
 					Interact with unique AI-powered avatars and brand ambassadors. Buy a
 					phygital and own the avatar. Customize and rise to the Leaderboard.
 				</p>
-				<div className='mt-10'>
+				<div className='mt-10 mb-12'>
 					<w3m-button />
+				</div>
+
+				<div className='text-white text-2xl p-4 border-[#DF1FDD] bg-[#FFFFFF1A] border w-fit rounded-3xl'>
+					Works best on Chrome browser!
 				</div>
 			</div>
 			<Image

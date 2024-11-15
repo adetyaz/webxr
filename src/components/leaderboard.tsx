@@ -2,62 +2,114 @@
 
 import { useQuery } from '@tanstack/react-query'
 import AvatarCard from './avatar-card'
-import { getAvatars, getPhygitals } from '@/utils/queries'
+import { getAvatars, getBrands, getPhygitals } from '@/utils/queries'
 import { AvatarType } from '@/types/types'
 
-const Leaderboard = () => {
+const Leaderboard = ({
+	reversed,
+	tagline,
+	title,
+	subtitle,
+}: {
+	reversed?: boolean
+	tagline: string
+	title: string
+	subtitle: string
+}) => {
 	const result = useQuery({
 		queryKey: ['avatarsList'],
 		queryFn: async () => {
 			const avatars = await getAvatars()
 			const phygitals = await getPhygitals()
-			
-			const avatarsWithNames = avatars.map((avatar: AvatarType) => ({
-				...avatar,
-				phygitalName: phygitals.find((p: { id: string; name: string }) => p.id === avatar.phygital_id)?.name || ''
-			}))
-			
-			return avatarsWithNames.reverse()
+			const brands = await getBrands()
+
+			const avatarsWithNames = avatars.map((avatar: AvatarType) => {
+				const matchingPhygital = phygitals.find(
+					(p: {
+						id: string
+						name: string
+						brand_name: string
+						image: string
+					}) => p.id === avatar.phygital_id
+				)
+
+				const brandLogo =
+					brands.find(
+						(b: { name: string; logo: string }) =>
+							b.name === matchingPhygital?.brand_name
+					)?.logo_image || ''
+
+				return {
+					...avatar,
+					phygitalName: matchingPhygital?.name || '',
+					phygitalImage: matchingPhygital?.image || '',
+					brandLogo,
+				}
+			})
+
+			return avatarsWithNames
 		},
 	})
 	const avatars = result.data
 
 	return (
 		<>
-			<div className='bg-black relative z-10'>
-				<h1
-					className='text-center font-bold text-4xl py-[20px] bg-[#00000021] gradient-text-banner text-transparent '
-					style={{ WebkitTextFillColor: 'transparent' }}
-				>
-					More than NFTs.
-				</h1>
-			</div>
-
 			<div className='px-16 pt-20 relative z-10'>
-				<div className='text-lg font-semibold mt-6 text-[#DF1FDD]'>
-					Most Recently Launched
-				</div>
-				<div className='text-6xl font-semibold mt-6 text-white'>
-					New on WebXR
-				</div>
-				<div className='text-xl font-semibold mt-6 text-white'>
-					New Frontier: Be Among the First to Discover the Newest Xperiences
-					Making Their Debut!
-				</div>
+				<span className='text-lg font-semibold mt-6 text-[#DF1FDD]'>
+					{tagline}
+				</span>
+				<h1 className='text-3xl md:text-6xl font-semibold mt-6 text-white'>
+					{title}
+				</h1>
+				<p className='text-xl font-semibold mt-6 text-white'>{subtitle}</p>
 			</div>
 
-			<div className='pt-20 flex gap-9 flex-wrap justify-center'>
-				{avatars
-					?.slice(0, 12)
-					.reverse()
-					.map((avatar: AvatarType & { phygitalName: string }, index: number) => (
-						<AvatarCard
-							key={index}
-							phygitalId={avatar.phygitalName}
-							url={avatar.url}
-						/>
-					))}
-			</div>
+			{reversed ? (
+				<div className='pt-20 flex gap-9 flex-wrap justify-center'>
+					{avatars?.slice(0, 12).map(
+						(
+							avatar: AvatarType & {
+								phygitalName: string
+								phygitalImage: string
+								brandLogo: string
+							},
+							index: number
+						) => (
+							<AvatarCard
+								key={index}
+								phygitalId={avatar.phygitalName}
+								phygitalImage={avatar.phygitalImage}
+								url={avatar.url}
+								brandLogo={avatar.brandLogo}
+							/>
+						)
+					)}
+				</div>
+			) : (
+				<div className='pt-20 flex gap-9 flex-wrap justify-center'>
+					{avatars
+						?.slice(0, 12)
+						.reverse()
+						.map(
+							(
+								avatar: AvatarType & {
+									phygitalName: string
+									phygitalImage: string
+									brandLogo: string
+								},
+								index: number
+							) => (
+								<AvatarCard
+									key={index}
+									phygitalId={avatar.phygitalName}
+									phygitalImage={avatar.phygitalImage}
+									url={avatar.url}
+									brandLogo={avatar.brandLogo}
+								/>
+							)
+						)}
+				</div>
+			)}
 		</>
 	)
 }

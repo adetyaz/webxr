@@ -12,7 +12,7 @@ const Header = ({
 	home,
 	onClick,
 	userType,
-	showAttestation
+	showAttestation,
 }: {
 	home: boolean
 	onClick?: React.ReactEventHandler
@@ -32,7 +32,6 @@ const Header = ({
 	const menuRef = useRef<HTMLDivElement>(null)
 
 	const [storedAddress, setStoredAddress] = useState<string | null>(null)
-
 
 	const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
 
@@ -136,7 +135,7 @@ const Header = ({
 				className={`fixed top-0 w-full py-4 transition-all duration-300 ease-in-out
 					${isScrolled ? 'bg-white' : 'bg-transparent'} 
 					${home ? 'bg-gradient-to-r' : 'bg-transparent'} 
-				
+				text-white
 				z-20`}
 				style={
 					home
@@ -156,27 +155,28 @@ const Header = ({
 							!home ? 'hidden' : 'sm:flex'
 						}`}
 					>
-						<Link
-							href='https://myriadflow.com'
-							style={{ color: getLinkColor('https://myriadflow.com') }}
-						>
-							Home
-						</Link>
-						<Link
-							href='https://studio.myriadflow.com'
-							style={{ color: getLinkColor('https://studio.myriadflow.com') }}
-						>
-							Studio
-						</Link>
-						<Link
-							href='https://discover.myriadflow.com'
-							style={{ color: getLinkColor('https://discover.myriadflow.com') }}
-						>
-							Discover
-						</Link>
-
+						<Link href='https://studio.myriadflow.com'>Studio</Link>
+						<Link href='https://discover.myriadflow.com'>Discover</Link>
 						<Link href='/' style={{ color: getLinkColor('/') }}>
 							WebXR
+						</Link>
+						<Link
+							href='https://myriadflow.com'
+							className='flex cursor-pointer items-center gap-2'
+						>
+							<span>Home</span>
+							<svg
+								width='13'
+								height='13'
+								viewBox='0 0 13 13'
+								fill='none'
+								xmlns='http://www.w3.org/2000/svg'
+							>
+								<path
+									d='M12.75 0.999999C12.75 0.585786 12.4142 0.25 12 0.249999L5.25 0.25C4.83579 0.25 4.5 0.585786 4.5 1C4.5 1.41421 4.83579 1.75 5.25 1.75L11.25 1.75L11.25 7.75C11.25 8.16421 11.5858 8.5 12 8.5C12.4142 8.5 12.75 8.16421 12.75 7.75L12.75 0.999999ZM1.53033 12.5303L12.5303 1.53033L11.4697 0.469669L0.46967 11.4697L1.53033 12.5303Z'
+									fill='white'
+								/>
+							</svg>
 						</Link>
 					</div>
 					<div className='flex gap-4 items-baseline'>
@@ -314,9 +314,11 @@ const Header = ({
 							<img src='/menu.png' alt='Menu' className='w-6 h-6 ml-4' />
 						</button>
 						<BadgeInfo className='cursor-pointer md:hidden' onClick={onClick} />
-						{userType === 'owner' && <div onClick={showAttestation} className='cursor-pointer'>
-							<Image src='/receipt.png' alt='Create' width={38} height={38} />
-						</div>}
+						{userType === 'owner' && (
+							<div onClick={showAttestation} className='cursor-pointer'>
+								<Image src='/receipt.png' alt='Create' width={38} height={38} />
+							</div>
+						)}
 					</div>
 				</div>
 				{isDropdownOpen && (

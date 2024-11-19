@@ -18,7 +18,7 @@ export const VoiceAssistant = ({
 	userType,
 }: any) => {
 	const [isListening, setIsListening] = useState(false)
-	// const [transcript, setTranscript] = useState('')
+	const [transcript, setTranscript] = useState('')
 	// const [response, setResponse] = useState('')
 
 	// console.log(userType)
@@ -95,30 +95,30 @@ export const VoiceAssistant = ({
 		},
 	])
 
-	// useEffect(() => {
-	// 	const synth = window.speechSynthesis
+	useEffect(() => {
+		const synth = window.speechSynthesis
 
-	// 	// Create a speech synthesis utterance
-	// 	const utterance = new SpeechSynthesisUtterance(
-	// 		`Welcome, Feel free to explore ${brandName} and discover hidden treasures together with your AI companion.`
-	// 	)
+		// Create a speech synthesis utterance
+		const utterance = new SpeechSynthesisUtterance(
+			`Welcome, Feel free to explore ${brandName} and discover hidden treasures together with your AI companion.`
+		)
 
-	// 	// Speak the message after a delay of 5 seconds
-	// 	const timeoutId = setTimeout(() => {
-	// 		if (!synth.speaking) {
-	// 			synth.speak(utterance)
-	// 		}
-	// 	}, 5000)
+		// Speak the message after a delay of 5 seconds
+		const timeoutId = setTimeout(() => {
+			if (!synth.speaking) {
+				synth.speak(utterance)
+			}
+		}, 5000)
 
-	// 	// Cleanup function to cancel speech synthesis and timeout if necessary
-	// 	return () => {
-	// 		clearTimeout(timeoutId)
-	// 		if (synth.speaking) {
-	// 			synth.cancel()
-	// 			console.log('Speech synthesis canceled')
-	// 		}
-	// 	}
-	// }, [])
+		// Cleanup function to cancel speech synthesis and timeout if necessary
+		return () => {
+			clearTimeout(timeoutId)
+			if (synth.speaking) {
+				synth.cancel()
+				console.log('Speech synthesis canceled')
+			}
+		}
+	}, [])
 
 	useEffect(() => {
 		// Feature detection for webkitSpeechRecognition
@@ -135,7 +135,7 @@ export const VoiceAssistant = ({
 
 			recognition.onresult = (event: any) => {
 				const speechToText = event.results[0][0].transcript
-				// setTranscript(speechToText)
+				setTranscript(speechToText)
 				addMessage({ role: 'user', content: speechToText })
 				getOpenAIResponse(speechToText)
 			}
@@ -236,12 +236,12 @@ export const VoiceAssistant = ({
 
 	return (
 		<div className='flex flex-col justify-center items-center text-center'>
-			{/* {transcript && (
+			{transcript && (
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
 					<p>User: &nbsp;{transcript}</p>
 				</div>
 			)}
-			{response && (
+			{/* {response && (
 				<div className='mb-4 bg-black text-white p-4 rounded-md w-3/4'>
 					<p>Assistant: &nbsp;{response}</p>
 				</div>

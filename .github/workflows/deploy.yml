@@ -82,7 +82,7 @@ jobs:
           script: |
             pwd
             cd ~
-            sudo docker stop webxr && sudo docker rm webxr && sudo docker rmi ghcr.io/myriadflow/webxr:dev
+            sudo docker stop webxr && sudo docker rm webxr && sudo docker rmi ghcr.io/myriadflow/webxr:main
             echo ${{ secrets.GHCR_TOKEN }} | sudo docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
-            sudo docker pull ghcr.io/myriadflow/webxr:dev
-            sudo docker run --name="webxr" -p 8080:3000 -d ghcr.io/myriadflow/webxr:dev
+            sudo docker pull ghcr.io/myriadflow/webxr:main
+            sudo docker run --name="webxr" -p 8080:3000 -d ghcr.io/myriadflow/webxr:main

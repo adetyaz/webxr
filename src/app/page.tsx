@@ -8,7 +8,7 @@ import { CallToAction } from '@/components/call-to-action'
 
 export default function Home() {
 	return (
-		<div className='bg-black'>
+		<main className='bg-black overflow-x-hidden'>
 			<Header home />
 			<Hero />
 
@@ -46,6 +46,6 @@ export default function Home() {
 			<div className='bg-gradient-to-b from-[#121212] to-[#121212] '>
 				<Footer />
 			</div>
-		</div>
+		</main>
 	)
 }

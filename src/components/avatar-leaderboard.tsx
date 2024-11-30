@@ -228,20 +228,20 @@ const AvatarLeaderboard = () => {
 			)}
 
 			{/* Background with Trophies */}
-			<div className='bg-gray-800 relative'>
+			<div className='bg-gray-800 md:relative'>
 				<Image
-					width={100}
-					height={100}
+					width={150}
+					height={150}
 					src='/trophy1.png'
 					alt='Left Trophy'
-					className='absolute -top-14 md:top-0 -left-1 md:left-10 w-24 h-24'
+					className='absolute top-[14%] md:top-0 right-1 md:right-[unset] md:left-10 w-24 h-24'
 				/>
 				<Image
-					width={100}
-					height={100}
+					width={150}
+					height={150}
 					src='/trophy2.png'
 					alt='Right Trophy'
-					className='absolute -top-14 md:top-0 -right-1 md:right-10 w-24 h-24'
+					className='absolute top-[85%] md:top-0 left-1 md:left-[unset] md:right-10 w-24 h-24'
 				/>
 				<h1
 					className='text-center text-3xl md:text-4xl font-bold gradient-text-banner-2 text-transparent py-4 px-2 md:px-0'

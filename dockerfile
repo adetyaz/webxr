@@ -2,7 +2,7 @@
 FROM node:18-alpine AS deps
 
 # Install libc6-compat if needed
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat python3 make g++
 
 WORKDIR /app
 
@@ -11,6 +11,8 @@ COPY package.json yarn.lock ./
 
 # Install dependencies with yarn
 RUN yarn install
+
+RUN yarn cache clean
 
 # Rebuild the source code only when needed
 FROM node:18-alpine AS builder

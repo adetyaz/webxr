@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { toast, ToastContainer } from 'react-toastify'
 import { useAccount, useDisconnect, useConnect } from 'wagmi'
-import { BadgeInfo } from 'lucide-react'
+import { BadgeInfo, Menu } from 'lucide-react'
 
 import Image from 'next/image'
 
@@ -148,7 +148,13 @@ const Header = ({
 			>
 				<div className='container mx-auto flex justify-between items-center'>
 					<a href='/' className='flex items-center'>
-						<img src={'/logo.png'} className='w-32 md:w-48' alt='Logo' />
+						<img
+							src={'/logo.png'}
+							height={128}
+							width={128}
+							className='w-32 md:w-48'
+							alt='Logo'
+						/>
 					</a>
 					<div
 						className={`items-center space-x-8 text-lg font-bold hidden ${
@@ -179,7 +185,7 @@ const Header = ({
 							</svg>
 						</Link>
 					</div>
-					<div className='flex gap-4 items-baseline'>
+					<div className='flex gap-4 items-center'>
 						<div className='flex items-center space-x-4'>
 							{address ? (
 								<>
@@ -188,25 +194,29 @@ const Header = ({
 											onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
 											className='focus:outline-none'
 										>
-											<img
+											<Image
 												src={
 													profileImage
 														? `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${profileImage}`
 														: '/profile.png'
 												}
 												alt='Profile'
+												height={40}
+												width={40}
 												className='w-10 h-10 rounded-full'
 											/>
 										</button>
 										{isProfileMenuOpen && (
 											<div className='absolute sm:right-0 mt-2 p-2 sm:p-4 bg-white text-black rounded-lg shadow-lg w-64'>
 												<div className='flex items-center mb-4'>
-													<img
+													<Image
 														src={
 															profileImage
 																? `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${profileImage}`
 																: '/profile.png'
 														}
+														height={40}
+														width={40}
 														alt='Profile'
 														className='w-10 h-10 rounded-full mr-2'
 													/>
@@ -311,9 +321,14 @@ const Header = ({
 							className='sm:hidden text-2xl'
 							onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 						>
-							<img src='/menu.png' alt='Menu' className='w-6 h-6 ml-4' />
+							<Menu />
 						</button>
-						<BadgeInfo className='cursor-pointer md:hidden' onClick={onClick} />
+						{!home && (
+							<BadgeInfo
+								className='cursor-pointer md:hidden'
+								onClick={onClick}
+							/>
+						)}
 						{userType === 'owner' && (
 							<div onClick={showAttestation} className='cursor-pointer'>
 								<Image src='/receipt.png' alt='Create' width={38} height={38} />
@@ -331,7 +346,13 @@ const Header = ({
 								onClick={() => setIsDropdownOpen(false)}
 								className='absolute top-4 right-4 text-xl text-gray-700'
 							>
-								<img src='/close.png' alt='Close' className='w-12 h-12' />
+								<Image
+									src='/close.png'
+									alt='Close'
+									height={48}
+									width={48}
+									className='w-12 h-12'
+								/>
 							</button>
 							<Link
 								href='https://myriadflow.com'

@@ -4,159 +4,71 @@ import Link from 'next/link' // Use Link for navigation
 
 const Footer = () => {
 	return (
-		<div>
-			<footer
-				style={{
-					background:
-						'linear-gradient(90deg, #30D8FF 0%, #A32CC4 50%, #C243FE 100%)',
-					padding: '40px 60px',
-				}}
-			>
-				<section
-					style={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-					}}
-				>
-					<div className='brand' style={{ textAlign: 'left' }}>
-						<Link href='https://myriadflow.com/' passHref>
-							<Image
-								src='/MFlogo.png'
-								width={200}
-								height={200}
-								alt='logo'
-								className="mb-5"
-							/>
-						</Link>
-						<p style={{ color: 'white', maxWidth: '350px', fontSize: '14px' }}>
-							Innovative next-gen platform for exploring and launching NFT
-							Xperiences with AI-powered brand ambassadors and no-code tools.
-						</p>
-						<p style={{ marginTop: '30px', color: 'white', fontSize: '12px' }}>
-							© Copyright 2024 MyriadFlow. All rights reserved
-						</p>
-					</div>
+		<footer className='text-white bg-gradient-to-b md:bg-gradient-to-r from-[#30D8FF] via-[#A32CC4] to-[#C243FE] py-10 px-8 md:px-16 grid gap-y-12'>
+			<div className='grid gap-16 md:gap-y-0 md:grid-cols-3 items-start'>
+				<div>
+					<Link href='https://myriadflow.com/' passHref>
+						<Image
+							src='/MFlogo.png'
+							width={350}
+							height={350}
+							alt='logo'
+							className='mb-6'
+						/>
+					</Link>
+					<p className='md:w-[350px] text-sm'>
+						Innovative next-gen platform for exploring and launching NFT
+						Xperiences with AI-powered brand ambassadors and no-code tools.
+					</p>
+				</div>
 
-					<div
-						className='links'
-						style={{ textAlign: 'left', color: 'white', fontSize: '14px' }}
-					>
-						<h3 className='text-2xl font-semibold'>About</h3>
-						<Link
-							href='/MyriadFlow_Terms_of_Service.pdf'
-							target='_blank'
-							style={{
-								color: 'white',
-								textDecoration: 'none',
-								display: 'block',
-								marginTop: '28px',
-							}}
-						>
+				<div className='flex justify-between items-start'>
+					<div className='text-sm grid gap-y-2'>
+						<h3 className='text-2xl font-semibold mb-6'>About</h3>
+						<Link href='/MyriadFlow_Terms_of_Service.pdf' target='_blank'>
 							Terms of Service
 						</Link>
 						<Link
 							href='/MyriadFlow_Creator_Terms_and_Conditions.pdf'
 							target='_blank'
-							style={{
-								color: 'white',
-								textDecoration: 'none',
-								display: 'block',
-							}}
 						>
 							Creator Terms and Conditions
 						</Link>
-						<Link
-							href='/MyriadFlow_Privacy_Policy.pdf'
-							target='_blank'
-							style={{
-								color: 'white',
-								textDecoration: 'none',
-								display: 'block',
-							}}
-						>
+						<Link href='/MyriadFlow_Privacy_Policy.pdf' target='_blank'>
 							Privacy Policy
 						</Link>
-						<Link
-							href='/MyriadFlow_Community_Guidelines.pdf'
-							target='_blank'
-							style={{
-								color: 'white',
-								textDecoration: 'none',
-								display: 'block',
-							}}
-						>
+						<Link href='/MyriadFlow_Community_Guidelines.pdf' target='_blank'>
 							Community Guidelines
 						</Link>
 					</div>
-
-					<div
-						className='platform'
-						style={{ textAlign: 'left', color: 'white', fontSize: '14px' }}
-					>
-						<h3 className='text-2xl font-semibold'>Platform</h3>
-						<Link
-							href='https://studio.myriadflow.com'
-							style={{
-								color: 'white',
-								textDecoration: 'none',
-								display: 'block',
-								marginTop: '28px',
-							}}
-						>
-							Studio
-						</Link>
-						<Link
-							href='https://discover.myriadflow.com'
-							style={{
-								color: 'white',
-								textDecoration: 'none',
-								display: 'block',
-							}}
-						>
-							Discover
-						</Link>
-						<Link
-							href='https://webxr.myriadflow.com'
-							style={{
-								color: 'white',
-								textDecoration: 'none',
-								display: 'block',
-							}}
-						>
-							WebXR
-						</Link>
+					<div className='text-sm grid gap-y-2'>
+						<h3 className='text-2xl font-semibold mb-6'>Platform</h3>
+						<Link href='https://studio.myriadflow.com'>Studio</Link>
+						<Link href='https://discover.myriadflow.com'>Discover</Link>
+						<Link href='https://webxr.myriadflow.com'>WebXR</Link>
 					</div>
+				</div>
 
-					<section
-						id='connect'
-						className='social-links'
-						style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px' }}
-					>
-						{[
-							'/Vector3.png',
-							'/Vector4.png',
-							'/Vector2.png',
-							'/Vector5.png',
-						].map((icon, index) => (
+				<div className='flex justify-end gap-6 self-center'>
+					{['/Vector3.png', '/Vector4.png', '/Vector2.png', '/Vector5.png'].map(
+						(icon, index) => (
 							<div
 								key={index}
-								style={{
-									borderRadius: '50%',
-									border: '2px solid #0E46A3',
-									padding: '16px',
-									backgroundColor: '#15063C',
-								}}
+								className='rounded-full size-14 border-2 border-white p-4 bg-[#282A33]'
 							>
 								<Link href='#' target='_blank'>
 									<Image src={icon} width={20} height={20} alt='Social Icon' />
 								</Link>
 							</div>
-						))}
-					</section>
-				</section>
-			</footer>
-		</div>
+						)
+					)}
+				</div>
+			</div>
+			<div>
+				<hr className='sm:hidden' />
+				<p>© Copyright 2024 MyriadFlow. All rights reserved</p>
+			</div>
+		</footer>
 	)
 }
 

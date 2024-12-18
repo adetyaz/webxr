@@ -50,7 +50,10 @@ const Leaderboard = ({
 			return avatarsWithNames
 		},
 	})
-	const avatars = result.data
+	const avatars = result.data?.sort(
+		(a: AvatarType, b: AvatarType) =>
+			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+	)
 
 	return (
 		<>
@@ -64,9 +67,9 @@ const Leaderboard = ({
 				<p className='text-xl font-semibold mt-6 text-white'>{subtitle}</p>
 			</div>
 
-			{reversed ? (
+			{!reversed ? (
 				<div className='pt-20 flex gap-9 flex-wrap justify-center'>
-					{avatars?.slice(0, 12).map(
+					{avatars?.slice(0, 8).map(
 						(
 							avatar: AvatarType & {
 								phygitalName: string
@@ -88,7 +91,7 @@ const Leaderboard = ({
 			) : (
 				<div className='pt-20 flex gap-9 flex-wrap justify-center'>
 					{avatars
-						?.slice(0, 12)
+						?.slice(6, 10)
 						.reverse()
 						.map(
 							(

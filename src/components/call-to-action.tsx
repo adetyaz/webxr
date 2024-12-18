@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export const CallToAction = () => {
 	return (
-		<div className='flex items-center justify-center min-h-screen relative z-10 '>
+		<div className='flex items-center justify-center relative z-10 py-16 md:py-20'>
 			<div className='p-2 w-96 h-80 flex items-center justify-center bg-gradient-to-b from-blue-500 to-pink-500 rounded-3xl'>
 				<div className='text-center size-full flex flex-col items-center justify-center bg-[#121212] rounded-2xl'>
 					<h1 className='text-white font-bold mb-4 text-3xl'>Create Profile</h1>

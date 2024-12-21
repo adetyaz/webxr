@@ -126,7 +126,7 @@ const AvatarLeaderboard = () => {
 								</div>
 
 								<Link
-									href={`https://webxr.myriadflow.com/${topAvatars?.[1].phygitalName
+									href={`https://webxr-myriadflow.vercel.app/${topAvatars?.[1].phygitalName
 										.toLowerCase()
 										.replace(/\s+/g, '-')}`}
 									rel='noopener noreferrer'
@@ -169,7 +169,7 @@ const AvatarLeaderboard = () => {
 									</p>
 								</div>
 								<Link
-									href={`https://webxr.myriadflow.com/${topAvatars?.[0].phygitalName
+									href={`https://webxr-myriadflow.vercel.app/${topAvatars?.[0].phygitalName
 										.toLowerCase()
 										.replace(/\s+/g, '-')}`}
 									rel='noopener noreferrer'
@@ -211,7 +211,7 @@ const AvatarLeaderboard = () => {
 								</div>
 
 								<Link
-									href={`https://webxr.myriadflow.com/${topAvatars?.[2].phygitalName
+									href={`https://webxr-myriadflow.vercel.app/${topAvatars?.[2].phygitalName
 										.toLowerCase()
 										.replace(/\s+/g, '-')}`}
 									rel='noopener noreferrer'

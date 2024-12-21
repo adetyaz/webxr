@@ -90,7 +90,7 @@ const AvatarCard = ({
 					<div className='flex flex-col justify-between h-full'>
 						<h2 className='text-base font-semibold'>{phygitalId}</h2>
 						<Link
-							href={`https://webxr.myriadflow.com/${name}`}
+							href={`https://webxr-myriadflow.vercel.app/${name}`}
 							className='bg-cyan-400 text-base border-black rounded-md text-black border cursor-pointer py-1 px-4'
 							target='_blank'
 							onMouseEnter={() => setIsExpHovered(true)}

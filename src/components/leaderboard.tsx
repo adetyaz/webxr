@@ -69,7 +69,7 @@ const Leaderboard = ({
 
 			{!reversed ? (
 				<div className='pt-20 flex gap-9 flex-wrap justify-center'>
-					{avatars?.slice(0, 8).map(
+					{avatars?.slice(0, 4).map(
 						(
 							avatar: AvatarType & {
 								phygitalName: string

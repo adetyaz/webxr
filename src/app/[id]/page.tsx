@@ -13,12 +13,14 @@ import { PhygitalType } from '@/types/types'
 import Header from '@/components/header'
 import Moralis from 'moralis'
 import { ProvenanceAttestation } from '@/components/provenance-attestation'
-
+import { VoiceAsssitantEleven } from '@/components/voiceAsssitantEleven'
 
 export default function Home({ params }: { params: { id: string } }) {
 	// const { id } = params
-	const id = params?.id.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
-	
+	const id = params?.id
+		.replace(/-/g, ' ')
+		.replace(/\b\w/g, (char) => char.toUpperCase())
+
 	const [unlockClaimed, setUnlockClaimed] = useState(false)
 	const [showCard, setShowCard] = useState(false)
 	const [userType, setUserType] = useState('guest')
@@ -32,15 +34,15 @@ export default function Home({ params }: { params: { id: string } }) {
 
 	// First, get the phygital query separately
 	const phygitalQuery = useQuery({
-			queryKey: ['phygitals', id],
-			queryFn: async () => {
-				const phygitals = await getPhygitals();
-				return phygitals.find((phygital: PhygitalType) => phygital.name === id);
-			},
-			staleTime: 1000 * 60 * 5,
-			retry: 3,
-	
-	});
+		queryKey: ['phygitals', id],
+		queryFn: async () => {
+			const phygitals = await getPhygitals()
+
+			return phygitals.find((phygital: PhygitalType) => phygital.name === id)
+		},
+		staleTime: 1000 * 60 * 5,
+		retry: 3,
+	})
 
 	// Then use the remaining queries with phygitalQuery.data
 	const results = useQueries({
@@ -59,23 +61,20 @@ export default function Home({ params }: { params: { id: string } }) {
 				staleTime: 1000 * 60 * 5,
 				retry: 3,
 			},
-		]
-	});
+		],
+	})
 
-	const [webxrResult, avatarResult] = results;
-	const phygitalResult = phygitalQuery;
+	const [webxrResult, avatarResult] = results
+	const phygitalResult = phygitalQuery
 
 	useEffect(() => {
 		// console.log(phygitalResult.data)
 		if (address && chainId && phygitalResult.data) {
 			fetchNFTs(phygitalResult.data)
 		}
-
 	}, [phygitalResult, address, chainId])
 
-
 	const fetchNFTs = async (data: PhygitalType) => {
-
 		const phygitalAddress = data.contract_address
 
 		try {
@@ -88,17 +87,16 @@ export default function Home({ params }: { params: { id: string } }) {
 				address: address!,
 			})
 
-			
 			// console.log(assets?.raw?.result)
 			if (assets?.raw?.result && phygitalAddress) {
 				const erc721Match = assets.raw.result.some(
-					(nft) => 
+					(nft) =>
 						nft.token_address.toLowerCase() === phygitalAddress.toLowerCase() &&
 						nft.contract_type.toLowerCase() === 'erc721'
 				)
 
 				const erc1155Match = assets.raw.result.some(
-					(nft) => 
+					(nft) =>
 						nft.token_address.toLowerCase() === phygitalAddress.toLowerCase() &&
 						nft.contract_type.toLowerCase() === 'erc1155'
 				)
@@ -108,12 +106,11 @@ export default function Home({ params }: { params: { id: string } }) {
 					setNotClaimed(false)
 				} else if (erc1155Match) {
 					setUserType('guest')
-					setNotClaimed(false)  // Has token but as ERC1155
+					setNotClaimed(false) // Has token but as ERC1155
 				} else {
 					setUserType('guest')
-					setNotClaimed(true)   // No matching token at all
+					setNotClaimed(true) // No matching token at all
 				}
-
 			} else {
 				console.log('No matching data or contract address is undefined')
 				if (assets?.raw?.result?.length === 0) {
@@ -163,11 +160,18 @@ export default function Home({ params }: { params: { id: string } }) {
 	const phygital = phygitalQuery.data
 	const webxr = webxrResult.data
 	const avatar = avatarResult.data
+	// const url = jsonUrl.data
 
+	// console.log(phygital)
 
 	return (
 		<main className='flex h-dvh flex-col items-center justify-between p-24 relative'>
-			<Header home={false} onClick={() => setShowCard(!showCard)} userType={userType} showAttestation={() => setShowProvenance(true)} />
+			<Header
+				home={false}
+				onClick={() => setShowCard(!showCard)}
+				userType={userType}
+				showAttestation={() => setShowProvenance(true)}
+			/>
 
 			<a-scene>
 				<a-sky
@@ -185,23 +189,31 @@ export default function Home({ params }: { params: { id: string } }) {
 						<InfoCard phygital={phygital} />
 					</div>
 				)}
-					{userType === 'owner' && showProvenance && (
+				{userType === 'owner' && showProvenance && (
 					<div className='fixed inset-0 bg-white backdrop-blur-sm z-50 flex items-center justify-center shadow-md'>
 						<div className='z-10 md:w-[60%] top-1/2 left-1/2 absolute transform -translate-x-1/2 -translate-y-1/2 h-[85%] overflow-y-scroll border border-black'>
-							<ProvenanceAttestation phygital={phygital} avatarModel={avatar && avatar.url} showAttestation={() => setShowProvenance(false)} />
+							<ProvenanceAttestation
+								phygital={phygital}
+								avatarModel={avatar && avatar.url}
+								showAttestation={() => setShowProvenance(false)}
+							/>
 						</div>
 					</div>
-				)} 
-		
+				)}
+
 				<div className='hidden md:block absolute right-2 bottom-8'>
 					<InfoCard phygital={phygital} />
 				</div>
 				<div className='absolute transform -translate-x-1/2 text-white bottom-2'>
-					<VoiceAssistant
+					{/* <VoiceAssistant
 						productInfo={phygital}
 						brandName={phygital.brand_name}
 						voice={avatar.avatar_voice}
 						userType={userType}
+					/> */}
+					<VoiceAsssitantEleven
+						phygital={phygital}
+						voice={avatar.avatar_voice}
 					/>
 				</div>
 				<div className='absolute transform -translate-x-1/2  md:-translate-x-0 md:left-4 bottom-48 md:bottom-16 h-3/5 md:h-3/4'>
@@ -232,7 +244,7 @@ export default function Home({ params }: { params: { id: string } }) {
 							contractAddress={phygital.contract_address}
 						/>
 					</div>
-			  )} 
+				)}
 			</section>
 		</main>
 	)

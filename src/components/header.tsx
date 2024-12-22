@@ -1,10 +1,14 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { toast, ToastContainer } from 'react-toastify'
 import { useAccount, useDisconnect, useConnect } from 'wagmi'
 import { BadgeInfo, Menu } from 'lucide-react'
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
+import { useWallet } from '@solana/wallet-adapter-react'
+import { Metaplex, walletAdapterIdentity } from '@metaplex-foundation/js'
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
 import Image from 'next/image'
 
@@ -22,8 +26,7 @@ const Header = ({
 	const [isScrolled, setIsScrolled] = useState(false)
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 	const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
-	const { isConnected, address } = useAccount()
-	const { connect, connectors } = useConnect()
+	const { address } = useAccount()
 	const { disconnect } = useDisconnect()
 	const pathname = usePathname()
 	const [name, setName] = useState('')
@@ -31,25 +34,16 @@ const Header = ({
 	const [username, setUserName] = useState('')
 	const menuRef = useRef<HTMLDivElement>(null)
 
-	const [storedAddress, setStoredAddress] = useState<string | null>(null)
+	const wallet = useWallet()
+	const { publicKey, connected } = wallet
+	const connection = new Connection(clusterApiUrl('devnet'))
+	const metaplex = useMemo(() => {
+		if (wallet) {
+			return new Metaplex(connection).use(walletAdapterIdentity(wallet))
+		}
+	}, [wallet, connection])
 
 	const baseUri = process.env.NEXT_PUBLIC_URI || 'https://app.myriadflow.com'
-
-	useEffect(() => {
-		// Check for an existing wallet session in localStorage
-		const savedAddress = localStorage.getItem('walletAddress')
-		setStoredAddress(savedAddress)
-
-		// Silently connect if there's a saved address but the user is not connected
-		if (savedAddress && !isConnected) {
-			connect({ connector: connectors[0] }) // Assuming InjectedConnector for MetaMask
-		}
-
-		// On connection, store wallet address in localStorage
-		if (isConnected && !savedAddress) {
-			localStorage.setItem('walletAddress', address!)
-		}
-	}, [isConnected, address, connect, connectors])
 
 	useEffect(() => {
 		const getUserData = async () => {
@@ -313,7 +307,7 @@ const Header = ({
 								</>
 							) : (
 								<button onClick={Notification} className='text-xl'>
-									<w3m-button />
+									<WalletMultiButton />
 								</button>
 							)}
 						</div>

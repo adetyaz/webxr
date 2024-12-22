@@ -3,12 +3,12 @@ import { Bai_Jamjuree as FontSans } from 'next/font/google'
 import './globals.css'
 import 'react-toastify/dist/ReactToastify.css'
 import { cn } from '@/lib/utils'
-import Providers from '@/lib/providers'
+import { ClientProviders } from '@/lib/providers'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-
 import Script from 'next/script'
-import AppKitProvider from '@/lib/providers'
 import { ToastContainer } from 'react-toastify'
+import { cookieToInitialState } from 'wagmi'
+import { config } from '@/lib/wagmi'
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -44,13 +44,16 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
+	const initialState = cookieToInitialState(config)
+
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<head>
 				<link rel='icon' href='favicon.ico' sizes='any' />
 				<Script src='https://aframe.io/releases/1.5.0/aframe.min.js'></Script>
 			</head>
-			<Providers>
+
+			<ClientProviders initialState={initialState}>
 				<body
 					className={cn(
 						'min-h-screen bg-background font-sans antialiased',
@@ -58,10 +61,12 @@ export default function RootLayout({
 					)}
 				>
 					<ToastContainer />
-					<AppKitProvider>{children}</AppKitProvider>
+
+					{children}
+
 					<ReactQueryDevtools />
 				</body>
-			</Providers>
+			</ClientProviders>
 		</html>
 	)
 }

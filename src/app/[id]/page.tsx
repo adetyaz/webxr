@@ -21,7 +21,7 @@ export default function Home({ params }: { params: { id: string } }) {
 		.replace(/-/g, ' ')
 		.replace(/\b\w/g, (char) => char.toUpperCase())
 
-	const [unlockClaimed, setUnlockClaimed] = useState(false)
+	// const [unlockClaimed, setUnlockClaimed] = useState(false)
 	const [showCard, setShowCard] = useState(false)
 	const [userType, setUserType] = useState('guest')
 	const [showProvenance, setShowProvenance] = useState(false)
@@ -123,21 +123,21 @@ export default function Home({ params }: { params: { id: string } }) {
 		}
 	}
 
-	useEffect(() => {
-		// Only start timer if user is connected and hasn't claimed
-		if (address && notClaimed) {
-			const timer = setTimeout(() => {
-				setUnlockClaimed(true)
-			}, 60000)
+	// useEffect(() => {
+	// 	// Only start timer if user is connected and hasn't claimed
+	// 	if (address && notClaimed) {
+	// 		const timer = setTimeout(() => {
+	// 			setUnlockClaimed(true)
+	// 		}, 60000)
 
-			// Cleanup timer if component unmounts or conditions change
-			return () => clearTimeout(timer)
-		}
-	}, [address, notClaimed]) // Dependencies now include notClaimed
+	// 		// Cleanup timer if component unmounts or conditions change
+	// 		return () => clearTimeout(timer)
+	// 	}
+	// }, [address, notClaimed]) // Dependencies now include notClaimed
 
-	const closeClaimed = () => {
-		setUnlockClaimed(false)
-	}
+	// const closeClaimed = () => {
+	// 	setUnlockClaimed(false)
+	// }
 
 	const removePrefix = (uri: any) => {
 		return uri?.substring(7, uri.length)
@@ -235,7 +235,7 @@ export default function Home({ params }: { params: { id: string } }) {
 					/>
 				</div> */}
 
-				{unlockClaimed && (
+				{/* {unlockClaimed && (
 					<div className='modal w-[95%] sm:w-5/6 md:w-3/6'>
 						<ClaimNft
 							onClose={closeClaimed}
@@ -244,7 +244,7 @@ export default function Home({ params }: { params: { id: string } }) {
 							contractAddress={phygital.contract_address}
 						/>
 					</div>
-				)}
+				)} */}
 			</section>
 		</main>
 	)

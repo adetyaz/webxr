@@ -6,3 +6,8 @@ declare namespace JSX {
 		'w3m-button': any
 	}
 }
+
+declare module '@web3modal/wagmi' {
+	const content: any
+	export default content
+}

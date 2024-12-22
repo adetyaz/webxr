@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
 export const Hero = () => {
 	const [isWideScreen, setIsWideScreen] = useState(false)
@@ -41,7 +42,7 @@ export const Hero = () => {
 					phygital and own the avatar. Customize and rise to the Leaderboard.
 				</p>
 				<div className='mt-10 mb-12'>
-					<w3m-button />
+					<WalletMultiButton />
 				</div>
 
 				<div className='text-white text-2xl p-4 border-[#DF1FDD] bg-[#FFFFFF1A] border w-fit rounded-3xl'>
